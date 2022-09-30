@@ -50,7 +50,7 @@ class FirstWave extends StatelessWidget {
         durations: [35000],
         heightPercentages: [0.2],
         gradients: [
-          [Colors.indigo.shade200, Colors.indigoAccent],
+          [Colors.indigo.shade200, Colors.blue],
           // [Colors.indigoAccent.shade700, Colors.indigo.shade200],
         ],
         gradientBegin: Alignment.bottomLeft,
