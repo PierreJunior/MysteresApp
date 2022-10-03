@@ -5,7 +5,8 @@ class CheckingDate {
     'Wednesday',
     'Thursday',
     'Friday',
-    'Sunday'
+    'Saturday',
+    'Sunday',
   ];
   List<String> mysteres = [
     'Joyeux',
@@ -16,26 +17,32 @@ class CheckingDate {
     'Joyeux',
     'Glorieux',
   ];
+  String todaysDate = '';
 
-  String getDate(String finalDate) {
+  String getDate(String dropdownValue) {
+    //finds Todays day
     var checkedDate = DateTime.now();
     var finalCheck = checkedDate.weekday;
 
     var calculateDate = finalCheck - 1;
-    var todaysDate = daysofWeek[calculateDate];
+    todaysDate = daysofWeek[calculateDate];
     return todaysDate;
   }
 
-  String getMysteres(String work) {
-    String finalDate = '';
+  String getMysteres(String finalDate) {
+    //finds Les mysteres when the first builds up using todays day
     String day = getDate(finalDate);
     String work = day;
-    print(work);
-    // int finaldate = checkedDate.weekday;
-    // int calculateDate = finaldate - 1;
-    // String mystereCheck = daysofWeek[calculateDate];
-    // String finalMystereCheck = mystereCheck;
     var indexDate = daysofWeek.indexWhere((date) => date.contains(work));
+    var todayMysteres = mysteres[indexDate];
+    return todayMysteres;
+  }
+
+  String updating(String todayrewrite) {
+    //updates todays mysteres when the user changes the day
+    var indexDate =
+        daysofWeek.indexWhere((element) => element.contains(todayrewrite));
+    print('lll $indexDate');
     var todayMysteres = mysteres[indexDate];
     return todayMysteres;
   }

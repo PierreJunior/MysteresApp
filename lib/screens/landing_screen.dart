@@ -3,6 +3,7 @@ import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/screens/day_screen.dart';
 import 'package:mysteres/services/checkDay.dart';
+import 'package:mysteres/globalVariable.dart';
 
 const List<String> daysofWeek = <String>[
   'Monday',
@@ -25,12 +26,13 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  final TextEditingController _controllers = TextEditingController();
+  var todayMysteres2 = GlobalValue.checking;
   CheckingDate dateAndMysteres = CheckingDate();
   late String todayMysteres = '';
   late String todaysDate = '';
   late String today = '';
   late String mystereCheck = '';
+  late var updating = '';
   late String dropdownValue = daysofWeek.first;
   void getDate() {
     setState(() {
@@ -41,13 +43,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void getMysteres() {
     setState(() {
-      todayMysteres = dateAndMysteres.getMysteres(mystereCheck) as String;
-    });
-  }
-
-  void updateUI(String mystereCheck) {
-    setState(() {
-      todayMysteres = dateAndMysteres.getMysteres(mystereCheck) as String;
+      todayMysteres = dateAndMysteres.getMysteres(mystereCheck);
     });
   }
 
@@ -56,7 +52,6 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
     getDate();
     getMysteres();
-    updateUI(today);
   }
 
   @override
@@ -77,25 +72,6 @@ class _LandingScreenState extends State<LandingScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DropdownButton<String>(
-                          value: dropdownValue,
-                          items: dateAndMysteres.daysofWeek
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                                value: value, child: Text(value));
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              var checkedDate = dropdownValue;
-                              dropdownValue = value!;
-                              var indexDate = dateAndMysteres.daysofWeek
-                                  .indexWhere(
-                                      (date) => date.contains(checkedDate));
-                              var todayMysteres =
-                                  dateAndMysteres.mysteres[indexDate];
-                              updateUI(dropdownValue);
-                            });
-                          }),
                       TextButton(
                         onPressed: () async {
                           final result =
@@ -103,6 +79,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
                           setState(() {
                             today = result as String;
+                            updating = GlobalValue.checking;
+                            todayMysteres = updating;
                           });
                         },
                         child: const Icon(

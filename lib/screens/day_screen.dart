@@ -1,17 +1,8 @@
-import 'dart:ffi';
 import 'package:mysteres/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/services/checkDay.dart';
 import '../navigation_Drawer.dart';
-
-const List<String> daysofWeek = <String>[
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Sunday'
-];
+import 'package:mysteres/globalVariable.dart';
 
 class DayScreen extends StatefulWidget {
   static const String id = 'dayscreen';
@@ -23,7 +14,14 @@ class DayScreen extends StatefulWidget {
 
 class _DayScreenState extends State<DayScreen> {
   TextEditingController textFieldController = TextEditingController();
-  late String todayrewrite;
+  late String todayrewrite = '';
+  late String myst = GlobalValue.checking;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +59,8 @@ class _DayScreenState extends State<DayScreen> {
             TextButton(
               onPressed: () {
                 String textToSendBack = textFieldController.text;
-                String check =
-                    CheckingDate().getMysteres(textToSendBack) as String;
+                myst = CheckingDate().updating(textToSendBack);
+                GlobalValue.checking = myst;
                 Navigator.pop(context, textToSendBack);
               },
               child: const Text(
