@@ -41,13 +41,13 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void getMysteres() {
     setState(() {
-      todayMysteres = dateAndMysteres.getMysteres(mystereCheck);
+      todayMysteres = dateAndMysteres.getMysteres(mystereCheck) as String;
     });
   }
 
   void updateUI(String mystereCheck) {
     setState(() {
-      todayMysteres = dateAndMysteres.getMysteres(mystereCheck);
+      todayMysteres = dateAndMysteres.getMysteres(mystereCheck) as String;
     });
   }
 

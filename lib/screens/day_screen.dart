@@ -61,7 +61,8 @@ class _DayScreenState extends State<DayScreen> {
             TextButton(
               onPressed: () {
                 String textToSendBack = textFieldController.text;
-                String check = CheckingDate().getMysteres(textToSendBack);
+                String check =
+                    CheckingDate().getMysteres(textToSendBack) as String;
                 Navigator.pop(context, textToSendBack);
               },
               child: const Text(
