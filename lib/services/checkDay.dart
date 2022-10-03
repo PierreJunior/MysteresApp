@@ -1,5 +1,5 @@
 class CheckingDate {
-  List<String> daysofWeek = [
+  List<String> daysofWeek = <String>[
     'Monday',
     'Tuesday',
     'Wednesday',
@@ -41,15 +41,24 @@ class CheckingDate {
     return todaysDate;
   }
 
-  String getMysteres(String mystereCheck) {
+  int getDay() {
     var checkedDate = DateTime.now();
     var finalDate = checkedDate.weekday;
+    var limit = finalDate;
 
     var calculateDate = finalDate - 1;
-    var todaysDate = daysofWeek[calculateDate];
-    var indexDate = daysofWeek.indexWhere((date) => date.contains(todaysDate));
-    var todaysMystere = mysteres[indexDate];
-    print(todaysMystere);
-    return todaysMystere;
+    return calculateDate;
+  }
+
+  String getMysteres(String limit) {
+    var checkedDate = DateTime.now();
+    int finalDate = checkedDate.weekday;
+    int calculateDate = finalDate - 1;
+    String mystereCheck = daysofWeek[calculateDate];
+    String finalMystereCheck = mystereCheck;
+    var indexDate =
+        daysofWeek.indexWhere((date) => date.contains(finalMystereCheck));
+    var todayMysteres = mysteres[calculateDate];
+    return todayMysteres;
   }
 }

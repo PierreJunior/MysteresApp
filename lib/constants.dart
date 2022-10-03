@@ -25,5 +25,6 @@ const kTextFieldInputDecoration = InputDecoration(
 
 const kButtonTextStyle = TextStyle(
   fontSize: 60.0,
+  fontFamily: 'Square Peg',
   color: Color(0xFFC5CAE9),
 );
