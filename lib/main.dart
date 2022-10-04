@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mysteres/screens/HomeScreen.dart';
-import 'package:mysteres/screens/day_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/screens/mystereLumineux.dart';
 import 'package:mysteres/screens/mysteresDouloureux.dart';
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.id: (context) => const SplashScreen(),
         LandingScreen.id: (context) => const LandingScreen(),
-        DayScreen.id: (context) => const DayScreen(),
         MysteresJoyeux.id: (context) => const MysteresJoyeux(),
         MystereLumineux.id: (context) => const MystereLumineux(),
         MysteresDouloureux.id: (context) => const MysteresDouloureux(),
