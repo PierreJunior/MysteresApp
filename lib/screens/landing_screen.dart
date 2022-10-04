@@ -3,33 +3,45 @@ import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/screens/day_screen.dart';
 import 'package:mysteres/services/checkDay.dart';
+import 'package:mysteres/globalVariable.dart';
+
+const List<String> daysofWeek = <String>[
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Sunday'
+];
 
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
 
   const LandingScreen({
     Key? key,
-    this.updating,
   }) : super(key: key);
 
-  final dynamic updating;
   @override
   State<LandingScreen> createState() => _LandingScreenState();
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  var todayMysteres2 = GlobalValue.checking;
   CheckingDate dateAndMysteres = CheckingDate();
   late String todayMysteres = '';
   late String todaysDate = '';
   late String today = '';
   late String mystereCheck = '';
-  void getDate(CheckingDate updateUI) {
+  late var updating = '';
+  late String dropdownValue = daysofWeek.first;
+  void getDate() {
     setState(() {
-      today = dateAndMysteres.getDate(todaysDate);
+      today = dateAndMysteres.getDate(dropdownValue);
+      dropdownValue = today;
     });
   }
 
-  void getMysteres(CheckingDate updateUI) {
+  void getMysteres() {
     setState(() {
       todayMysteres = dateAndMysteres.getMysteres(mystereCheck);
     });
@@ -38,8 +50,8 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
-    getDate(widget.updating);
-    getMysteres(widget.updating);
+    getDate();
+    getMysteres();
   }
 
   @override
@@ -62,19 +74,14 @@ class _LandingScreenState extends State<LandingScreen> {
                     children: [
                       TextButton(
                         onPressed: () async {
-                          var updateUI = await CheckingDate();
-                          getDate(updateUI);
-                          getMysteres(updateUI);
-                        },
-                        child: const Icon(
-                          Icons.update_sharp,
-                          size: 50,
-                          color: Colors.white70,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, DayScreen.id);
+                          final result =
+                              await Navigator.pushNamed(context, DayScreen.id);
+
+                          setState(() {
+                            today = result as String;
+                            updating = GlobalValue.checking;
+                            todayMysteres = updating;
+                          });
                         },
                         child: const Icon(
                           Icons.calendar_today,
@@ -89,10 +96,14 @@ class _LandingScreenState extends State<LandingScreen> {
                     style: kMysteresTitle,
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Mystere: $todayMysteres',
-                    style: kMysteresSubTitle,
-                  ),
+                  StreamBuilder<Object>(
+                      stream: null,
+                      builder: (context, snapshot) {
+                        return Text(
+                          'Mystere: $todayMysteres',
+                          style: kMysteresSubTitle,
+                        );
+                      }),
                   const SizedBox(height: 20),
                   TextButton(
                       style: ElevatedButton.styleFrom(
