@@ -14,12 +14,12 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  late RosaryConfigService _rosaryService;
+  late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
   String _selectedMystere = "";
 
   _LandingScreenState() {
-    _rosaryService = RosaryConfigService();
+    _rosaryConfigService = RosaryConfigService();
   }
 
   @override
@@ -31,13 +31,13 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void initDay() {
     setState(() {
-      _selectedDay = _rosaryService.getCurrentDay();
+      _selectedDay = _rosaryConfigService.getCurrentDay();
     });
   }
 
   void initMystere() {
     setState(() {
-      _selectedMystere = _rosaryService.getMystere(_selectedDay);
+      _selectedMystere = _rosaryConfigService.getMystere(_selectedDay);
     });
   }
 
@@ -49,7 +49,7 @@ class _LandingScreenState extends State<LandingScreen> {
   void onDayChanged(String day) {
     setState(() {
       _selectedDay = day;
-      _selectedMystere = _rosaryService.getMystere(_selectedDay);
+      _selectedMystere = _rosaryConfigService.getMystere(_selectedDay);
     });
   }
 
@@ -71,7 +71,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   const SizedBox(height: 20),
                   DropdownButton<String>(
                     value: _selectedDay,
-                    items: _rosaryService.getDays().map((String value) {
+                    items: _rosaryConfigService.getDays().map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -84,7 +84,8 @@ class _LandingScreenState extends State<LandingScreen> {
                   const SizedBox(height: 20),
                   DropdownButton<String>(
                     value: _selectedMystere,
-                    items: _rosaryService.getMysteres().map((String value) {
+                    items:
+                        _rosaryConfigService.getMysteres().map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
