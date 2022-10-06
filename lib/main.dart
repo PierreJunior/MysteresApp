@@ -4,6 +4,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/screens/mystereLumineux.dart';
 import 'package:mysteres/screens/mysteresDouloureux.dart';
 import 'package:mysteres/screens/mysteresGlorieux.dart';
+import 'package:mysteres/screens/pray_screen.dart';
 import 'screens/Splash_screen.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.id: (context) => const SplashScreen(),
         LandingScreen.id: (context) => const LandingScreen(),
+        PrayScreen.id: (context) => const PrayScreen(),
         MysteresJoyeux.id: (context) => const MysteresJoyeux(),
         MystereLumineux.id: (context) => const MystereLumineux(),
         MysteresDouloureux.id: (context) => const MysteresDouloureux(),
