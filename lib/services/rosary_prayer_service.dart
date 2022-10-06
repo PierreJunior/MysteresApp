@@ -4,7 +4,7 @@ class RosaryPrayerService {
 
   RosaryPrayerService(String selectedDay) {
     _currentStep = 1;
-    _selectedDay = selectedDay;
+    _selectedDay = selectedDay.toLowerCase();
   }
 
   final List<Map<String, Object>> _prayerSteps = [
@@ -57,53 +57,58 @@ class RosaryPrayerService {
 
   final Map<String, List<Map<String, Object>>> _dayMystereMap = {
     "monday": [
-      {"value": "Joyeux 1", "step_number": 5, "name": "", "number": 1},
-      {"value": "Joyeux 2", "step_number": 10, "name": "", "number": 2},
-      {"value": "Joyeux 3", "step_number": 15, "name": "", "number": 3},
-      {"value": "Joyeux 4", "step_number": 20, "name": "", "number": 4},
-      {"value": "Joyeux 5", "step_number": 25, "name": "", "number": 5},
+      {"value": "Joyeux 1", "step_number": 5, "title": "", "number": 1},
+      {"value": "Joyeux 2", "step_number": 10, "title": "", "number": 2},
+      {"value": "Joyeux 3", "step_number": 15, "title": "", "number": 3},
+      {"value": "Joyeux 4", "step_number": 20, "title": "", "number": 4},
+      {"value": "Joyeux 5", "step_number": 25, "title": "", "number": 5},
     ],
     "tuesday": [
-      {"value": "Douloureux 1", "step_number": 5, "name": ""},
-      {"value": "Douloureux 2", "step_number": 10, "name": ""},
-      {"value": "Douloureux 3", "step_number": 15, "name": ""},
-      {"value": "Douloureux 4", "step_number": 20, "name": ""},
-      {"value": "Douloureux 5", "step_number": 25, "name": ""},
+      {"value": "Douloureux 1", "step_number": 5, "title": ""},
+      {"value": "Douloureux 2", "step_number": 10, "title": ""},
+      {"value": "Douloureux 3", "step_number": 15, "title": ""},
+      {"value": "Douloureux 4", "step_number": 20, "title": ""},
+      {"value": "Douloureux 5", "step_number": 25, "title": ""},
     ],
     "wednesday": [
-      {"value": "Glorieux 1", "step_number": 5, "name": ""},
-      {"value": "Glorieux 2", "step_number": 10, "name": ""},
-      {"value": "Glorieux 3", "step_number": 15, "name": ""},
-      {"value": "Glorieux 4", "step_number": 20, "name": ""},
-      {"value": "Glorieux 5", "step_number": 25, "name": ""},
+      {"value": "Glorieux 1", "step_number": 5, "title": ""},
+      {"value": "Glorieux 2", "step_number": 10, "title": ""},
+      {"value": "Glorieux 3", "step_number": 15, "title": ""},
+      {"value": "Glorieux 4", "step_number": 20, "title": ""},
+      {"value": "Glorieux 5", "step_number": 25, "title": ""},
     ],
     "thursday": [
-      {"value": "Lumineux 1", "step_number": 5, "name": ""},
-      {"value": "Lumineux 2", "step_number": 10, "name": ""},
-      {"value": "Lumineux 3", "step_number": 15, "name": ""},
-      {"value": "Lumineux 4", "step_number": 20, "name": ""},
-      {"value": "Lumineux 5", "step_number": 25, "name": ""},
+      {
+        "value":
+            """Dès que Jésus fut baptisé, il sortit de l'eau; voici que les cieux s'ouvrirent, et il vit l'Esprit de Dieu descendre comme une colombe et venir sur lui. Et des cieux, une voix disait: "Celui-ci est mon Fils bien-aimé; en lui j'ai mis tout mon amour (Mt 3,16-17)""",
+        "step_number": 5,
+        "title": "Le Baptême dans le Jourdain"
+      },
+      {"value": "Lumineux 2", "step_number": 10, "title": ""},
+      {"value": "Lumineux 3", "step_number": 15, "title": ""},
+      {"value": "Lumineux 4", "step_number": 20, "title": ""},
+      {"value": "Lumineux 5", "step_number": 25, "title": ""},
     ],
     "friday": [
-      {"value": "Douloureux 1", "step_number": 5, "name": ""},
-      {"value": "Douloureux 2", "step_number": 10, "name": ""},
-      {"value": "Douloureux 3", "step_number": 15, "name": ""},
-      {"value": "Douloureux 4", "step_number": 20, "name": ""},
-      {"value": "Douloureux 5", "step_number": 25, "name": ""},
+      {"value": "Douloureux 1", "step_number": 5, "title": ""},
+      {"value": "Douloureux 2", "step_number": 10, "title": ""},
+      {"value": "Douloureux 3", "step_number": 15, "title": ""},
+      {"value": "Douloureux 4", "step_number": 20, "title": ""},
+      {"value": "Douloureux 5", "step_number": 25, "title": ""},
     ],
     "saturday": [
-      {"value": "Joyeux 1", "step_number": 5, "name": ""},
-      {"value": "Joyeux 2", "step_number": 10, "name": ""},
-      {"value": "Joyeux 3", "step_number": 15, "name": ""},
-      {"value": "Joyeux 4", "step_number": 20, "name": ""},
-      {"value": "Joyeux 5", "step_number": 25, "name": ""},
+      {"value": "Joyeux 1", "step_number": 5, "title": ""},
+      {"value": "Joyeux 2", "step_number": 10, "title": ""},
+      {"value": "Joyeux 3", "step_number": 15, "title": ""},
+      {"value": "Joyeux 4", "step_number": 20, "title": ""},
+      {"value": "Joyeux 5", "step_number": 25, "title": ""},
     ],
     "sunday": [
-      {"value": "Glorieux 1", "step_number": 5, "name": ""},
-      {"value": "Glorieux 2", "step_number": 10, "name": ""},
-      {"value": "Glorieux 3", "step_number": 15, "name": ""},
-      {"value": "Glorieux 4", "step_number": 20, "name": ""},
-      {"value": "Glorieux 5", "step_number": 25, "name": ""},
+      {"value": "Glorieux 1", "step_number": 5, "title": ""},
+      {"value": "Glorieux 2", "step_number": 10, "title": ""},
+      {"value": "Glorieux 3", "step_number": 15, "title": ""},
+      {"value": "Glorieux 4", "step_number": 20, "title": ""},
+      {"value": "Glorieux 5", "step_number": 25, "title": ""},
     ],
   };
 
@@ -189,11 +194,10 @@ class RosaryPrayerService {
 
   void increaseStep() {
     _currentStep++;
-    print(_currentStep);
   }
 
   void decreaseStep() {
-    if (_currentStep >= 1) {
+    if (_currentStep > 1) {
       _currentStep--;
     }
   }
@@ -209,8 +213,8 @@ class RosaryPrayerService {
       Map<String, Object>? mystere = _dayMystereMap[_selectedDay]
           ?.firstWhere((e) => e["step_number"] == _currentStep);
 
-      step["title"] = mystere!["name"]!;
-      step["name"] = mystere["name"]!;
+      step["title"] = mystere!["title"]!;
+      step["name"] = mystere["title"]!;
       step["value"] = mystere["value"]!;
     }
 
