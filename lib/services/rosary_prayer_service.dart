@@ -1,12 +1,10 @@
-import 'package:mysteres/models/prayer_model.dart';
-
 class RosaryPrayerService {
   late int _currentStep;
   late String _selectedDay;
 
-  RosaryPrayerService(String? selectedDay) {
+  RosaryPrayerService(String selectedDay) {
     _currentStep = 1;
-    _selectedDay = selectedDay ?? "";
+    _selectedDay = selectedDay;
   }
 
   final List<Map<String, Object>> _prayerSteps = [

@@ -1,23 +1,23 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class PrayScreen extends StatefulWidget {
+  const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
   static const String id = "PrayingScreen";
-  const PrayScreen({Key? key}) : super(key: key);
+  final String selectedDay;
 
   @override
-  State<PrayScreen> createState() => _PrayScreenState();
+  State<PrayScreen> createState() => _PrayScreenState(selectedDay);
 }
 
 class _PrayScreenState extends State<PrayScreen> {
   late RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
 
-  _PrayScreenState() {
-    // TODO: Fix this part by passing the selected day to this screen
-    _rosaryPrayerService = RosaryPrayerService("monday");
+  _PrayScreenState(String selectedDay) {
+    _rosaryPrayerService = RosaryPrayerService(selectedDay);
   }
 
   @override

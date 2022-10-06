@@ -111,7 +111,9 @@ class _LandingScreenState extends State<LandingScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const PrayScreen()));
+                              builder: (context) => PrayScreen(
+                                    selectedDay: _selectedDay,
+                                  )));
                     },
                     child: const Text(
                       'Pray',
