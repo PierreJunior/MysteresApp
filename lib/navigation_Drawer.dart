@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mysteres/drawer_item.dart';
-import 'screens/mystereLumineux.dart';
-import 'screens/mysteresDouloureux.dart';
-import 'screens/mysteresGlorieux.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -11,7 +8,7 @@ class NavigationDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Colors.indigoAccent,
+        color: Colors.cyan,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 80, 24, 0),
           child: Column(
@@ -54,22 +51,5 @@ class NavigationDrawer extends StatelessWidget {
 
   void onItemPressed(BuildContext context, {required int index}) {
     Navigator.pop(context);
-
-    switch (index) {
-      case 0:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MystereLumineux()));
-        break;
-      case 1:
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const MysteresDouloureux()));
-        break;
-      case 2:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const MysteresGlorieux()));
-        break;
-    }
   }
 }

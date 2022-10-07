@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mysteres/navigation_Drawer.dart';
+import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -106,9 +107,16 @@ class _LandingScreenState extends State<LandingScreen> {
                       )),
                   const SizedBox(height: 20),
                   FloatingActionButton.large(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrayScreen(
+                                    selectedDay: _selectedDay,
+                                  )));
+                    },
                     child: const Text(
-                      'START',
+                      'Pray',
                       style: TextStyle(color: Colors.white70),
                     ),
                   )
