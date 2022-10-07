@@ -68,13 +68,14 @@ class _PrayScreenState extends State<PrayScreen> {
                     color: Colors.black,
                     fontSize: 40,
                     fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               SingleChildScrollView(
                 child: Text(
                   _selectedPrayer["value"] as String? ?? "",
                   style: const TextStyle(color: Colors.black),
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Row(

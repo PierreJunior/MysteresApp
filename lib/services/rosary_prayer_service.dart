@@ -13,34 +13,37 @@ class RosaryPrayerService {
       "name": "Apostles' Creed",
       "display_name": "Apostles' Creed",
       "value":
-          "I believe in God, the Father Almighty, Creator of Heaven and earth; and in Jesus Christ, His only Son, Our Lord, Who was conceived by the Holy Ghost, born of the Virgin Mary, suffered under Pontius Pilate, was crucified; died, and was buried. He descended into Hell; the third day He arose again from the dead; He ascended into Heaven, sitteth at the right hand of God, the Father Almighty; from thence He shall come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen.'",
+          "Je crois en Dieu, le Père tout-puissant, créateur du ciel et de la terre.  Et en Jésus Christ, son fils unique, notre Seigneur ; qui a été conçu du Saint-Esprit, est né de la Vierge Marie, a souffert sous Ponce Pilate, a été crucifié, est mort et a été enseveli, est descendu aux enfers ; le troisième jour est ressuscité des morts, est monté aux cieux, est assis à la droite de Dieu le Père tout-puissant, d’où il viendra juger les vivants et les morts. Je crois en l’Esprit Saint, à la sainte Église catholique, à la communion des saints, à la rémission des péchés, à la résurrection de la chair, à la vie éternelle. Amen'",
       "step_number": 1,
       "type": "normal",
       "repeat": 1
     },
     {
-      "title": "Our Father",
-      "name": "",
-      "display_name": "",
-      "value": "",
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
       "step_number": 2,
       "type": "normal",
       "repeat": 1
     },
     {
-      "title": "Hail Mary",
-      "name": "",
-      "display_name": "",
-      "value": "",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
       "step_number": 3,
       "type": "normal",
       "repeat": 3
     },
     {
-      "title": "Glory Be",
-      "name": "",
-      "display_name": "",
-      "value": "",
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
       "step_number": 4,
       "type": "normal",
       "repeat": 1
@@ -53,29 +56,351 @@ class RosaryPrayerService {
       "type": "mystere",
       "repeat": 1
     },
+    {
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
+      "step_number": 6,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
+      "step_number": 7,
+      "type": "normal",
+      "repeat": 10
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+      "step_number": 8,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "O mon Jésus, pardonne-nous nos péchés, préserve-nous du feu de l'enfer et conduis au ciel toutes les petit âmes surtout celles qui ont le plus besoin de ta miséricorde. Amen.",
+      "step_number": 9,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "null",
+      "name": "null",
+      "value": "null",
+      "step_number": 10,
+      "type": "mystere",
+      "repeat": 1
+    },
+    {
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
+      "step_number": 11,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
+      "step_number": 12,
+      "type": "normal",
+      "repeat": 10
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+      "step_number": 13,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "O mon Jésus, pardonne-nous nos péchés, préserve-nous du feu de l'enfer et conduis au ciel toutes les petit âmes surtout celles qui ont le plus besoin de ta miséricorde. Amen.",
+      "step_number": 14,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "null",
+      "name": "null",
+      "value": "null",
+      "step_number": 15,
+      "type": "mystere",
+      "repeat": 1
+    },
+    {
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
+      "step_number": 16,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
+      "step_number": 17,
+      "type": "normal",
+      "repeat": 10
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+      "step_number": 18,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "O mon Jésus, pardonne-nous nos péchés, préserve-nous du feu de l'enfer et conduis au ciel toutes les petit âmes surtout celles qui ont le plus besoin de ta miséricorde. Amen.",
+      "step_number": 19,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "null",
+      "name": "null",
+      "value": "null",
+      "step_number": 20,
+      "type": "mystere",
+      "repeat": 1
+    },
+    {
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
+      "step_number": 21,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
+      "step_number": 22,
+      "type": "normal",
+      "repeat": 10
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+      "step_number": 23,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "O mon Jésus, pardonne-nous nos péchés, préserve-nous du feu de l'enfer et conduis au ciel toutes les petit âmes surtout celles qui ont le plus besoin de ta miséricorde. Amen.",
+      "step_number": 24,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "null",
+      "name": "null",
+      "value": "null",
+      "step_number": 25,
+      "type": "mystere",
+      "repeat": 1
+    },
+    {
+      "title": "Notre Père",
+      "name": "Notre Père",
+      "display_name": "Notre Père",
+      "value":
+          "Notre Père, qui es aux cieux, que ton nom soit sanctifié, que ton règne vienne, que ta volonté soit faite, sur la terre comme au ciel. Donne-nous aujourd'hui notre pain de ce jour, pardonne-nous nos offenses, come nous pardonnons aussi à ceux qui nous ont offensés, et ne nous laisse pas entrer en tentation, mais délivre-nous du mal. Amen",
+      "step_number": 26,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
+      "display_name": "Je vous salue, Marie",
+      "value":
+          "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
+      "step_number": 27,
+      "type": "normal",
+      "repeat": 10
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "Gloire au Père et au Fils at au Saint-Esprit. Comme il était au commencement, maintenant et toujours, et dans les siècles des siècles. Amen.",
+      "step_number": 28,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Gloire au Père ",
+      "name": "Gloire au Père ",
+      "display_name": "Gloire au Père ",
+      "value":
+          "O mon Jésus, pardonne-nous nos péchés, préserve-nous du feu de l'enfer et conduis au ciel toutes les petit âmes surtout celles qui ont le plus besoin de ta miséricorde. Amen.",
+      "step_number": 29,
+      "type": "normal",
+      "repeat": 1
+    },
+    {
+      "title": "Salut, ô Reine",
+      "name": "Salut, ô Reine",
+      "display_name": "Salut, ô Reine",
+      "value":
+          "Salut, ô Reine, mère de miséricorde ; notre vie, notre douceur et notre espérance, salut ! Enfants d'Eve, exilés, nous crions vers vous ; vers vous nous soupirons, gémissant et pleurant dans cette vallée de larmes. O vous, notre avocate, tournez vers nous vos regards miséricordieux. Et après cet exil, montrez-nous Jésus, le fruit béni de vos entrailles, ô clémente, ô miséricordieuse, ô douce Vierge Marie !",
+      "step_number": 30,
+      "type": "normal",
+      "repeat": 1
+    },
   ];
 
   final Map<String, List<Map<String, Object>>> _dayMystereMap = {
     "monday": [
-      {"value": "Joyeux 1", "step_number": 5, "title": "", "number": 1},
-      {"value": "Joyeux 2", "step_number": 10, "title": "", "number": 2},
-      {"value": "Joyeux 3", "step_number": 15, "title": "", "number": 3},
-      {"value": "Joyeux 4", "step_number": 20, "title": "", "number": 4},
-      {"value": "Joyeux 5", "step_number": 25, "title": "", "number": 5},
+      {
+        "value":
+            "Le sixième mois, l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge, accordée en mariage à un homme de la maison de David, appelé Joseph; et le nom de la Vierge était Marie. (Lc 1,26-27) ",
+        "step_number": 5,
+        "title": "L'Annonciation de l'Ange Gabriel à la Vierge Marie",
+        "number": 1
+      },
+      {
+        "value":
+            """En ces jours-là, Marie se mit en route rapidement vers une ville da la montagne de Judée. Elle entra dans la maison de Zacharie et salua Élisabeth. Or, quand  Élisabeth entendit la salutation de Marie, l'enfant tressaillit en elle. Alors, Élisabeth fut rempli de l'Esprit Saint, et s'écria d'une voie forte: "Tu es bénie entre toutes les femmes, et le fruit de tes entrailles est béni! (Lc 1, 39-42)""",
+        "step_number": 10,
+        "title": "Visite de la Vierge Marie à sa cousine Élisabeth",
+        "number": 2
+      },
+      {
+        "value":
+            "En ces jours-là, parut un édit de l'empereur, ordonnant de recenser toute la terre - ce premier recensement eut lieu lorsque Quirinius était gouverneur de Syrie. Et chacun allait se faire inscrire dans sa ville origine.  Joseph, lui aussi, quitta la ville de Nazareth en Galilée, pour monter en Judée, à la ville de David appelée Bethléem, car il était de la maison et de la descendance de David. Il venait se faire inscrire avec Marie, son épouse, qui était enceinte. Or, pendant qu'ils étaient là, arrivèrent les jours où elle devait enfanter. Et elle mit au monde son fils premier-né; elle l'emmaillota et le coucha dans une mangeoire, car il n'y avait pas de place pour eux dans la salle commune (Lc 2,1-7).",
+        "step_number": 15,
+        "title": " La naissance de Jésus dans la grotte de Bethléem.",
+        "number": 3
+      },
+      {
+        "value":
+            "Quand arriva le huitième jour, celui de la circoncision, l'enfant reçut le nom de Jésus, le nom que l'ange lui avait donné avant sa conception. Quand arriva le jour fixé par la loi de Moïse pour la purification, les parents de Jésus le portèrent à Jérusalem pour le présenter au Seigneur, selon ce qui est écrit dans la Loi: Tout premier-né de sexe masculin sera consacré au Seigneur (Lc 2, 21-24).",
+        "step_number": 20,
+        "title": "Jésus est présenté au temple par Marie et Joseph",
+        "number": 4
+      },
+      {
+        "value":
+            "Chaque année, les parents de Jésus allaient à Jérusalem pour la fête de la Pâque. Quand il eut douze ans, ils firent le pèlerinage suivant la coutume. Comme ils s'en retournaient à la fin de la semaine, le jeune Jésus resta à Jérusalem sans que ses parents s'en aperçoivent. Pensant qu'il était avec leurs compagnons de route, ils firent une journée de chemin avant de le chercher parmi leurs parents et connaissance. Ne le trouvant pas, ils revirent à Jérusalem en continuant à le chercher. C'est au bout de trois jours qu'ils le retrouvèrent dans le Temple, assis au milieu des docteurs de la Loi: il les écoutait et leur posait des questions, et tous ceux qui l'entendaient s'extasiaient sur son intelligence et sur ses réponses (Lc 2, 41-47)",
+        "step_number": 25,
+        "title": "Jésus retrouvé dans le temple",
+        "number": 5
+      },
     ],
     "tuesday": [
-      {"value": "Douloureux 1", "step_number": 5, "title": ""},
-      {"value": "Douloureux 2", "step_number": 10, "title": ""},
-      {"value": "Douloureux 3", "step_number": 15, "title": ""},
-      {"value": "Douloureux 4", "step_number": 20, "title": ""},
-      {"value": "Douloureux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            """Alors Jésus parvient avec eux à un domaine appelé Gethsémani et leur dit: "Restez ici, pendant que je m'en vais là-bas pour prier". Il emmena Pierre, ainsi que Jacques et Jean, les deux fils de Zébédée, et il commença à ressentir tristesse et angoisse. Il leur dit alors: "Mon âme est triste à en mourir. Demeurez ici et veillez avec moi". Il s'écarta un peu et tomba la face contre terre, en faisant cette prière: "Mon Père, s'il est possible, que cette coupe passe loin de moi! Cependant, non pas comme je veux, mais comme tu veux(Mt 26, 36-39)""",
+        "step_number": 5,
+        "title": " L'agonie de Jésus à Gethsémani"
+      },
+      {
+        "value":
+            "Pilate leur relâcha Barabbas; et, après avoir fait battre de verges Jésus, il le livra pour être crucifié(Mt 27, 26)",
+        "step_number": 10,
+        "title": "La flagellation de Jésus"
+      },
+      {
+        "value":
+            """Alors les soldats du gouverneur emmenèrent Jésus dans le prétoire et rassemblèrent autour de lui toute la garde. Ils lui enlevèrent ses vêtements et le couvrirent d'un manteau rouge. Puis, avec des épines, ils tressèrent une couronne, et la posèrent sur sa tête; ils lui mirent un roseau dans la main droite et, pour se moquer de lui, ils s'agenouillaient en leui disant: "Salut, roi des Juifs!(Mt 27, 27-29)""",
+        "step_number": 15,
+        "title": "Le couronnement d'épines"
+      },
+      {
+        "value":
+            "Ils réquisitionnent, pour porter la croix, un passant, Simon de Cyrène, le père d'Alexandre et de Rufus, qui revenait des champs. Et ils amènent Jésus à l'endroit appelé Golgotha, c'est-à-dire: Lieu-du-Crâne, ou Calvaire(Mc 15, 21-22)",
+        "step_number": 20,
+        "title": "Le portement de la Croix"
+      },
+      {
+        "value":
+            """Lorsqu'on fut arrivé au lieu dit Le Crâne, ou Calvaire, on mit Jésus en croix, avec les deux malfaiteurs, l'un à droite et l'autre à gauche. Jésus disait: "Père, pardonne-leur: ils ne savent pas ce qu'ils font"... Il était déjà presque midi; l'obscurité se fit dans tout le pays jusqu'à trois heures, car le soleil s'était caché. Le rideau du temple se déchira par le milieu. Alors, Jésus poussa un grand cri: "Père, entre tes mains je remets mon esprit(Lc  23, 32-33, 44-46)""",
+        "step_number": 25,
+        "title": "Jésus est crucifié et meurt sur la Croix"
+      },
     ],
     "wednesday": [
-      {"value": "Glorieux 1", "step_number": 5, "title": ""},
-      {"value": "Glorieux 2", "step_number": 10, "title": ""},
-      {"value": "Glorieux 3", "step_number": 15, "title": ""},
-      {"value": "Glorieux 4", "step_number": 20, "title": ""},
-      {"value": "Glorieux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            """Le premier jour de la semaine, de grand matin, les femmes se rendirent au sépulcre, portant des aromates qu'elles avaient préparés. Elles trouvèrent la pierre roulée sur le côté du tombeau. Elles entrèrent, mais ne trouvèrent pas le corps du Seigneur Jésus. Elles ne savaient que penser, lorsque deux hommes se présentèrent à elles, avec un vêtement éblouissant. Saisies de crainte, elles baissaient le visage vers le sol. Ils leur dirent: "Pourquoi cherchez-vous le Vivant parmi les morts? Il n'est pas ici, il est ressucité(Lc 24, 1-6)""",
+        "step_number": 5,
+        "title": "La Résurrection de Jésus"
+      },
+      {
+        "value":
+            "Le Seigneur Jésus, après leur avoir parlé, fut enlevé au ciel et s'assit à la droite de Dieu(Mc 16, 19)",
+        "step_number": 10,
+        "title": "L'Ascension du Seigneur au ciel"
+      },
+      {
+        "value":
+            "Quand arriva le jour de la Pentecôte, ils se trouvaient réunis tous ensemble. Soudain, il vint du ciel un bruit pareil à celui d'un violent coup de vent: toute la maison où ils se tenaient en fut remplie. Ils virent apparaître comme une sorte de feu qui se partageait en langues et qui se posa sur chacun d'eux. Alors ils furent tous remplis de l'Esprit Saint: ils se mirent à parler en d'autres langues, et chacun s'exprimait selon le don de l'Esprit(Ac 2, 1-4)",
+        "step_number": 15,
+        "title": "La descente du Saint-Esprit au Cénacle"
+      },
+      {
+        "value":
+            "Désormais tous les âges me diront bienheureuse. Le Puissant fit pour moi des merveilles(Lc 1, 48-49)",
+        "step_number": 20,
+        "title": "L'Assomption de Marie au Ciel"
+      },
+      {
+        "value":
+            "Un signe grandiose apparut dans le ciel: une Femme, ayant le soleil pour manteau, la lune sous les pieds, et sur la tête une couronne de douze étoiles(Ap 12, 1)",
+        "step_number": 25,
+        "title": "Marie est couronnée Reine du ciel et de la terre"
+      },
     ],
     "thursday": [
       {
@@ -84,108 +409,132 @@ class RosaryPrayerService {
         "step_number": 5,
         "title": "Le Baptême dans le Jourdain"
       },
-      {"value": "Lumineux 2", "step_number": 10, "title": ""},
-      {"value": "Lumineux 3", "step_number": 15, "title": ""},
-      {"value": "Lumineux 4", "step_number": 20, "title": ""},
-      {"value": "Lumineux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            """Trois jours plus tard, il y avait un mariage à Cana en Galilée. La mère de Jésus était là. Jésus aussi avait été invité au repas de noces avec ses disciples. Or, on manqua de vin; la mère de Jésus lui dit: "Ils n'ont plus de vin". Jésus répondit: "Femme, que me veux-tu? Mon heure n'est pas encore venue". Sa mère dit aux serviteurs: "Faites tout ce qu'il vous dira. (Jn 2, 1-5)""",
+        "step_number": 10,
+        "title": "Les noces de Cana"
+      },
+      {
+        "value":
+            "Les temps sont accomplis: le règne de Dieu est tout proche. Convertissez-vous et croyez à la Bonne Nouvelle. (Mc 1, 15)",
+        "step_number": 15,
+        "title": "L'annonce du Royaume de Dieu et l'invitation à la conversion"
+      },
+      {
+        "value":
+            "Six jours après, Jésus prend avec lui Pierre, Jacques et Jean son frère, et il les emmène à l'écart, sur une haute montagne. Il fut transfiguré devant eux; son visage devint brillant comme le soleil, et ses vêtements, blancs comme la lumière»(Mt 17, 1-2).",
+        "step_number": 20,
+        "title": "La transfiguration"
+      },
+      {
+        "value":
+            """Pendant le repas, Jésus prit du pain, prononça la bénédiction, le rompit et le donna à ses disciples, en disant: "Prenez, mangez: ceci est mon corps (Mt 26, 26)""",
+        "step_number": 25,
+        "title": " L'institution de l'Eucharistie"
+      },
     ],
     "friday": [
-      {"value": "Douloureux 1", "step_number": 5, "title": ""},
-      {"value": "Douloureux 2", "step_number": 10, "title": ""},
-      {"value": "Douloureux 3", "step_number": 15, "title": ""},
-      {"value": "Douloureux 4", "step_number": 20, "title": ""},
-      {"value": "Douloureux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            """Alors Jésus parvient avec eux à un domaine appelé Gethsémani et leur dit: "Restez ici, pendant que je m'en vais là-bas pour prier". Il emmena Pierre, ainsi que Jacques et Jean, les deux fils de Zébédée, et il commença à ressentir tristesse et angoisse. Il leur dit alors: "Mon âme est triste à en mourir. Demeurez ici et veillez avec moi". Il s'écarta un peu et tomba la face contre terre, en faisant cette prière: "Mon Père, s'il est possible, que cette coupe passe loin de moi! Cependant, non pas comme je veux, mais comme tu veux(Mt 26, 36-39)""",
+        "step_number": 5,
+        "title": " L'agonie de Jésus à Gethsémani"
+      },
+      {
+        "value":
+            "Pilate leur relâcha Barabbas; et, après avoir fait battre de verges Jésus, il le livra pour être crucifié(Mt 27, 26)",
+        "step_number": 10,
+        "title": "La flagellation de Jésus"
+      },
+      {
+        "value":
+            """Alors les soldats du gouverneur emmenèrent Jésus dans le prétoire et rassemblèrent autour de lui toute la garde. Ils lui enlevèrent ses vêtements et le couvrirent d'un manteau rouge. Puis, avec des épines, ils tressèrent une couronne, et la posèrent sur sa tête; ils lui mirent un roseau dans la main droite et, pour se moquer de lui, ils s'agenouillaient en leui disant: "Salut, roi des Juifs!(Mt 27, 27-29)""",
+        "step_number": 15,
+        "title": "Le couronnement d'épines"
+      },
+      {
+        "value":
+            "Ils réquisitionnent, pour porter la croix, un passant, Simon de Cyrène, le père d'Alexandre et de Rufus, qui revenait des champs. Et ils amènent Jésus à l'endroit appelé Golgotha, c'est-à-dire: Lieu-du-Crâne, ou Calvaire(Mc 15, 21-22)",
+        "step_number": 20,
+        "title": "Le portement de la Croix"
+      },
+      {
+        "value":
+            """Lorsqu'on fut arrivé au lieu dit Le Crâne, ou Calvaire, on mit Jésus en croix, avec les deux malfaiteurs, l'un à droite et l'autre à gauche. Jésus disait: "Père, pardonne-leur: ils ne savent pas ce qu'ils font"... Il était déjà presque midi; l'obscurité se fit dans tout le pays jusqu'à trois heures, car le soleil s'était caché. Le rideau du temple se déchira par le milieu. Alors, Jésus poussa un grand cri: "Père, entre tes mains je remets mon esprit(Lc  23, 32-33, 44-46)""",
+        "step_number": 25,
+        "title": "Jésus est crucifié et meurt sur la Croix"
+      },
     ],
     "saturday": [
-      {"value": "Joyeux 1", "step_number": 5, "title": ""},
-      {"value": "Joyeux 2", "step_number": 10, "title": ""},
-      {"value": "Joyeux 3", "step_number": 15, "title": ""},
-      {"value": "Joyeux 4", "step_number": 20, "title": ""},
-      {"value": "Joyeux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            "Le sixième mois, l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge, accordée en mariage à un homme de la maison de David, appelé Joseph; et le nom de la Vierge était Marie. (Lc 1,26-27) ",
+        "step_number": 5,
+        "title": "L'Annonciation de l'Ange Gabriel à la Vierge Marie",
+        "number": 1
+      },
+      {
+        "value":
+            """En ces jours-là, Marie se mit en route rapidement vers une ville da la montagne de Judée. Elle entra dans la maison de Zacharie et salua Élisabeth. Or, quand  Élisabeth entendit la salutation de Marie, l'enfant tressaillit en elle. Alors, Élisabeth fut rempli de l'Esprit Saint, et s'écria d'une voie forte: "Tu es bénie entre toutes les femmes, et le fruit de tes entrailles est béni! (Lc 1, 39-42)""",
+        "step_number": 10,
+        "title": "Visite de la Vierge Marie à sa cousine Élisabeth",
+        "number": 2
+      },
+      {
+        "value":
+            "En ces jours-là, parut un édit de l'empereur, ordonnant de recenser toute la terre - ce premier recensement eut lieu lorsque Quirinius était gouverneur de Syrie. Et chacun allait se faire inscrire dans sa ville origine.  Joseph, lui aussi, quitta la ville de Nazareth en Galilée, pour monter en Judée, à la ville de David appelée Bethléem, car il était de la maison et de la descendance de David. Il venait se faire inscrire avec Marie, son épouse, qui était enceinte. Or, pendant qu'ils étaient là, arrivèrent les jours où elle devait enfanter. Et elle mit au monde son fils premier-né; elle l'emmaillota et le coucha dans une mangeoire, car il n'y avait pas de place pour eux dans la salle commune (Lc 2,1-7).",
+        "step_number": 15,
+        "title": " La naissance de Jésus dans la grotte de Bethléem.",
+        "number": 3
+      },
+      {
+        "value":
+            "Quand arriva le huitième jour, celui de la circoncision, l'enfant reçut le nom de Jésus, le nom que l'ange lui avait donné avant sa conception. Quand arriva le jour fixé par la loi de Moïse pour la purification, les parents de Jésus le portèrent à Jérusalem pour le présenter au Seigneur, selon ce qui est écrit dans la Loi: Tout premier-né de sexe masculin sera consacré au Seigneur (Lc 2, 21-24).",
+        "step_number": 20,
+        "title": "Jésus est présenté au temple par Marie et Joseph",
+        "number": 4
+      },
+      {
+        "value":
+            "Chaque année, les parents de Jésus allaient à Jérusalem pour la fête de la Pâque. Quand il eut douze ans, ils firent le pèlerinage suivant la coutume. Comme ils s'en retournaient à la fin de la semaine, le jeune Jésus resta à Jérusalem sans que ses parents s'en aperçoivent. Pensant qu'il était avec leurs compagnons de route, ils firent une journée de chemin avant de le chercher parmi leurs parents et connaissance. Ne le trouvant pas, ils revirent à Jérusalem en continuant à le chercher. C'est au bout de trois jours qu'ils le retrouvèrent dans le Temple, assis au milieu des docteurs de la Loi: il les écoutait et leur posait des questions, et tous ceux qui l'entendaient s'extasiaient sur son intelligence et sur ses réponses (Lc 2, 41-47)",
+        "step_number": 25,
+        "title": "Jésus retrouvé dans le temple",
+        "number": 5
+      },
     ],
     "sunday": [
-      {"value": "Glorieux 1", "step_number": 5, "title": ""},
-      {"value": "Glorieux 2", "step_number": 10, "title": ""},
-      {"value": "Glorieux 3", "step_number": 15, "title": ""},
-      {"value": "Glorieux 4", "step_number": 20, "title": ""},
-      {"value": "Glorieux 5", "step_number": 25, "title": ""},
+      {
+        "value":
+            """Le premier jour de la semaine, de grand matin, les femmes se rendirent au sépulcre, portant des aromates qu'elles avaient préparés. Elles trouvèrent la pierre roulée sur le côté du tombeau. Elles entrèrent, mais ne trouvèrent pas le corps du Seigneur Jésus. Elles ne savaient que penser, lorsque deux hommes se présentèrent à elles, avec un vêtement éblouissant. Saisies de crainte, elles baissaient le visage vers le sol. Ils leur dirent: "Pourquoi cherchez-vous le Vivant parmi les morts? Il n'est pas ici, il est ressucité(Lc 24, 1-6)""",
+        "step_number": 5,
+        "title": "La Résurrection de Jésus"
+      },
+      {
+        "value":
+            "Le Seigneur Jésus, après leur avoir parlé, fut enlevé au ciel et s'assit à la droite de Dieu(Mc 16, 19)",
+        "step_number": 10,
+        "title": "L'Ascension du Seigneur au ciel"
+      },
+      {
+        "value":
+            "Quand arriva le jour de la Pentecôte, ils se trouvaient réunis tous ensemble. Soudain, il vint du ciel un bruit pareil à celui d'un violent coup de vent: toute la maison où ils se tenaient en fut remplie. Ils virent apparaître comme une sorte de feu qui se partageait en langues et qui se posa sur chacun d'eux. Alors ils furent tous remplis de l'Esprit Saint: ils se mirent à parler en d'autres langues, et chacun s'exprimait selon le don de l'Esprit(Ac 2, 1-4)",
+        "step_number": 15,
+        "title": "La descente du Saint-Esprit au Cénacle"
+      },
+      {
+        "value":
+            "Désormais tous les âges me diront bienheureuse. Le Puissant fit pour moi des merveilles(Lc 1, 48-49)",
+        "step_number": 20,
+        "title": "L'Assomption de Marie au Ciel"
+      },
+      {
+        "value":
+            "Un signe grandiose apparut dans le ciel: une Femme, ayant le soleil pour manteau, la lune sous les pieds, et sur la tête une couronne de douze étoiles(Ap 12, 1)",
+        "step_number": 25,
+        "title": "Marie est couronnée Reine du ciel et de la terre"
+      },
     ],
-  };
-
-  Map<int, String> title = {
-    1: "Apostles' Creed",
-    2: "Our Father",
-    3: "Three Hail Marys",
-    4: "Glory Be",
-    5: "First Mysteres",
-    6: "Our Father",
-    7: "Ten Hail Marys",
-    8: "Glory Be",
-    9: "Fatima Prayer",
-    10: "Second Mysteres",
-    11: "Our Father",
-    12: "Ten Hail Marys",
-    13: "Glory Be",
-    14: "Fatima Prayer",
-    15: "Third Mysteres",
-    16: "Our Father",
-    17: "Ten Hail Marys",
-    18: "Glory Be",
-    19: "Fatima Prayer",
-    20: "Fourth Mysteres",
-    21: "Our Father",
-    22: "Ten Hail Marys",
-    23: "Glory Be",
-    24: "Fatima Prayer",
-    25: "Fifth Mysteres",
-    26: "Our Father",
-    27: "Ten Hail Marys",
-    28: "Glory Be",
-    29: "Fatima Prayer",
-    30: "Hail Holy Queen",
-  };
-
-  Map<String, List<String>> mysteres = {
-    "Monday": [
-      "Dès que Jésus fut baptisé, il sortit de l'eau; voici que les cieux s'ouvrirent, et il vit l'Esprit de Dieu descendre comme une colombe et venir sur lui. Et des cieux, une voix disait: \"Celui-ci est mon Fils bien-aimé;  en lui j'ai mis tout mon amour (Mt 3,16-17)",
-      "Trois jours plus tard, il y avait un mariage à Cana en Galilée. La mère de Jésus était là. Jésus aussi avait été invité au repas de noces avec ses disciples. Or, on manqua de vin; la mère de Jésus lui dit: \"Ils n'ont plus de vin\". Jésus répondit: \"Femme, que me veux-tu? Mon heure n'est pas encore venue\". Sa mère dit aux serviteurs: \"Faites tout ce qu'il vous dira. (Jn 2, 1-5)",
-      "Les temps sont accomplis: le règne de Dieu est tout proche. Convertissez-vous et croyez à la Bonne Nouvelle. (Mc 1, 15)",
-      "Six jours après, Jésus prend avec lui Pierre, Jacques et Jean son frère, et il les emmène à l'écart, sur une haute montagne. Il fut transfiguré devant eux; son visage devint brillant comme le soleil, et ses vêtements, blancs comme la lumière»(Mt 17, 1-2).",
-      "Pendant le repas, Jésus prit du pain, prononça la bénédiction, le rompit et le donna à ses disciples, en disant: \"Prenez, mangez: ceci est mon corps (Mt 26, 26)",
-    ],
-  };
-
-  Map<int, String> prayers = {
-    1: 'I believe in God, the Father Almighty, Creator of Heaven and earth; and in Jesus Christ, His only Son, Our Lord, Who was conceived by the Holy Ghost, born of the Virgin Mary, suffered under Pontius Pilate, was crucified; died, and was buried. He descended into Hell; the third day He arose again from the dead; He ascended into Heaven, sitteth at the right hand of God, the Father Almighty; from thence He shall come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen.',
-    2: 'Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.',
-    3: 'Hail Mary, full of grace. The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.',
-    4: 'Glory be to the Father, to the Son, and to the Holy Spirit, as it was, is now, and ever shall be, world without end. Amen.',
-    5: 'On the large bead, meditate on the first mystery',
-    6: 'Our Father, Who art in heaven, Hallowed be Thy Name. Thy Kingdom come. Thy Will be done, on earth as it is in Heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.',
-    7: 'Hail Mary, Full of Grace, The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners now, and at the hour of our death. Amen.',
-    8: 'Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.',
-    9: 'O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to heaven,especially those most in need of Thy mercy.',
-    10: 'second Mysteres',
-    11: 'Our Father, Who art in heaven, Hallowed be Thy Name. Thy Kingdom come. Thy Will be done, on earth as it is in Heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.',
-    12: 'Hail Mary, Full of Grace, The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners now, and at the hour of our death. Amen.',
-    13: 'Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.',
-    14: 'O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to heaven,especially those most in need of Thy mercy.',
-    15: 'Third Mysteres',
-    16: 'Our Father, Who art in heaven, Hallowed be Thy Name. Thy Kingdom come. Thy Will be done, on earth as it is in Heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.',
-    17: 'Hail Mary, Full of Grace, The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners now, and at the hour of our death. Amen.',
-    18: 'Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.',
-    19: 'O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to heaven,especially those most in need of Thy mercy.',
-    20: 'Fourth Mysteres',
-    21: 'Our Father, Who art in heaven, Hallowed be Thy Name. Thy Kingdom come. Thy Will be done, on earth as it is in Heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.',
-    22: 'Hail Mary, Full of Grace, The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners now, and at the hour of our death. Amen.',
-    23: 'Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.',
-    24: 'O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to heaven,especially those most in need of Thy mercy.',
-    25: 'Fifth Mysteres',
-    26: 'Our Father, Who art in heaven, Hallowed be Thy Name. Thy Kingdom come. Thy Will be done, on earth as it is in Heaven. Give us this day our daily bread. And forgive us our trespasses, as we forgive those who trespass against us. And lead us not into temptation, but deliver us from evil. Amen.',
-    27: 'Hail Mary, Full of Grace, The Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners now, and at the hour of our death. Amen.',
-    28: 'Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.',
-    29: 'O my Jesus, forgive us our sins, save us from the fires of hell, and lead all souls to heaven,especially those most in need of Thy mercy.',
-    30: 'Hail, Holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve, to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb Jesus, O clement, O loving, O sweet Virgin Mary. Pray for us, O holy Mother of God. That we may be made worthy of the promises of Christ. O God, whose only-begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal salvation; grant we beseech Thee, that meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise. Through the same Christ our Lord. Amen.',
   };
 
   void setStep(int step) => _currentStep = step;
