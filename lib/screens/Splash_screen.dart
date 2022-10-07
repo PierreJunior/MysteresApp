@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'package:mysteres/services/checkDay.dart';
-import 'HomeScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,20 +13,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late String todaysDate = '';
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    getDate();
-  }
 
-  void getDate() {
-    var getday = CheckingDate().getDate(todaysDate);
-
-    if (!mounted) return;
-    Navigator
-      ),
-    );
+    Future.delayed(const Duration(seconds: 3)).then((value) {
+      Navigator.of(context).pushReplacement(
+          CupertinoPageRoute(builder: (ctx) => const LandingScreen()));
+    });
   }
 
   @override
@@ -58,7 +50,7 @@ class FirstWave extends StatelessWidget {
         durations: [35000],
         heightPercentages: [0.2],
         gradients: [
-          [Colors.indigo.shade200, Colors.indigoAccent],
+          [Colors.indigo.shade200, Colors.blue],
           // [Colors.indigoAccent.shade700, Colors.indigo.shade200],
         ],
         gradientBegin: Alignment.bottomLeft,
