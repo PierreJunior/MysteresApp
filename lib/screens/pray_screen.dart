@@ -53,30 +53,50 @@ class _PrayScreenState extends State<PrayScreen> {
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.cyan,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 _selectedPrayer["title"] as String? ?? "",
                 style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 40,
+                    color: Colors.grey,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               SingleChildScrollView(
-                child: Text(
-                  _selectedPrayer["value"] as String? ?? "",
-                  style: const TextStyle(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
+                child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.cyan,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 6)
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectedPrayer["value"] as String? ?? "",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ],
+                    )),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,7 +112,7 @@ class _PrayScreenState extends State<PrayScreen> {
                     },
                     child: const Icon(
                       Icons.navigate_before,
-                      color: Colors.grey,
+                      color: Colors.cyan,
                       size: 100,
                     ),
                   ),
@@ -119,7 +139,7 @@ class _PrayScreenState extends State<PrayScreen> {
                       },
                       child: const Icon(
                         Icons.navigate_next,
-                        color: Colors.grey,
+                        color: Colors.cyan,
                         size: 100,
                       )),
                 ],

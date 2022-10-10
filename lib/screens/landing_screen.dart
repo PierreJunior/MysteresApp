@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
@@ -60,9 +61,9 @@ class _LandingScreenState extends State<LandingScreen> {
       home: Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.white10,
+          backgroundColor: Colors.cyan,
         ),
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -70,26 +71,85 @@ class _LandingScreenState extends State<LandingScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  DropdownButton<String>(
-                    value: _selectedDay,
-                    items: _rosaryConfigService.getDays().map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      onDayChanged(val.toString());
-                    },
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      style: const TextStyle(color: Colors.black, fontSize: 20),
+                      value: _selectedDay,
+                      buttonHeight: 50,
+                      buttonWidth: 160,
+                      dropdownDecoration:
+                          const BoxDecoration(color: Colors.cyan),
+                      buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                      buttonDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                        color: Colors.cyan,
+                      ),
+                      itemHeight: 40,
+                      itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                      dropdownMaxHeight: 200,
+                      dropdownPadding: null,
+                      scrollbarRadius: const Radius.circular(40),
+                      scrollbarThickness: 6,
+                      scrollbarAlwaysShow: true,
+                      buttonElevation: 8,
+                      items: _rosaryConfigService.getDays().map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        onDayChanged(val.toString());
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  DropdownButton<String>(
+                  DropdownButton2<String>(
+                    isExpanded: true,
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
                     value: _selectedMystere,
+                    buttonHeight: 50,
+                    buttonWidth: 160,
+                    dropdownDecoration: const BoxDecoration(color: Colors.cyan),
+                    buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+                    buttonDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: Colors.black26,
+                      ),
+                      color: Colors.cyan,
+                    ),
+                    itemHeight: 40,
+                    itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                    dropdownMaxHeight: 200,
+                    dropdownPadding: null,
+                    scrollbarRadius: const Radius.circular(40),
+                    scrollbarThickness: 6,
+                    scrollbarAlwaysShow: true,
+                    buttonElevation: 8,
                     items:
                         _rosaryConfigService.getMysteres().map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       );
                     }).toList(),
                     onChanged: null,
@@ -103,10 +163,12 @@ class _LandingScreenState extends State<LandingScreen> {
                       onPressed: () => onResetPressed(),
                       child: const Text(
                         'Reset',
-                        style: TextStyle(fontSize: 25, color: Colors.white70),
+                        style: TextStyle(fontSize: 25, color: Colors.grey),
                       )),
                   const SizedBox(height: 20),
                   FloatingActionButton.large(
+                    foregroundColor: Colors.cyan,
+                    backgroundColor: Colors.cyan,
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -117,7 +179,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     },
                     child: const Text(
                       'Pray',
-                      style: TextStyle(color: Colors.white70),
+                      style: TextStyle(color: Colors.white),
                     ),
                   )
                 ],
