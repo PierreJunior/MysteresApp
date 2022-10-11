@@ -75,6 +75,10 @@ class _PrayScreenState extends State<PrayScreen> {
                 child: Container(
                     decoration: BoxDecoration(
                       color: Colors.cyan,
+                      border: Border.all(
+                          color: Colors.cyan,
+                          width: 2,
+                          style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
@@ -125,7 +129,7 @@ class _PrayScreenState extends State<PrayScreen> {
                             behavior: SnackBarBehavior.floating,
                             backgroundColor: Colors.transparent,
                             content: AwesomeSnackbarContent(
-                              title: 'Finished',
+                              title: 'Fini',
                               message: '',
                               contentType: ContentType.success,
                               color: Colors.cyan,

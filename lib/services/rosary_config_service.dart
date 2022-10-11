@@ -1,22 +1,22 @@
 class RosaryConfigService {
   final List<String> _daysofWeek = <String>[
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+    'Dimanche',
   ];
 
   final Map<String, String> _mysteresMap = {
-    'Monday': 'Joyeux',
-    'Tuesday': 'Douloureux',
-    'Wednesday': 'Glorieux',
-    'Thursday': 'Lumineux',
-    'Friday': 'Douloureux',
-    'Saturday': 'Joyeux',
-    'Sunday': 'Glorieux',
+    'Lundi': 'Joyeux',
+    'Mardi': 'Douloureux',
+    'Mercredi': 'Glorieux',
+    'Jeudi': 'Lumineux',
+    'Vendredi': 'Douloureux',
+    'Samedi': 'Joyeux',
+    'Dimanche': 'Glorieux',
   };
 
   List<String> getDays() => _daysofWeek;

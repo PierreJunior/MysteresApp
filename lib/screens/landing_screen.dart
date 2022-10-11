@@ -166,20 +166,35 @@ class _LandingScreenState extends State<LandingScreen> {
                         style: TextStyle(fontSize: 25, color: Colors.grey),
                       )),
                   const SizedBox(height: 20),
-                  FloatingActionButton.large(
-                    foregroundColor: Colors.cyan,
-                    backgroundColor: Colors.cyan,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrayScreen(
-                                    selectedDay: _selectedDay,
-                                  )));
-                    },
-                    child: const Text(
-                      'Pray',
-                      style: TextStyle(color: Colors.white),
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 1),
+                            blurRadius: 6)
+                      ],
+                      border: Border.all(
+                          color: Colors.cyan,
+                          width: 2,
+                          style: BorderStyle.solid),
+                    ),
+                    child: FloatingActionButton.large(
+                      foregroundColor: Colors.cyan,
+                      backgroundColor: Colors.cyan,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PrayScreen(
+                                      selectedDay: _selectedDay,
+                                    )));
+                      },
+                      child: const Text(
+                        'Prier',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   )
                 ],

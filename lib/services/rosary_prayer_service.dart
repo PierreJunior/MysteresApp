@@ -301,7 +301,7 @@ class RosaryPrayerService {
   ];
 
   final Map<String, List<Map<String, Object>>> _dayMystereMap = {
-    "monday": [
+    "lundi": [
       {
         "value":
             "Le sixième mois, l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge, accordée en mariage à un homme de la maison de David, appelé Joseph; et le nom de la Vierge était Marie. (Lc 1,26-27) ",
@@ -338,7 +338,7 @@ class RosaryPrayerService {
         "number": 5
       },
     ],
-    "tuesday": [
+    "mardi": [
       {
         "value":
             """Alors Jésus parvient avec eux à un domaine appelé Gethsémani et leur dit: "Restez ici, pendant que je m'en vais là-bas pour prier". Il emmena Pierre, ainsi que Jacques et Jean, les deux fils de Zébédée, et il commença à ressentir tristesse et angoisse. Il leur dit alors: "Mon âme est triste à en mourir. Demeurez ici et veillez avec moi". Il s'écarta un peu et tomba la face contre terre, en faisant cette prière: "Mon Père, s'il est possible, que cette coupe passe loin de moi! Cependant, non pas comme je veux, mais comme tu veux(Mt 26, 36-39)""",
@@ -370,7 +370,7 @@ class RosaryPrayerService {
         "title": "Jésus est crucifié et meurt sur la Croix"
       },
     ],
-    "wednesday": [
+    "mercredi": [
       {
         "value":
             """Le premier jour de la semaine, de grand matin, les femmes se rendirent au sépulcre, portant des aromates qu'elles avaient préparés. Elles trouvèrent la pierre roulée sur le côté du tombeau. Elles entrèrent, mais ne trouvèrent pas le corps du Seigneur Jésus. Elles ne savaient que penser, lorsque deux hommes se présentèrent à elles, avec un vêtement éblouissant. Saisies de crainte, elles baissaient le visage vers le sol. Ils leur dirent: "Pourquoi cherchez-vous le Vivant parmi les morts? Il n'est pas ici, il est ressucité(Lc 24, 1-6)""",
@@ -402,7 +402,7 @@ class RosaryPrayerService {
         "title": "Marie est couronnée Reine du ciel et de la terre"
       },
     ],
-    "thursday": [
+    "jeudi": [
       {
         "value":
             """Dès que Jésus fut baptisé, il sortit de l'eau; voici que les cieux s'ouvrirent, et il vit l'Esprit de Dieu descendre comme une colombe et venir sur lui. Et des cieux, une voix disait: "Celui-ci est mon Fils bien-aimé; en lui j'ai mis tout mon amour (Mt 3,16-17)""",
@@ -434,7 +434,7 @@ class RosaryPrayerService {
         "title": " L'institution de l'Eucharistie"
       },
     ],
-    "friday": [
+    "vendredi": [
       {
         "value":
             """Alors Jésus parvient avec eux à un domaine appelé Gethsémani et leur dit: "Restez ici, pendant que je m'en vais là-bas pour prier". Il emmena Pierre, ainsi que Jacques et Jean, les deux fils de Zébédée, et il commença à ressentir tristesse et angoisse. Il leur dit alors: "Mon âme est triste à en mourir. Demeurez ici et veillez avec moi". Il s'écarta un peu et tomba la face contre terre, en faisant cette prière: "Mon Père, s'il est possible, que cette coupe passe loin de moi! Cependant, non pas comme je veux, mais comme tu veux(Mt 26, 36-39)""",
@@ -466,7 +466,7 @@ class RosaryPrayerService {
         "title": "Jésus est crucifié et meurt sur la Croix"
       },
     ],
-    "saturday": [
+    "samedi": [
       {
         "value":
             "Le sixième mois, l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge, accordée en mariage à un homme de la maison de David, appelé Joseph; et le nom de la Vierge était Marie. (Lc 1,26-27) ",
@@ -503,7 +503,7 @@ class RosaryPrayerService {
         "number": 5
       },
     ],
-    "sunday": [
+    "dimanche": [
       {
         "value":
             """Le premier jour de la semaine, de grand matin, les femmes se rendirent au sépulcre, portant des aromates qu'elles avaient préparés. Elles trouvèrent la pierre roulée sur le côté du tombeau. Elles entrèrent, mais ne trouvèrent pas le corps du Seigneur Jésus. Elles ne savaient que penser, lorsque deux hommes se présentèrent à elles, avec un vêtement éblouissant. Saisies de crainte, elles baissaient le visage vers le sol. Ils leur dirent: "Pourquoi cherchez-vous le Vivant parmi les morts? Il n'est pas ici, il est ressucité(Lc 24, 1-6)""",
