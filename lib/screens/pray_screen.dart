@@ -1,5 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:mysteres/components/color_palette.dart';
+import 'package:mysteres/components/font.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 
@@ -54,9 +56,9 @@ class _PrayScreenState extends State<PrayScreen> {
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.cyan,
+        backgroundColor: ColorPalette.primaryDark,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: ColorPalette.primary,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -65,39 +67,32 @@ class _PrayScreenState extends State<PrayScreen> {
             children: [
               Text(
                 _selectedPrayer["title"] as String? ?? "",
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
+                style: Font.heading1,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 20,
+                width: 150.0,
+                child: Divider(
+                  color: ColorPalette.primaryDark,
+                  thickness: 2,
+                ),
+              ),
               SingleChildScrollView(
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.cyan,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0, 1),
-                            blurRadius: 6)
-                      ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _selectedPrayer["value"] as String? ?? "",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.fade,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          _selectedPrayer["value"] as String? ?? "",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                        ),
-                      ],
-                    )),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
