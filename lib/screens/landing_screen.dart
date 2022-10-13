@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mysteres/components/color_palette.dart';
+import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
@@ -67,19 +69,19 @@ class _LandingScreenState extends State<LandingScreen> {
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: const Text('ROSARY'),
-          backgroundColor: kTopBarColor,
+          backgroundColor: ColorPalette.primaryDark,
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: ColorPalette.primary,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(bodyChildPadding),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     'Configure your Prayer settings',
-                    style: kMysteresTitle,
+                    style: Font.heading1,
                     textAlign: TextAlign.start,
                   ),
                   const SizedBox(
@@ -98,7 +100,8 @@ class _LandingScreenState extends State<LandingScreen> {
                     width: MediaQuery.of(context).size.width * 1,
                     height: MediaQuery.of(context).size.height / 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      padding: const EdgeInsets.only(
+                          left: bodyChildPadding, right: bodyChildPadding),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -108,7 +111,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               SizedBox(width: 5),
                               Text(
                                 'Select a Language',
-                                style: kContainerText,
+                                style: Font.containerText,
                               ),
                             ],
                           ),
@@ -124,7 +127,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   MediaQuery.of(context).size.width * 2,
                               dropdownDecoration: BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
+                                      BorderRadius.circular(widgetBorderRadius),
                                   border: Border.all(
                                     color: Colors.grey,
                                   ),
@@ -136,7 +139,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   const EdgeInsets.only(left: 14, right: 14),
                               buttonDecoration: BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
+                                      BorderRadius.circular(widgetBorderRadius),
                                   border: Border.all(
                                     color: Colors.grey,
                                   ),
@@ -158,7 +161,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   value: value,
                                   child: Text(
                                     value,
-                                    style: kContainerText,
+                                    style: Font.containerText,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 );
@@ -177,7 +180,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               SizedBox(width: 5),
                               Text(
                                 'Select a Day',
-                                style: kContainerText,
+                                style: Font.containerText,
                               ),
                             ],
                           ),
@@ -186,7 +189,7 @@ class _LandingScreenState extends State<LandingScreen> {
                             child: DropdownButton2<String>(
                               buttonDecoration: BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
+                                      BorderRadius.circular(widgetBorderRadius),
                                   border: Border.all(
                                     color: Colors.grey,
                                   ),
@@ -203,7 +206,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   MediaQuery.of(context).size.width * 2,
                               dropdownDecoration: BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
+                                      BorderRadius.circular(widgetBorderRadius),
                                   border: Border.all(
                                     color: Colors.grey,
                                   ),
@@ -229,7 +232,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   value: value,
                                   child: Text(
                                     value,
-                                    style: kContainerText,
+                                    style: Font.containerText,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 );
@@ -247,14 +250,14 @@ class _LandingScreenState extends State<LandingScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       RoundedButton(
-                          colour: kButtonColor1,
+                          colour: ColorPalette.primaryDark,
                           pressed: () => onResetPressed(),
                           title: 'RESET'),
                       const SizedBox(
                         width: 20,
                       ),
                       RoundedButton(
-                          colour: kButtonColor2,
+                          colour: ColorPalette.secondaryDark,
                           pressed: () {
                             Navigator.push(
                                 context,

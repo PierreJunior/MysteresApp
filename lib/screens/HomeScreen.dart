@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mysteres/components/font.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/constants.dart';
 
@@ -31,19 +32,19 @@ class _MysteresJoyeuxState extends State<MysteresJoyeux> {
                   alignment: Alignment.center,
                   child: Text(
                     'Mystère Joyeux',
-                    style: kMysteresTitle,
+                    style: Font.heading1,
                   ),
                 ),
                 SizedBox(height: 20),
                 Text(
                   'L’annonciation',
-                  style: kMysteresSubTitle,
+                  style: Font.heading3,
                 ),
                 SizedBox(height: 40),
                 SingleChildScrollView(
                   child: Text(
                     "Le sixième mois, l'ange Gabriel fut envoyé par Dieu dans une ville de Galilée, appelée Nazareth, à une vierge,accordée en mariage à un homme de la maison de David, appelé Joseph; et le nom de la Vierge était Marie.» (Lc 1,26- 27)",
-                    style: kMysteresBody,
+                    style: Font.paragraph,
                   ),
                 ),
               ],

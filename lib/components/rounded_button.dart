@@ -10,7 +10,7 @@ class RoundedButton extends StatelessWidget {
     required this.title,
   }) : super(key: key);
 
-  final Color colour;
+  final Color? colour;
   final VoidCallback pressed;
   final String title;
   @override
@@ -20,7 +20,7 @@ class RoundedButton extends StatelessWidget {
       child: Material(
         elevation: 5.0,
         color: colour,
-        borderRadius: BorderRadius.circular(kBorderRadius),
+        borderRadius: BorderRadius.circular(widgetBorderRadius),
         child: MaterialButton(
           onPressed: pressed,
           minWidth: 150.0,
