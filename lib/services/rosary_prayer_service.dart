@@ -543,11 +543,13 @@ class RosaryPrayerService {
 
   void increaseStep() {
     _currentStep++;
+    print(_currentStep);
   }
 
   void decreaseStep() {
     if (_currentStep > 1) {
       _currentStep--;
+      print(_currentStep);
     }
   }
 
