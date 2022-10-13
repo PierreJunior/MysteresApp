@@ -6,6 +6,8 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 
+import '../services/rosary_config_service.dart';
+
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
   static const String id = "PrayingScreen";
@@ -16,8 +18,10 @@ class PrayScreen extends StatefulWidget {
 }
 
 class _PrayScreenState extends State<PrayScreen> {
+  final RosaryConfigService _rosaryConfigService = RosaryConfigService();
   late final RosaryPrayerService _rosaryPrayerService =
       RosaryPrayerService(widget.selectedDay);
+  String _selectedMystere = "";
   late Map<String, Object> _selectedPrayer;
   bool _isVisible = false;
 
@@ -29,6 +33,13 @@ class _PrayScreenState extends State<PrayScreen> {
   void initState() {
     super.initState();
     initPrayer();
+    initMystere();
+  }
+
+  void initMystere() {
+    setState(() {
+      _selectedMystere = _rosaryConfigService.getMystere(widget.selectedDay);
+    });
   }
 
   void showButton() {
@@ -112,6 +123,18 @@ class _PrayScreenState extends State<PrayScreen> {
                 style: Font.heading1,
                 textAlign: TextAlign.center,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _selectedPrayer["count"] as String? ?? "",
+                    style: Font.heading3,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(_selectedPrayer["mystere"] as String? ?? "",
+                      style: Font.heading3),
+                ],
+              ),
               const SizedBox(
                 height: 20,
                 width: 150.0,
@@ -126,11 +149,7 @@ class _PrayScreenState extends State<PrayScreen> {
                   children: [
                     Text(
                       _selectedPrayer["value"] as String? ?? "",
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontFamily: "NotoSansJP Bold",
-                        fontSize: 15,
-                      ),
+                      style: Font.paragraph,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade,
                     ),
