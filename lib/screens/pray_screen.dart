@@ -9,16 +9,17 @@ class PrayScreen extends StatefulWidget {
   final String selectedDay;
 
   @override
-  State<PrayScreen> createState() => _PrayScreenState(selectedDay);
+  State<PrayScreen> createState() => _PrayScreenState();
 }
 
 class _PrayScreenState extends State<PrayScreen> {
-  late RosaryPrayerService _rosaryPrayerService;
+  late final RosaryPrayerService _rosaryPrayerService =
+      RosaryPrayerService(widget.selectedDay);
   late Map<String, Object> _selectedPrayer;
 
-  _PrayScreenState(String selectedDay) {
-    _rosaryPrayerService = RosaryPrayerService(selectedDay);
-  }
+  // _PrayScreenState(String selectedDay) {
+  //   _rosaryPrayerService = RosaryPrayerService(selectedDay);
+  // }
 
   @override
   void initState() {
