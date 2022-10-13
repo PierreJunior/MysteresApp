@@ -98,6 +98,11 @@ class _PrayScreenState extends State<PrayScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            const CircleBorder()),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            ColorPalette.secondaryDark)),
                     onPressed: () {
                       if (_rosaryPrayerService.getCurrentStep() <= 1) {
                         null;
@@ -107,12 +112,17 @@ class _PrayScreenState extends State<PrayScreen> {
                       }
                     },
                     child: const Icon(
-                      Icons.navigate_before,
-                      color: Colors.cyan,
-                      size: 100,
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 40,
                     ),
                   ),
                   TextButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                              const CircleBorder()),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              ColorPalette.secondaryDark)),
                       onPressed: () {
                         if (_rosaryPrayerService.getCurrentStep() >=
                             _rosaryPrayerService.getTotalPrayerSteps()) {
@@ -134,9 +144,9 @@ class _PrayScreenState extends State<PrayScreen> {
                         }
                       },
                       child: const Icon(
-                        Icons.navigate_next,
-                        color: Colors.cyan,
-                        size: 100,
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 40,
                       )),
                 ],
               ),
