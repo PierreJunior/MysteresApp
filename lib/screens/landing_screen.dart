@@ -8,8 +8,6 @@ import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:mysteres/components/rounded_button.dart';
 
-List<String> lang = <String>['English', 'French', 'Portuguese'];
-
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
 
@@ -24,8 +22,7 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
-  String _selectedMystere = "";
-  String _selectedLanguage = lang.first;
+  String _selectedLanguage = "";
 
   _LandingScreenState() {
     _rosaryConfigService = RosaryConfigService();
@@ -35,7 +32,7 @@ class _LandingScreenState extends State<LandingScreen> {
   void initState() {
     super.initState();
     initDay();
-    initMystere();
+    initLanguage();
   }
 
   void initDay() {
@@ -44,21 +41,20 @@ class _LandingScreenState extends State<LandingScreen> {
     });
   }
 
-  void initMystere() {
-    setState(() {
-      _selectedMystere = _rosaryConfigService.getMystere(_selectedDay);
-    });
-  }
-
   void onResetPressed() {
     initDay();
-    initMystere();
+    initLanguage();
   }
 
   void onDayChanged(String day) {
     setState(() {
       _selectedDay = day;
-      _selectedMystere = _rosaryConfigService.getMystere(_selectedDay);
+    });
+  }
+
+  void initLanguage() {
+    setState(() {
+      _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
     });
   }
 
@@ -156,7 +152,9 @@ class _LandingScreenState extends State<LandingScreen> {
                               scrollbarThickness: 6,
                               scrollbarAlwaysShow: true,
                               buttonElevation: 8,
-                              items: lang.map((String value) {
+                              items: _rosaryConfigService
+                                  .getLanguages()
+                                  .map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
