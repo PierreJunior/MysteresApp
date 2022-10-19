@@ -653,4 +653,8 @@ class RosaryPrayerService {
 
     return step;
   }
+
+  bool isLastStep() {
+    return _currentStep >= getTotalPrayerSteps();
+  }
 }

@@ -6,8 +6,6 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 
-import '../services/rosary_config_service.dart';
-
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
   static const String id = "PrayingScreen";
@@ -18,28 +16,52 @@ class PrayScreen extends StatefulWidget {
 }
 
 class _PrayScreenState extends State<PrayScreen> {
-  final RosaryConfigService _rosaryConfigService = RosaryConfigService();
-  late final RosaryPrayerService _rosaryPrayerService =
-      RosaryPrayerService(widget.selectedDay);
-  String _selectedMystere = "";
+  late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
   bool _isVisible = false;
-
-  // _PrayScreenState(String selectedDay) {
-  //   _rosaryPrayerService = RosaryPrayerService(selectedDay);
-  // }
 
   @override
   void initState() {
     super.initState();
+    _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
     initPrayer();
-    initMystere();
   }
 
-  void initMystere() {
+  void nextStep() {
+    _rosaryPrayerService.increaseStep();
+  }
+
+  void previousStep() {
+    _rosaryPrayerService.decreaseStep();
+  }
+
+  void getPrayer() {
     setState(() {
-      _selectedMystere = _rosaryConfigService.getMystere(widget.selectedDay);
+      _selectedPrayer = _rosaryPrayerService.getPrayer();
     });
+  }
+
+  void initPrayer() {
+    setState(() {
+      _selectedPrayer = _rosaryPrayerService.getPrayer();
+    });
+  }
+
+  bool isLastStep() {
+    if (_rosaryPrayerService.getCurrentStep() == 30) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void showNotification(String message, int duration, Color color) {
+    Flushbar(
+      backgroundColor: color,
+      message: message,
+      duration: Duration(seconds: duration),
+      flushbarPosition: FlushbarPosition.TOP,
+    ).show(context);
   }
 
   void showButton() {
@@ -53,52 +75,6 @@ class _PrayScreenState extends State<PrayScreen> {
       if (_rosaryPrayerService.getCurrentStep() == 2) {
         _isVisible = false;
       }
-    });
-  }
-
-  void nextStep() {
-    _rosaryPrayerService.increaseStep();
-  }
-
-  void previousStep() {
-    _rosaryPrayerService.decreaseStep();
-  }
-
-  bool lastStep() {
-    if (_rosaryPrayerService.getCurrentStep() == 30) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void getPrayer() {
-    setState(() {
-      _selectedPrayer = _rosaryPrayerService.getPrayer();
-    });
-  }
-
-  void notificationPrayer() {
-    Flushbar(
-      backgroundColor: ColorPalette.secondaryDark,
-      message: 'Prayer Finished!',
-      duration: const Duration(seconds: 5),
-      flushbarPosition: FlushbarPosition.TOP,
-    ).show(context);
-  }
-
-  void notificationEndedEarly() {
-    Flushbar(
-      backgroundColor: ColorPalette.primaryWarning,
-      message: 'You ended your Rosary early',
-      duration: const Duration(seconds: 5),
-      flushbarPosition: FlushbarPosition.TOP,
-    ).show(context);
-  }
-
-  void initPrayer() {
-    setState(() {
-      _selectedPrayer = _rosaryPrayerService.getPrayer();
     });
   }
 
@@ -187,7 +163,10 @@ class _PrayScreenState extends State<PrayScreen> {
                               ColorPalette.primaryDark)),
                       onPressed: () {
                         Navigator.popAndPushNamed(context, LandingScreen.id);
-                        notificationEndedEarly();
+                        if (!_rosaryPrayerService.isLastStep()) {
+                          showNotification("You ended your Rosary early", 5,
+                              ColorPalette.primaryWarning);
+                        }
                       },
                       child: const Icon(
                         Icons.stop,
@@ -201,21 +180,18 @@ class _PrayScreenState extends State<PrayScreen> {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             ColorPalette.secondaryDark)),
                     onPressed: () {
-                      if (_rosaryPrayerService.getCurrentStep() >=
-                          _rosaryPrayerService.getTotalPrayerSteps()) {
+                      if (_rosaryPrayerService.isLastStep()) {
                         Navigator.popAndPushNamed(context, LandingScreen.id);
-                        notificationPrayer();
+                        showNotification(
+                            "Prayer finished!", 5, ColorPalette.secondaryDark);
                       } else {
                         showButton();
                         nextStep();
                         getPrayer();
-                        //   Icons.arrow_forward,
-                        // color: Colors.white,
-                        // size: 40,
                       }
                     },
                     child: Icon(
-                      (lastStep()) ? Icons.check : Icons.arrow_forward,
+                      (isLastStep()) ? Icons.check : Icons.arrow_forward,
                       color: Colors.white,
                       size: 50,
                     ),

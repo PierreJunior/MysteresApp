@@ -24,13 +24,10 @@ class _LandingScreenState extends State<LandingScreen> {
   String _selectedDay = "";
   String _selectedLanguage = "";
 
-  _LandingScreenState() {
-    _rosaryConfigService = RosaryConfigService();
-  }
-
   @override
   void initState() {
     super.initState();
+    _rosaryConfigService = RosaryConfigService();
     initDay();
     initLanguage();
   }
