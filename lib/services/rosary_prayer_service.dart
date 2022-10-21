@@ -659,6 +659,6 @@ class RosaryPrayerService {
   }
 
   bool isFirstStep() {
-    return _currentStep == 2;
+    return _currentStep == 1;
   }
 }

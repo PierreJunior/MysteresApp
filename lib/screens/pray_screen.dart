@@ -18,21 +18,30 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
-  bool _isVisible = false;
+  late bool _previousStepButtonisVisible;
 
   @override
   void initState() {
     super.initState();
+    _previousStepButtonisVisible = false;
     _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
     initPrayer();
   }
 
   void nextStep() {
     _rosaryPrayerService.increaseStep();
+    if (!_rosaryPrayerService.isFirstStep() && !_previousStepButtonisVisible) {
+      showPreviousStepButton();
+    }
+    getPrayer();
   }
 
   void previousStep() {
     _rosaryPrayerService.decreaseStep();
+    if (_rosaryPrayerService.isFirstStep()) {
+      hidePreviousStepButton();
+    }
+    getPrayer();
   }
 
   void getPrayer() {
@@ -56,17 +65,15 @@ class _PrayScreenState extends State<PrayScreen> {
     ).show(context);
   }
 
-  void showButton() {
+  void showPreviousStepButton() {
     setState(() {
-      _isVisible = true;
+      _previousStepButtonisVisible = true;
     });
   }
 
-  void hideButton() {
+  void hidePreviousStepButton() {
     setState(() {
-      if (_rosaryPrayerService.isFirstStep()) {
-        _isVisible = false;
-      }
+      _previousStepButtonisVisible = false;
     });
   }
 
@@ -142,9 +149,7 @@ class _PrayScreenState extends State<PrayScreen> {
           Navigator.popAndPushNamed(context, LandingScreen.id);
           showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
         } else {
-          showButton();
           nextStep();
-          getPrayer();
         }
       },
       child: Icon(
@@ -157,7 +162,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget previousStepButton() {
     return Visibility(
-      visible: _isVisible,
+      visible: _previousStepButtonisVisible,
       child: ElevatedButton(
         style: ButtonStyle(
             shape:
@@ -165,9 +170,7 @@ class _PrayScreenState extends State<PrayScreen> {
             backgroundColor:
                 MaterialStateProperty.all<Color>(ColorPalette.secondaryDark)),
         onPressed: () {
-          hideButton();
           previousStep();
-          getPrayer();
         },
         child: const Icon(
           Icons.arrow_back,
