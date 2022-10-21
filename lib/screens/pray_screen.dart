@@ -47,14 +47,6 @@ class _PrayScreenState extends State<PrayScreen> {
     });
   }
 
-  bool isLastStep() {
-    if (_rosaryPrayerService.getCurrentStep() == 30) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   void showNotification(String message, int duration, Color color) {
     Flushbar(
       backgroundColor: color,
@@ -72,7 +64,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   void hideButton() {
     setState(() {
-      if (_rosaryPrayerService.getCurrentStep() == 2) {
+      if (_rosaryPrayerService.isFirstStep()) {
         _isVisible = false;
       }
     });
@@ -156,7 +148,7 @@ class _PrayScreenState extends State<PrayScreen> {
         }
       },
       child: Icon(
-        (isLastStep()) ? Icons.check : Icons.arrow_forward,
+        (_rosaryPrayerService.isLastStep()) ? Icons.check : Icons.arrow_forward,
         color: Colors.white,
         size: 50,
       ),
