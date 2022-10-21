@@ -139,11 +139,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget nextStepButton() {
     return ElevatedButton(
-      style: ButtonStyle(
-          shape:
-              MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
-          backgroundColor:
-              MaterialStateProperty.all<Color>(ColorPalette.secondaryDark)),
+      style: stepButtonStyle(),
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
@@ -152,11 +148,7 @@ class _PrayScreenState extends State<PrayScreen> {
           nextStep();
         }
       },
-      child: Icon(
-        (_rosaryPrayerService.isLastStep()) ? Icons.check : Icons.arrow_forward,
-        color: Colors.white,
-        size: 50,
-      ),
+      child: stepIcon("forward"),
     );
   }
 
@@ -164,20 +156,42 @@ class _PrayScreenState extends State<PrayScreen> {
     return Visibility(
       visible: _previousStepButtonisVisible,
       child: ElevatedButton(
-        style: ButtonStyle(
-            shape:
-                MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ColorPalette.secondaryDark)),
+        style: stepButtonStyle(),
         onPressed: () {
-          previousStep();
+          if (!_rosaryPrayerService.isFirstStep()) {
+            previousStep();
+          }
         },
-        child: const Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-          size: 50,
-        ),
+        child: stepIcon("backward"),
       ),
+    );
+  }
+
+  ButtonStyle stepButtonStyle() {
+    return ButtonStyle(
+        shape: MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(ColorPalette.secondaryDark));
+  }
+
+  Icon stepIcon(String direction) {
+    IconData icon;
+
+    if (direction == "forward") {
+      if (_rosaryPrayerService.isLastStep()) {
+        icon = Icons.check;
+      }
+      icon = Icons.arrow_forward;
+    } else if (direction == "backward") {
+      icon = Icons.arrow_back;
+    } else {
+      throw Exception("Invalid value. Value must be forward or backward");
+    }
+
+    return Icon(
+      icon,
+      color: Colors.white,
+      size: 50,
     );
   }
 
