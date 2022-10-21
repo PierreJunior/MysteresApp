@@ -78,6 +78,39 @@ class _PrayScreenState extends State<PrayScreen> {
     });
   }
 
+  List<Widget> displayTitleSection() {
+    return [displayTitle(), displaySubTitle(), displayDivider()];
+  }
+
+  Widget displayDivider() {
+    return SizedBox(
+      height: 20,
+      width: 150.0,
+      child: Divider(
+        color: ColorPalette.primaryDark,
+        thickness: 2,
+      ),
+    );
+  }
+
+  Widget displayTitle() {
+    return Text(
+      _selectedPrayer["title"] as String? ?? "",
+      style: Font.heading1,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget displaySubTitle() {
+    if (_selectedPrayer["type"] == "mystere") {
+      String mystere = _selectedPrayer["mystere"] as String? ?? "";
+      String count = _selectedPrayer["count"] as String? ?? "";
+      return Text("$count $mystere", style: Font.heading3);
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -94,30 +127,9 @@ class _PrayScreenState extends State<PrayScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                _selectedPrayer["title"] as String? ?? "",
-                style: Font.heading1,
-                textAlign: TextAlign.center,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _selectedPrayer["count"] as String? ?? "",
-                    style: Font.heading3,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(_selectedPrayer["mystere"] as String? ?? "",
-                      style: Font.heading3),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-                width: 150.0,
-                child: Divider(
-                  color: ColorPalette.primaryDark,
-                  thickness: 2,
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: displayTitleSection(),
               ),
               SingleChildScrollView(
                 child: Column(

@@ -35,8 +35,8 @@ class RosaryPrayerService {
     {
       "count": ' ',
       "mystere": ' ',
-      "title": "Je vous salue, Marie(X3)",
-      "name": "Je vous salue, Marie(X3)",
+      "title": "Je vous salue, Marie (x3)",
+      "name": "Je vous salue, Marie (x3)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -77,8 +77,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie (x10)",
+      "name": "Je vous salue, Marie (x10)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -127,8 +127,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie (x10)",
+      "name": "Je vous salue, Marie (x10)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -175,8 +175,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie (x10)",
+      "name": "Je vous salue, Marie (x10)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -223,8 +223,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie(x10)",
+      "name": "Je vous salue, Marie (x10)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -271,8 +271,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie (x10)",
+      "name": "Je vous salue, Marie (x10)",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
