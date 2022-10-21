@@ -173,27 +173,28 @@ class _PrayScreenState extends State<PrayScreen> {
                         getPrayer();
                       },
                       child: const Icon(
-                        Icons.arrow_back,
+                        Icons.arrow_back_outlined,
                         color: Colors.white,
                         size: 50,
                       ),
                     ),
                   ),
                   ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                              const CircleBorder()),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              ColorPalette.primaryDark)),
-                      onPressed: () {
-                        Navigator.popAndPushNamed(context, LandingScreen.id);
-                        notificationEndedEarly();
-                      },
-                      child: const Icon(
-                        Icons.stop,
-                        color: ColorPalette.primary,
-                        size: 50,
-                      )),
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            const CircleBorder()),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            ColorPalette.primaryDark)),
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, LandingScreen.id);
+                      notificationEndedEarly();
+                    },
+                    child: const Icon(
+                      Icons.stop_outlined,
+                      color: ColorPalette.primary,
+                      size: 50,
+                    ),
+                  ),
                   ElevatedButton(
                     style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -215,7 +216,7 @@ class _PrayScreenState extends State<PrayScreen> {
                       }
                     },
                     child: Icon(
-                      (lastStep()) ? Icons.check : Icons.arrow_forward,
+                      (lastStep()) ? Icons.check : Icons.arrow_forward_outlined,
                       color: Colors.white,
                       size: 50,
                     ),
