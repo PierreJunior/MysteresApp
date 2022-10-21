@@ -83,7 +83,7 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget displayDivider() {
-    return SizedBox(
+    return const SizedBox(
       height: 20,
       width: 150.0,
       child: Divider(
@@ -94,8 +94,14 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget displayTitle() {
+    int repeat = _selectedPrayer["repeat"] as int? ?? 1;
+    String title = _selectedPrayer["title"] as String? ?? "";
+    if (repeat > 1) {
+      title += " (x$repeat)";
+    }
+
     return Text(
-      _selectedPrayer["title"] as String? ?? "",
+      title,
       style: Font.heading1,
       textAlign: TextAlign.center,
     );
