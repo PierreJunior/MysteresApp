@@ -118,11 +118,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget stopButton() {
     return ElevatedButton(
-        style: ButtonStyle(
-            shape:
-                MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ColorPalette.primaryDark)),
+        style: stepButtonStyle("stop"),
         onPressed: () {
           Navigator.popAndPushNamed(context, LandingScreen.id);
           if (!_rosaryPrayerService.isLastStep()) {
@@ -130,16 +126,12 @@ class _PrayScreenState extends State<PrayScreen> {
                 "You ended your Rosary early", 5, ColorPalette.primaryWarning);
           }
         },
-        child: const Icon(
-          Icons.stop,
-          color: ColorPalette.primary,
-          size: 50,
-        ));
+        child: stepIcon("stop"));
   }
 
   Widget nextStepButton() {
     return ElevatedButton(
-      style: stepButtonStyle(),
+      style: stepButtonStyle("next"),
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
@@ -148,7 +140,7 @@ class _PrayScreenState extends State<PrayScreen> {
           nextStep();
         }
       },
-      child: stepIcon("forward"),
+      child: stepIcon("next"),
     );
   }
 
@@ -156,41 +148,53 @@ class _PrayScreenState extends State<PrayScreen> {
     return Visibility(
       visible: _previousStepButtonisVisible,
       child: ElevatedButton(
-        style: stepButtonStyle(),
+        style: stepButtonStyle("previous"),
         onPressed: () {
           if (!_rosaryPrayerService.isFirstStep()) {
             previousStep();
           }
         },
-        child: stepIcon("backward"),
+        child: stepIcon("previous"),
       ),
     );
   }
 
-  ButtonStyle stepButtonStyle() {
+  ButtonStyle stepButtonStyle(String action) {
+    Color backgrounColor;
+    if (action == "next" || action == "previous") {
+      backgrounColor = ColorPalette.secondaryDark;
+    } else if (action == "stop") {
+      backgrounColor = ColorPalette.primaryDark;
+    } else {
+      throw Exception("Invalid value. Value must be next, previous, stop");
+    }
+
     return ButtonStyle(
         shape: MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
-        backgroundColor:
-            MaterialStateProperty.all<Color>(ColorPalette.secondaryDark));
+        backgroundColor: MaterialStateProperty.all<Color>(backgrounColor));
   }
 
-  Icon stepIcon(String direction) {
+  Icon stepIcon(String action) {
     IconData icon;
+    Color color;
 
-    if (direction == "forward") {
-      if (_rosaryPrayerService.isLastStep()) {
-        icon = Icons.check;
-      }
-      icon = Icons.arrow_forward;
-    } else if (direction == "backward") {
+    if (action == "next") {
+      icon =
+          _rosaryPrayerService.isLastStep() ? Icons.check : Icons.arrow_forward;
+      color = Colors.white;
+    } else if (action == "previous") {
       icon = Icons.arrow_back;
+      color = Colors.white;
+    } else if (action == "stop") {
+      icon = Icons.stop;
+      color = ColorPalette.primary;
     } else {
-      throw Exception("Invalid value. Value must be forward or backward");
+      throw Exception("Invalid value. Value must be next, previous, stop");
     }
 
     return Icon(
       icon,
-      color: Colors.white,
+      color: color,
       size: 50,
     );
   }
