@@ -56,6 +56,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   void showNotification(String message, int duration, Color color) {
     Flushbar(
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       backgroundColor: color,
       message: message,
       duration: Duration(seconds: duration),
@@ -112,7 +113,8 @@ class _PrayScreenState extends State<PrayScreen> {
     return ElevatedButton(
         style: stepButtonStyle("stop"),
         onPressed: () {
-          Navigator.popAndPushNamed(context, LandingScreen.id);
+          LandingScreen.checkPage = false;
+          Navigator.pop(context, LandingScreen.id);
           if (!_rosaryPrayerService.isLastStep()) {
             showNotification(
                 "You ended your Rosary early", 5, ColorPalette.primaryWarning);
@@ -195,6 +197,7 @@ class _PrayScreenState extends State<PrayScreen> {
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
       appBar: AppBar(
+        title: const Text('ROSARY'),
         backgroundColor: ColorPalette.primaryDark,
       ),
       backgroundColor: ColorPalette.primary,

@@ -11,6 +11,7 @@ import '../widgets/ads.dart';
 
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
+  static bool checkPage = false;
 
   const LandingScreen({
     Key? key,
@@ -28,9 +29,14 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
+    checkingPage();
     _rosaryConfigService = RosaryConfigService();
     initDay();
     initLanguage();
+  }
+
+  bool checkingPage() {
+    return LandingScreen.checkPage = false;
   }
 
   void initDay() {
@@ -255,6 +261,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       RoundedButton(
                           colour: ColorPalette.secondaryDark,
                           pressed: () {
+                            LandingScreen.checkPage = true;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
