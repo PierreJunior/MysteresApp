@@ -11,6 +11,7 @@ import '../widgets/ads.dart';
 
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
+  static late bool checkPage = false;
 
   const LandingScreen({
     Key? key,
@@ -255,6 +256,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       RoundedButton(
                           colour: ColorPalette.secondaryDark,
                           pressed: () {
+                            LandingScreen.checkPage = true;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
