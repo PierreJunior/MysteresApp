@@ -5,8 +5,8 @@ import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
-
-import '../services/rosary_config_service.dart';
+import '../components/ads.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
@@ -18,58 +18,28 @@ class PrayScreen extends StatefulWidget {
 }
 
 class _PrayScreenState extends State<PrayScreen> {
-  final RosaryConfigService _rosaryConfigService = RosaryConfigService();
-  late final RosaryPrayerService _rosaryPrayerService =
-      RosaryPrayerService(widget.selectedDay);
-  String _selectedMystere = "";
+  late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
-  bool _isVisible = false;
-
-  // _PrayScreenState(String selectedDay) {
-  //   _rosaryPrayerService = RosaryPrayerService(selectedDay);
-  // }
+  late int progressStep = _rosaryPrayerService.currentStep;
 
   @override
   void initState() {
     super.initState();
+    _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
     initPrayer();
-    initMystere();
-  }
-
-  void initMystere() {
-    setState(() {
-      _selectedMystere = _rosaryConfigService.getMystere(widget.selectedDay);
-    });
-  }
-
-  void showButton() {
-    setState(() {
-      _isVisible = true;
-    });
-  }
-
-  void hideButton() {
-    setState(() {
-      if (_rosaryPrayerService.getCurrentStep() == 2) {
-        _isVisible = false;
-      }
-    });
   }
 
   void nextStep() {
     _rosaryPrayerService.increaseStep();
+    getPrayer();
   }
 
   void previousStep() {
     _rosaryPrayerService.decreaseStep();
-  }
-
-  bool lastStep() {
-    if (_rosaryPrayerService.getCurrentStep() == 30) {
-      return true;
-    } else {
-      return false;
+    if (_rosaryPrayerService.isFirstStep()) {
+      return;
     }
+    getPrayer();
   }
 
   void getPrayer() {
@@ -78,28 +48,140 @@ class _PrayScreenState extends State<PrayScreen> {
     });
   }
 
-  void notificationPrayer() {
-    Flushbar(
-      backgroundColor: ColorPalette.secondaryDark,
-      message: 'Prayer Finished!',
-      duration: const Duration(seconds: 5),
-      flushbarPosition: FlushbarPosition.TOP,
-    ).show(context);
-  }
-
-  void notificationEndedEarly() {
-    Flushbar(
-      backgroundColor: ColorPalette.primaryWarning,
-      message: 'You ended your Rosary early',
-      duration: const Duration(seconds: 5),
-      flushbarPosition: FlushbarPosition.TOP,
-    ).show(context);
-  }
-
   void initPrayer() {
     setState(() {
       _selectedPrayer = _rosaryPrayerService.getPrayer();
     });
+  }
+
+  void showNotification(String message, int duration, Color color) {
+    Flushbar(
+      backgroundColor: color,
+      message: message,
+      duration: Duration(seconds: duration),
+      flushbarPosition: FlushbarPosition.TOP,
+    ).show(context);
+  }
+
+  List<Widget> titleSectionChildren() {
+    return [title(), subTitle(), divider()];
+  }
+
+  Widget divider() {
+    return const SizedBox(
+      height: 20,
+      width: 150.0,
+      child: Divider(
+        color: ColorPalette.primaryDark,
+        thickness: 2,
+      ),
+    );
+  }
+
+  Widget title() {
+    int repeat = _selectedPrayer["repeat"] as int? ?? 1;
+    String title = _selectedPrayer["title"] as String? ?? "";
+    if (repeat > 1) {
+      title += " (x$repeat)";
+    }
+
+    return Text(
+      title,
+      style: Font.heading1,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget subTitle() {
+    if (_selectedPrayer["type"] == "mystere") {
+      String mystere = _selectedPrayer["mystere"] as String? ?? "";
+      String count = _selectedPrayer["count"] as String? ?? "";
+      return Text("$count $mystere", style: Font.heading3);
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget stopButton() {
+    return ElevatedButton(
+        style: stepButtonStyle("stop"),
+        onPressed: () {
+          Navigator.popAndPushNamed(context, LandingScreen.id);
+          if (!_rosaryPrayerService.isLastStep()) {
+            showNotification(
+                "You ended your Rosary early", 5, ColorPalette.primaryWarning);
+          }
+        },
+        child: stepIcon("stop"));
+  }
+
+  Widget nextStepButton() {
+    return ElevatedButton(
+      style: stepButtonStyle("next"),
+      onPressed: () {
+        if (_rosaryPrayerService.isLastStep()) {
+          Navigator.popAndPushNamed(context, LandingScreen.id);
+          showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
+        } else {
+          nextStep();
+          progressStep++;
+        }
+      },
+      child: stepIcon("next"),
+    );
+  }
+
+  Widget previousStepButton() {
+    return ElevatedButton(
+      style: stepButtonStyle("previous"),
+      onPressed: () {
+        if (!_rosaryPrayerService.isFirstStep()) {
+          progressStep--;
+          previousStep();
+        }
+      },
+      child: stepIcon("previous"),
+    );
+  }
+
+  ButtonStyle stepButtonStyle(String action) {
+    Color backgrounColor;
+    if (action == "next" || action == "previous") {
+      backgrounColor = ColorPalette.secondaryDark;
+    } else if (action == "stop") {
+      backgrounColor = ColorPalette.primaryDark;
+    } else {
+      throw Exception("Invalid value. Value must be next, previous, stop");
+    }
+
+    return ButtonStyle(
+        shape: MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
+        backgroundColor: MaterialStateProperty.all<Color>(backgrounColor));
+  }
+
+  Icon stepIcon(String action) {
+    IconData icon;
+    Color color;
+
+    if (action == "next") {
+      icon =
+          _rosaryPrayerService.isLastStep() ? Icons.check : Icons.arrow_forward;
+      color = Colors.white;
+    } else if (action == "previous") {
+      icon = Icons.arrow_back;
+      color = Colors.white;
+    } else if (action == "stop") {
+      icon = Icons.stop;
+      color = ColorPalette.primary;
+    } else {
+      throw Exception("Invalid value. Value must be next, previous, stop");
+    }
+
+    return Icon(
+      icon,
+      color: color,
+      size: 50,
+    );
   }
 
   @override
@@ -116,117 +198,53 @@ class _PrayScreenState extends State<PrayScreen> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                _selectedPrayer["title"] as String? ?? "",
-                style: Font.heading1,
-                textAlign: TextAlign.center,
+              StepProgressIndicator(
+                totalSteps: 30,
+                size: 7,
+                currentStep: _rosaryPrayerService.currentStep,
+                unselectedColor: ColorPalette.primaryDark,
+                selectedColor: ColorPalette.secondaryDark,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _selectedPrayer["count"] as String? ?? "",
-                    style: Font.heading3,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: titleSectionChildren(),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectedPrayer["value"] as String? ?? "",
+                          style: Font.paragraph,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 5),
-                  Text(_selectedPrayer["mystere"] as String? ?? "",
-                      style: Font.heading3),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-                width: 150.0,
-                child: Divider(
-                  color: ColorPalette.primaryDark,
-                  thickness: 2,
                 ),
               ),
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _selectedPrayer["value"] as String? ?? "",
-                      style: Font.paragraph,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.fade,
-                    ),
+                    previousStepButton(),
+                    stopButton(),
+                    nextStepButton(),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Visibility(
-                    visible: _isVisible,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                              const CircleBorder()),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              ColorPalette.secondaryDark)),
-                      onPressed: () {
-                        hideButton();
-                        previousStep();
-                        getPrayer();
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_outlined,
-                        color: Colors.white,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            const CircleBorder()),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            ColorPalette.primaryDark)),
-                    onPressed: () {
-                      Navigator.popAndPushNamed(context, LandingScreen.id);
-                      notificationEndedEarly();
-                    },
-                    child: const Icon(
-                      Icons.stop_outlined,
-                      color: ColorPalette.primary,
-                      size: 50,
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            const CircleBorder()),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            ColorPalette.secondaryDark)),
-                    onPressed: () {
-                      if (_rosaryPrayerService.getCurrentStep() >=
-                          _rosaryPrayerService.getTotalPrayerSteps()) {
-                        Navigator.popAndPushNamed(context, LandingScreen.id);
-                        notificationPrayer();
-                      } else {
-                        showButton();
-                        nextStep();
-                        getPrayer();
-                        //   Icons.arrow_forward,
-                        // color: Colors.white,
-                        // size: 40,
-                      }
-                    },
-                    child: Icon(
-                      (lastStep()) ? Icons.check : Icons.arrow_forward_outlined,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: const Ads(),
     );
   }
 }
