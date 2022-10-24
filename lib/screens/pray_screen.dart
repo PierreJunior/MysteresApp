@@ -5,6 +5,8 @@ import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+import '../widgets/ads.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
@@ -18,29 +20,25 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
-  late bool _previousStepButtonisVisible;
 
   @override
   void initState() {
     super.initState();
-    _previousStepButtonisVisible = false;
     _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
     initPrayer();
   }
 
   void nextStep() {
     _rosaryPrayerService.increaseStep();
-    if (!_rosaryPrayerService.isFirstStep() && !_previousStepButtonisVisible) {
-      showPreviousStepButton();
-    }
     getPrayer();
   }
 
   void previousStep() {
-    _rosaryPrayerService.decreaseStep();
     if (_rosaryPrayerService.isFirstStep()) {
-      hidePreviousStepButton();
+      return;
     }
+
+    _rosaryPrayerService.decreaseStep();
     getPrayer();
   }
 
@@ -65,18 +63,6 @@ class _PrayScreenState extends State<PrayScreen> {
     ).show(context);
   }
 
-  void showPreviousStepButton() {
-    setState(() {
-      _previousStepButtonisVisible = true;
-    });
-  }
-
-  void hidePreviousStepButton() {
-    setState(() {
-      _previousStepButtonisVisible = false;
-    });
-  }
-
   List<Widget> titleSectionChildren() {
     return [title(), subTitle(), divider()];
   }
@@ -99,10 +85,13 @@ class _PrayScreenState extends State<PrayScreen> {
       title += " (x$repeat)";
     }
 
-    return Text(
-      title,
-      style: Font.heading1,
-      textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
+      child: Text(
+        title,
+        style: Font.heading1,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
@@ -110,7 +99,10 @@ class _PrayScreenState extends State<PrayScreen> {
     if (_selectedPrayer["type"] == "mystere") {
       String mystere = _selectedPrayer["mystere"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
-      return Text("$count $mystere", style: Font.heading3);
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text("$count $mystere", style: Font.heading3),
+      );
     } else {
       return const SizedBox.shrink();
     }
@@ -145,17 +137,14 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget previousStepButton() {
-    return Visibility(
-      visible: _previousStepButtonisVisible,
-      child: ElevatedButton(
-        style: stepButtonStyle("previous"),
-        onPressed: () {
-          if (!_rosaryPrayerService.isFirstStep()) {
-            previousStep();
-          }
-        },
-        child: stepIcon("previous"),
-      ),
+    return ElevatedButton(
+      style: stepButtonStyle("previous"),
+      onPressed: () {
+        if (!_rosaryPrayerService.isFirstStep()) {
+          previousStep();
+        }
+      },
+      child: stepIcon("previous"),
     );
   }
 
@@ -213,43 +202,53 @@ class _PrayScreenState extends State<PrayScreen> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              StepProgressIndicator(
+                totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
+                size: 7,
+                currentStep: _rosaryPrayerService.getCurrentStep(),
+                unselectedColor: ColorPalette.primaryDark,
+                selectedColor: ColorPalette.secondaryDark,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: titleSectionChildren(),
               ),
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _selectedPrayer["value"] as String? ?? "",
-                      style: Font.paragraph,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.fade,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectedPrayer["value"] as String? ?? "",
+                          style: Font.paragraph,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [previousStepButton()],
-                  ),
-                  Column(
-                    children: [stopButton()],
-                  ),
-                  Column(
-                    children: [nextStepButton()],
-                  ),
-                ],
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    previousStepButton(),
+                    stopButton(),
+                    nextStepButton(),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: const Ads(),
     );
   }
 }
