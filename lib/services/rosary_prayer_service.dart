@@ -1,9 +1,9 @@
 class RosaryPrayerService {
-  late int _currentStep;
+  late int currentStep;
   late String _selectedDay;
 
   RosaryPrayerService(String selectedDay) {
-    _currentStep = 1;
+    currentStep = 1;
     _selectedDay = selectedDay.toLowerCase();
   }
 
@@ -35,8 +35,8 @@ class RosaryPrayerService {
     {
       "count": ' ',
       "mystere": ' ',
-      "title": "Je vous salue, Marie(X3)",
-      "name": "Je vous salue, Marie(X3)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -77,8 +77,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -127,8 +127,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -175,8 +175,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -223,8 +223,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -271,8 +271,8 @@ class RosaryPrayerService {
       "repeat": 1
     },
     {
-      "title": "Je vous salue, Marie(X10)",
-      "name": "Je vous salue, Marie(X10)",
+      "title": "Je vous salue, Marie",
+      "name": "Je vous salue, Marie",
       "display_name": "Je vous salue, Marie",
       "value":
           "Je vous salue, Marie, pleine de grâces, le Seigneur est avec vous, vous êtes bénie entre toutes les femmes, et Jésus, le fruit de vos entrailles, est béni. Sainte Marie, Mère de Dieu, priez pour nous, pauvres pécheurs, maintenant, et à l'heure de notre mort. Amen",
@@ -619,17 +619,20 @@ class RosaryPrayerService {
     ],
   };
 
-  void setStep(int step) => _currentStep = step;
+  void setStep(int step) => currentStep = step;
 
-  int getCurrentStep() => _currentStep;
+  int getCurrentStep() => currentStep;
 
   void increaseStep() {
-    _currentStep++;
+    currentStep++;
+
+    print('current step is $currentStep');
   }
 
   void decreaseStep() {
-    if (_currentStep > 1) {
-      _currentStep--;
+    if (currentStep > 1) {
+      currentStep--;
+      print('current step is $currentStep');
     }
   }
 
@@ -638,11 +641,11 @@ class RosaryPrayerService {
   Map<String, Object> getPrayer() {
     // Check step type.
     Map<String, Object> step =
-        _prayerSteps.firstWhere((e) => e["step_number"] == _currentStep);
+        _prayerSteps.firstWhere((e) => e["step_number"] == currentStep);
 
     if (step["type"] == "mystere") {
       Map<String, Object>? mystere = _dayMystereMap[_selectedDay]
-          ?.firstWhere((e) => e["step_number"] == _currentStep);
+          ?.firstWhere((e) => e["step_number"] == currentStep);
 
       step["title"] = mystere!["title"]!;
       step["name"] = mystere["title"]!;
@@ -652,5 +655,13 @@ class RosaryPrayerService {
     }
 
     return step;
+  }
+
+  bool isLastStep() {
+    return currentStep >= getTotalPrayerSteps();
+  }
+
+  bool isFirstStep() {
+    return currentStep == 0;
   }
 }
