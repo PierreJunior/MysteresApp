@@ -43,6 +43,9 @@ dependencies:
   sidebarx: ^0.12.0
   awesome_snackbar_content: ^0.0.8
   dropdown_button2: ^1.8.4
+  another_flushbar: ^1.12.29
+  responsive_sizer: ^3.1.1
+  step_progress_indicator: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -70,3 +73,11 @@ flutter:
       fonts:
         - asset: fonts/SquarePeg-Regular.ttf
           weight: 900
+    - family: Recursive
+      fonts:
+        - asset: fonts/Recursive-Bold.ttf
+          weight: 900
+    - family: NotoSansJP Bold
+      fonts:
+        - asset: fonts/NotoSansJP-Bold.otf
+          weight: 800
