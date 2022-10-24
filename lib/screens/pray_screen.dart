@@ -20,13 +20,11 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
-  late int progressStep;
 
   @override
   void initState() {
     super.initState();
     _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
-    progressStep = _rosaryPrayerService.getCurrentStep();
     initPrayer();
   }
 
@@ -126,7 +124,6 @@ class _PrayScreenState extends State<PrayScreen> {
           showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
         } else {
           nextStep();
-          // progressStep++;
         }
       },
       child: stepIcon("next"),
@@ -138,7 +135,6 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle("previous"),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          // progressStep--;
           previousStep();
         }
       },

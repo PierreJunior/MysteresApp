@@ -255,12 +255,6 @@ class _LandingScreenState extends State<LandingScreen> {
                       RoundedButton(
                           colour: ColorPalette.secondaryDark,
                           pressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => PrayScreen(
-                            //               selectedDay: _selectedDay,
-                            //             )));
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
