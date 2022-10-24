@@ -21,16 +21,21 @@ class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
   late int progressStep = _rosaryPrayerService.currentStep;
+  late bool _previousStepButtonisVisible;
 
   @override
   void initState() {
     super.initState();
+    _previousStepButtonisVisible = false;
     _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
     initPrayer();
   }
 
   void nextStep() {
     _rosaryPrayerService.increaseStep();
+    if (!_rosaryPrayerService.isFirstStep() && !_previousStepButtonisVisible) {
+      showPreviousStepButton();
+    }
     getPrayer();
   }
 
@@ -38,6 +43,7 @@ class _PrayScreenState extends State<PrayScreen> {
     _rosaryPrayerService.decreaseStep();
     if (_rosaryPrayerService.isFirstStep()) {
       return;
+      hidePreviousStepButton();
     }
     getPrayer();
   }
@@ -61,6 +67,17 @@ class _PrayScreenState extends State<PrayScreen> {
       duration: Duration(seconds: duration),
       flushbarPosition: FlushbarPosition.TOP,
     ).show(context);
+  }
+  void showPreviousStepButton() {
+    setState(() {
+      _previousStepButtonisVisible = true;
+    });
+  }
+
+  void hidePreviousStepButton() {
+    setState(() {
+      _previousStepButtonisVisible = false;
+    });
   }
 
   List<Widget> titleSectionChildren() {
@@ -141,6 +158,17 @@ class _PrayScreenState extends State<PrayScreen> {
         }
       },
       child: stepIcon("previous"),
+    return Visibility(
+      visible: _previousStepButtonisVisible,
+      child: ElevatedButton(
+        style: stepButtonStyle("previous"),
+        onPressed: () {
+          if (!_rosaryPrayerService.isFirstStep()) {
+            previousStep();
+          }
+        },
+        child: stepIcon("previous"),
+      ),
     );
   }
 
@@ -239,6 +267,36 @@ class _PrayScreenState extends State<PrayScreen> {
                     nextStepButton(),
                   ],
                 ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: titleSectionChildren(),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _selectedPrayer["value"] as String? ?? "",
+                      style: Font.paragraph,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [previousStepButton()],
+                  ),
+                  Column(
+                    children: [stopButton()],
+                  ),
+                  Column(
+                    children: [nextStepButton()],
+                  ),
+                ],
               ),
             ],
           ),

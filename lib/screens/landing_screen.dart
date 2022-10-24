@@ -7,9 +7,7 @@ import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:mysteres/components/rounded_button.dart';
-
 import '../components/ads.dart';
-
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
 
