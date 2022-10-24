@@ -11,7 +11,7 @@ import '../widgets/ads.dart';
 
 class LandingScreen extends StatefulWidget {
   static const String id = "LandingPage";
-  static late bool checkPage = false;
+  static bool checkPage = false;
 
   const LandingScreen({
     Key? key,
@@ -29,9 +29,14 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
+    checkingPage();
     _rosaryConfigService = RosaryConfigService();
     initDay();
     initLanguage();
+  }
+
+  bool checkingPage() {
+    return LandingScreen.checkPage = false;
   }
 
   void initDay() {

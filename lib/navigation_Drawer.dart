@@ -17,10 +17,11 @@ class NavigationDrawer extends StatelessWidget {
           child: Column(
             children: [
               DrawerItem(
-                name: 'Home',
-                icon: Icons.home,
-                onPressed: () => onItemPressed(context, index: 0),
-              ),
+                  name: 'Home',
+                  icon: Icons.home,
+                  onPressed: () {
+                    onItemPressed(context, index: 0);
+                  }),
               const SizedBox(height: 10),
               DrawerItem(
                 name: 'Settings',
