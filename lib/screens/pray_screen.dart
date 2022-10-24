@@ -20,31 +20,27 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, Object> _selectedPrayer;
-  late int progressStep = _rosaryPrayerService.currentStep;
-  late bool _previousStepButtonisVisible;
+  late int progressStep;
 
   @override
   void initState() {
     super.initState();
-    _previousStepButtonisVisible = false;
     _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
+    progressStep = _rosaryPrayerService.getCurrentStep();
     initPrayer();
   }
 
   void nextStep() {
     _rosaryPrayerService.increaseStep();
-    if (!_rosaryPrayerService.isFirstStep() && !_previousStepButtonisVisible) {
-      showPreviousStepButton();
-    }
     getPrayer();
   }
 
   void previousStep() {
-    _rosaryPrayerService.decreaseStep();
     if (_rosaryPrayerService.isFirstStep()) {
       return;
-      hidePreviousStepButton();
     }
+
+    _rosaryPrayerService.decreaseStep();
     getPrayer();
   }
 
@@ -67,17 +63,6 @@ class _PrayScreenState extends State<PrayScreen> {
       duration: Duration(seconds: duration),
       flushbarPosition: FlushbarPosition.TOP,
     ).show(context);
-  }
-  void showPreviousStepButton() {
-    setState(() {
-      _previousStepButtonisVisible = true;
-    });
-  }
-
-  void hidePreviousStepButton() {
-    setState(() {
-      _previousStepButtonisVisible = false;
-    });
   }
 
   List<Widget> titleSectionChildren() {
@@ -141,7 +126,7 @@ class _PrayScreenState extends State<PrayScreen> {
           showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
         } else {
           nextStep();
-          progressStep++;
+          // progressStep++;
         }
       },
       child: stepIcon("next"),
@@ -153,22 +138,11 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle("previous"),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          progressStep--;
+          // progressStep--;
           previousStep();
         }
       },
       child: stepIcon("previous"),
-    return Visibility(
-      visible: _previousStepButtonisVisible,
-      child: ElevatedButton(
-        style: stepButtonStyle("previous"),
-        onPressed: () {
-          if (!_rosaryPrayerService.isFirstStep()) {
-            previousStep();
-          }
-        },
-        child: stepIcon("previous"),
-      ),
     );
   }
 
@@ -228,9 +202,9 @@ class _PrayScreenState extends State<PrayScreen> {
           child: Column(
             children: [
               StepProgressIndicator(
-                totalSteps: 30,
+                totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
                 size: 7,
-                currentStep: _rosaryPrayerService.currentStep,
+                currentStep: _rosaryPrayerService.getCurrentStep(),
                 unselectedColor: ColorPalette.primaryDark,
                 selectedColor: ColorPalette.secondaryDark,
               ),
@@ -267,36 +241,6 @@ class _PrayScreenState extends State<PrayScreen> {
                     nextStepButton(),
                   ],
                 ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: titleSectionChildren(),
-              ),
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _selectedPrayer["value"] as String? ?? "",
-                      style: Font.paragraph,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [previousStepButton()],
-                  ),
-                  Column(
-                    children: [stopButton()],
-                  ),
-                  Column(
-                    children: [nextStepButton()],
-                  ),
-                ],
               ),
             ],
           ),

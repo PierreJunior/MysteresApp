@@ -1,9 +1,9 @@
 class RosaryPrayerService {
-  late int currentStep;
+  late int _currentStep;
   late String _selectedDay;
 
   RosaryPrayerService(String selectedDay) {
-    currentStep = 1;
+    _currentStep = 1;
     _selectedDay = selectedDay.toLowerCase();
   }
 
@@ -619,20 +619,17 @@ class RosaryPrayerService {
     ],
   };
 
-  void setStep(int step) => currentStep = step;
+  void setStep(int step) => _currentStep = step;
 
-  int getCurrentStep() => currentStep;
+  int getCurrentStep() => _currentStep;
 
   void increaseStep() {
-    currentStep++;
-
-    print('current step is $currentStep');
+    _currentStep++;
   }
 
   void decreaseStep() {
-    if (currentStep > 1) {
-      currentStep--;
-      print('current step is $currentStep');
+    if (_currentStep > 1) {
+      _currentStep--;
     }
   }
 
@@ -641,11 +638,11 @@ class RosaryPrayerService {
   Map<String, Object> getPrayer() {
     // Check step type.
     Map<String, Object> step =
-        _prayerSteps.firstWhere((e) => e["step_number"] == currentStep);
+        _prayerSteps.firstWhere((e) => e["step_number"] == _currentStep);
 
     if (step["type"] == "mystere") {
       Map<String, Object>? mystere = _dayMystereMap[_selectedDay]
-          ?.firstWhere((e) => e["step_number"] == currentStep);
+          ?.firstWhere((e) => e["step_number"] == _currentStep);
 
       step["title"] = mystere!["title"]!;
       step["name"] = mystere["title"]!;
@@ -658,15 +655,10 @@ class RosaryPrayerService {
   }
 
   bool isLastStep() {
-    return currentStep >= getTotalPrayerSteps();
-  }
-
-  bool isFirstStep() {
-    return currentStep == 0;
     return _currentStep >= getTotalPrayerSteps();
   }
 
   bool isFirstStep() {
-    return _currentStep == 1;
+    return _currentStep <= 1;
   }
 }
