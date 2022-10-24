@@ -85,10 +85,13 @@ class _PrayScreenState extends State<PrayScreen> {
       title += " (x$repeat)";
     }
 
-    return Text(
-      title,
-      style: Font.heading1,
-      textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
+      child: Text(
+        title,
+        style: Font.heading1,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 
@@ -96,7 +99,10 @@ class _PrayScreenState extends State<PrayScreen> {
     if (_selectedPrayer["type"] == "mystere") {
       String mystere = _selectedPrayer["mystere"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
-      return Text("$count $mystere", style: Font.heading3);
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text("$count $mystere", style: Font.heading3),
+      );
     } else {
       return const SizedBox.shrink();
     }
