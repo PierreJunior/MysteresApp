@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mysteres/screens/Splash_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+
+import 'screens/Splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
