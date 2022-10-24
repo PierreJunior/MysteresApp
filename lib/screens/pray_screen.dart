@@ -6,7 +6,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import '../components/ads.dart';
+import '../widgets/ads.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'color_palette.dart';
+import '../components/color_palette.dart';
 
 class Ads extends StatelessWidget {
   const Ads({
