@@ -232,16 +232,19 @@ class _PrayScreenState extends State<PrayScreen> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    previousStepButton(),
-                    stopButton(),
-                    nextStepButton(),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      previousStepButton(),
+                      stopButton(),
+                      nextStepButton(),
+                    ],
+                  ),
                 ),
               ),
             ],
