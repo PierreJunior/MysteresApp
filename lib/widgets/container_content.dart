@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../components/font.dart';
 
 class ContainerContent extends StatelessWidget {
-  const ContainerContent({super.key, required this.prayerBody});
+  const ContainerContent({
+    super.key,
+    required this.prayerBody,
+  });
 
   final String prayerBody;
 

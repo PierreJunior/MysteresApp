@@ -73,7 +73,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget divider() {
     return const SizedBox(
-      height: 20,
+      height: 10,
       width: 150.0,
       child: Divider(
         color: ColorPalette.primaryDark,
@@ -99,12 +99,39 @@ class _PrayScreenState extends State<PrayScreen> {
     );
   }
 
+  Widget titleLandscape() {
+    int repeat = _selectedPrayer["repeat"] as int? ?? 1;
+    String title = _selectedPrayer["title"] as String? ?? "";
+    if (repeat > 1) {
+      title += " (x$repeat)";
+    }
+
+    return Text(
+      title,
+      style: Font.heading1Landscape,
+      textAlign: TextAlign.center,
+    );
+  }
+
   Widget subTitle() {
     if (_selectedPrayer["type"] == "mystere") {
       String mystere = _selectedPrayer["mystere"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
+        child: Text("$count $mystere", style: Font.heading3),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget subTitleLandscape() {
+    if (_selectedPrayer["type"] == "mystere") {
+      String mystere = _selectedPrayer["mystere"] as String? ?? "";
+      String count = _selectedPrayer["count"] as String? ?? "";
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 5),
         child: Text("$count $mystere", style: Font.heading3),
       );
     } else {
@@ -282,65 +309,48 @@ class _PrayScreenState extends State<PrayScreen> {
       backgroundColor: ColorPalette.primary,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 5),
           child: Column(
             children: [
               Row(
                 children: [
                   Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(children: [
-                        StepProgressIndicator(
-                          totalSteps:
-                              _rosaryPrayerService.getTotalPrayerSteps(),
-                          size: 7,
-                          currentStep: _rosaryPrayerService.getCurrentStep(),
-                          unselectedColor: ColorPalette.primaryDark,
-                          selectedColor: ColorPalette.secondaryDark,
-                        ),
-                        ReusableCard(
-                          colour: Colors.transparent,
-                          cardChild: SingleChildScrollView(
-                            child: ContainerContent(
-                              prayerBody:
-                                  _selectedPrayer["value"] as String? ?? "",
-                            ),
+                    child: Column(children: [
+                      StepProgressIndicator(
+                        totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
+                        size: 7,
+                        currentStep: _rosaryPrayerService.getCurrentStep(),
+                        unselectedColor: ColorPalette.primaryDark,
+                        selectedColor: ColorPalette.secondaryDark,
+                      ),
+                      ReusableCard(
+                        colour: Colors.transparent,
+                        cardChild: SingleChildScrollView(
+                          child: ContainerContent(
+                            prayerBody:
+                                _selectedPrayer["value"] as String? ?? "",
                           ),
                         ),
-                      ]),
-                    ),
+                      ),
+                    ]),
                   ),
                   Expanded(
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Center(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Align(child: title()),
-                              subTitle(),
-                              divider(),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      previousStepButton(),
-                                      stopButton(),
-                                      nextStepButton(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ]),
+                    child: Column(children: [
+                      title(),
+                      subTitle(),
+                      divider(),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            previousStepButton(),
+                            stopButton(),
+                            nextStepButton(),
+                          ],
+                        ),
                       ),
-                    ),
+                    ]),
                   )
                 ],
               ),

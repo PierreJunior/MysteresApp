@@ -13,7 +13,7 @@ class ReusableCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
-        width: Adaptive.w(80),
+        width: Adaptive.w(90),
         height: Adaptive.h(60),
         margin: const EdgeInsets.only(left: 25, right: 25, top: 15, bottom: 15),
         decoration: BoxDecoration(

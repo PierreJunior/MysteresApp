@@ -7,6 +7,8 @@ class Font {
     fontWeight: FontWeight.w600,
   );
 
+  static const heading1Landscape =
+      TextStyle(fontSize: 28, color: Colors.black, fontWeight: FontWeight.w600);
   static const heading3 = TextStyle(fontSize: 25, color: Colors.white70);
 
   static const paragraph =
