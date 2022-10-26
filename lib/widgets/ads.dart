@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Ads extends StatelessWidget {
   const Ads({
@@ -9,14 +10,14 @@ class Ads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
-      width: MediaQuery.of(context).size.width,
+      height: Adaptive.h(10),
       color: ColorPalette.primaryDark,
       child: const Center(
-          child: Text(
-        'Ads go here',
-        style: TextStyle(color: Colors.white),
-      )),
+        child: Text(
+          'Ads go here',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
     );
   }
 }

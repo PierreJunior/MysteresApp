@@ -5,7 +5,10 @@ import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:mysteres/widgets/container_content.dart';
+import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/ads.dart';
 
 class PrayScreen extends StatefulWidget {
@@ -193,6 +196,16 @@ class _PrayScreenState extends State<PrayScreen> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return Device.orientation == Orientation.portrait
+            ? portraitScaffold(scaffoldKey)
+            : landscapeScaffold(scaffoldKey);
+      },
+    );
+  }
+
+  Scaffold portraitScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
     return Scaffold(
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
@@ -254,7 +267,88 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const Ads(),
+      bottomSheet: const Ads(),
+    );
+  }
+
+  Scaffold landscapeScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: const NavigationDrawer(),
+      appBar: AppBar(
+        title: const Text('ROSARY'),
+        backgroundColor: ColorPalette.primaryDark,
+      ),
+      backgroundColor: ColorPalette.primary,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(children: [
+                        StepProgressIndicator(
+                          totalSteps:
+                              _rosaryPrayerService.getTotalPrayerSteps(),
+                          size: 7,
+                          currentStep: _rosaryPrayerService.getCurrentStep(),
+                          unselectedColor: ColorPalette.primaryDark,
+                          selectedColor: ColorPalette.secondaryDark,
+                        ),
+                        ReusableCard(
+                          colour: Colors.transparent,
+                          cardChild: SingleChildScrollView(
+                            child: ContainerContent(
+                              prayerBody:
+                                  _selectedPrayer["value"] as String? ?? "",
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Center(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Align(child: title()),
+                              subTitle(),
+                              divider(),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      previousStepButton(),
+                                      stopButton(),
+                                      nextStepButton(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomSheet: const Ads(),
     );
   }
 }
