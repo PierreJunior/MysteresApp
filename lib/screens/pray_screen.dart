@@ -267,7 +267,7 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomSheet: const Ads(),
+      bottomNavigationBar: const Ads(),
     );
   }
 
