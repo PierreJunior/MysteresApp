@@ -95,14 +95,17 @@ class _PrayScreenState extends State<PrayScreen> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 12),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: size.height * multiplier,
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: size.height * multiplier,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
       ),
     );
   }
