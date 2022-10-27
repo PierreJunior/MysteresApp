@@ -299,6 +299,8 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Scaffold landscapeScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
@@ -335,23 +337,32 @@ class _PrayScreenState extends State<PrayScreen> {
                     ]),
                   ),
                   Expanded(
-                    child: Column(children: [
-                      title(),
-                      subTitle(),
-                      divider(),
-                      Align(
+                      child: Column(
+                    children: [
+                      Container(
+                        height: screenSize.height * 0.5,
                         alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            previousStepButton(),
-                            stopButton(),
-                            nextStepButton(),
-                          ],
+                        child: Column(
+                          children: [title(), subTitle(), divider()],
                         ),
                       ),
-                    ]),
-                  )
+                      Container(
+                        height: screenSize.height * 0.2,
+                        alignment: Alignment.center,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              previousStepButton(),
+                              stopButton(),
+                              nextStepButton(),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
                 ],
               ),
             ],
