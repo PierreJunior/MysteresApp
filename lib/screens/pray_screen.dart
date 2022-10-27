@@ -72,10 +72,11 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget divider() {
-    return const SizedBox(
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
       height: 10,
-      width: 150.0,
-      child: Divider(
+      width: size.width * 0.3,
+      child: const Divider(
         color: ColorPalette.primaryDark,
         thickness: 2,
       ),
@@ -83,6 +84,9 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget title() {
+    final size = MediaQuery.of(context).size;
+    double multiplier =
+        Device.orientation == Orientation.landscape ? 0.08 : 0.05;
     int repeat = _selectedPrayer["repeat"] as int? ?? 1;
     String title = _selectedPrayer["title"] as String? ?? "";
     if (repeat > 1) {
@@ -93,33 +97,30 @@ class _PrayScreenState extends State<PrayScreen> {
       padding: const EdgeInsets.only(top: 12, bottom: 12),
       child: Text(
         title,
-        style: Font.heading1,
+        style: TextStyle(
+          fontSize: size.height * multiplier,
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
         textAlign: TextAlign.center,
       ),
     );
   }
 
-  Widget titleLandscape() {
-    int repeat = _selectedPrayer["repeat"] as int? ?? 1;
-    String title = _selectedPrayer["title"] as String? ?? "";
-    if (repeat > 1) {
-      title += " (x$repeat)";
-    }
-
-    return Text(
-      title,
-      style: Font.heading1Landscape,
-      textAlign: TextAlign.center,
-    );
-  }
-
   Widget subTitle() {
+    final size = MediaQuery.of(context).size;
+    double multiplier =
+        Device.orientation == Orientation.landscape ? 0.05 : 0.03;
     if (_selectedPrayer["type"] == "mystere") {
       String mystere = _selectedPrayer["mystere"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
-        child: Text("$count $mystere", style: Font.heading3),
+        child: Text("$count $mystere",
+            style: TextStyle(
+              fontSize: size.height * multiplier,
+              color: Colors.white,
+            )),
       );
     } else {
       return const SizedBox.shrink();
@@ -343,6 +344,7 @@ class _PrayScreenState extends State<PrayScreen> {
                         height: screenSize.height * 0.5,
                         alignment: Alignment.bottomCenter,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [title(), subTitle(), divider()],
                         ),
                       ),
@@ -350,7 +352,7 @@ class _PrayScreenState extends State<PrayScreen> {
                         height: screenSize.height * 0.2,
                         alignment: Alignment.center,
                         child: Align(
-                          alignment: Alignment.bottomCenter,
+                          alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
