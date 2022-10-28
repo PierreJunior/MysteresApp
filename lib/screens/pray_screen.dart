@@ -90,14 +90,17 @@ class _PrayScreenState extends State<PrayScreen> {
       title += " (x$repeat)";
     }
 
+    double scrollVelocity = title.length < 30 ? 35 : 70;
+
     return Padding(
         padding:
             const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
         child: TextScroll(
           title,
           numberOfReps: 1,
-          velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
-          pauseBetween: Duration(milliseconds: 1000),
+          velocity: Velocity(pixelsPerSecond: Offset(scrollVelocity, 0)),
+          pauseBetween: const Duration(milliseconds: 1000),
+          delayBefore: const Duration(milliseconds: 500),
           mode: TextScrollMode.bouncing,
           style: Font.heading1,
           textAlign: TextAlign.center,
