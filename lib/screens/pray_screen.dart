@@ -10,6 +10,7 @@ import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/ads.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
@@ -90,19 +91,17 @@ class _PrayScreenState extends State<PrayScreen> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Text(
-            title,
-            style: Font.heading1,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
+        padding:
+            const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+        child: TextScroll(
+          title,
+          numberOfReps: 1,
+          velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
+          pauseBetween: Duration(milliseconds: 1000),
+          mode: TextScrollMode.bouncing,
+          style: Font.heading1,
+          textAlign: TextAlign.center,
+        ));
   }
 
   Widget subTitle() {
