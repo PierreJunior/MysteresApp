@@ -84,9 +84,6 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget title() {
-    final size = MediaQuery.of(context).size;
-    double multiplier =
-        Device.orientation == Orientation.landscape ? 0.08 : 0.05;
     int repeat = _selectedPrayer["repeat"] as int? ?? 1;
     String title = _selectedPrayer["title"] as String? ?? "";
     if (repeat > 1) {
@@ -97,45 +94,24 @@ class _PrayScreenState extends State<PrayScreen> {
       padding: const EdgeInsets.only(top: 12, bottom: 12),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: size.height * multiplier,
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Text(
+            title,
+            style: Font.heading1,
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ),
     );
   }
 
   Widget subTitle() {
-    final size = MediaQuery.of(context).size;
-    double multiplier =
-        Device.orientation == Orientation.landscape ? 0.05 : 0.03;
     if (_selectedPrayer["type"] == "mystere") {
       String mystere = _selectedPrayer["mystere"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
-        child: Text("$count $mystere",
-            style: TextStyle(
-              fontSize: size.height * multiplier,
-              color: Colors.white,
-            )),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
-  }
-
-  Widget subTitleLandscape() {
-    if (_selectedPrayer["type"] == "mystere") {
-      String mystere = _selectedPrayer["mystere"] as String? ?? "";
-      String count = _selectedPrayer["count"] as String? ?? "";
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 5),
         child: Text("$count $mystere", style: Font.heading3),
       );
     } else {

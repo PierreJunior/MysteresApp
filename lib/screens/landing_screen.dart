@@ -83,7 +83,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'Configure your Prayer settings',
                           style: Font.heading1,
                           textAlign: TextAlign.start,
@@ -111,9 +111,9 @@ class _LandingScreenState extends State<LandingScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Row(
-                                  children: const [
-                                    Icon(Icons.language),
-                                    SizedBox(width: 5),
+                                  children: [
+                                    const Icon(Icons.language),
+                                    const SizedBox(width: 5),
                                     Text(
                                       'Select a Language',
                                       style: Font.containerText,
@@ -182,9 +182,9 @@ class _LandingScreenState extends State<LandingScreen> {
                                 ),
                                 const SizedBox(height: 20),
                                 Row(
-                                  children: const [
-                                    Icon(Icons.calendar_month_outlined),
-                                    SizedBox(width: 5),
+                                  children: [
+                                    const Icon(Icons.calendar_month_outlined),
+                                    const SizedBox(width: 5),
                                     Text(
                                       'Select a Day',
                                       style: Font.containerText,
