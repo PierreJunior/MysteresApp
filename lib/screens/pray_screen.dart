@@ -168,7 +168,7 @@ class _PrayScreenState extends State<PrayScreen> {
     } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
     } else {
-      throw Exception("The provded action is not supported.");
+      throw Exception("The provided action is not supported.");
     }
 
     return ButtonStyle(
