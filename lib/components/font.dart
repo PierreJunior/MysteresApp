@@ -8,13 +8,10 @@ class Font {
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle heading3 = TextStyle(fontSize: 18.sp, color: Colors.white70);
+  static TextStyle heading3 = TextStyle(fontSize: 21.sp, color: Colors.white70);
 
-  static TextStyle paragraph = TextStyle(
-      fontSize: 18.sp,
-      color: Colors.white70,
-      height: 0.3.h,
-      fontWeight: FontWeight.w700);
+  static TextStyle paragraph =
+      TextStyle(fontSize: 20.sp, color: Colors.white70, height: 0.5.h);
 
   static TextStyle containerText = TextStyle(
       fontSize: 18.sp, fontWeight: FontWeight.w600, color: Colors.black);
