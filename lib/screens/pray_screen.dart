@@ -122,7 +122,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget stopButton() {
     return ElevatedButton(
-        style: stepButtonStyle("stop"),
+        style: stepButtonStyle(StepAction.stop),
         onPressed: () {
           LandingScreen.checkPage = false;
           Navigator.pop(context, LandingScreen.id);
@@ -131,12 +131,12 @@ class _PrayScreenState extends State<PrayScreen> {
                 "You ended your Rosary early", 5, ColorPalette.primaryWarning);
           }
         },
-        child: stepIcon("stop"));
+        child: stepIcon(StepAction.stop));
   }
 
   Widget nextStepButton() {
     return ElevatedButton(
-      style: stepButtonStyle("next"),
+      style: stepButtonStyle(StepAction.next),
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
@@ -145,30 +145,30 @@ class _PrayScreenState extends State<PrayScreen> {
           nextStep();
         }
       },
-      child: stepIcon("next"),
+      child: stepIcon(StepAction.next),
     );
   }
 
   Widget previousStepButton() {
     return ElevatedButton(
-      style: stepButtonStyle("previous"),
+      style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
           previousStep();
         }
       },
-      child: stepIcon("previous"),
+      child: stepIcon(StepAction.previous),
     );
   }
 
-  ButtonStyle stepButtonStyle(String action) {
+  ButtonStyle stepButtonStyle(StepAction action) {
     Color backgrounColor;
-    if (action == "next" || action == "previous") {
+    if (action == StepAction.next || action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
-    } else if (action == "stop") {
+    } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
     } else {
-      throw Exception("Invalid value. Value must be next, previous, stop");
+      throw Exception("The provded action is not supported.");
     }
 
     return ButtonStyle(
@@ -176,22 +176,22 @@ class _PrayScreenState extends State<PrayScreen> {
         backgroundColor: MaterialStateProperty.all<Color>(backgrounColor));
   }
 
-  Icon stepIcon(String action) {
+  Icon stepIcon(StepAction action) {
     IconData icon;
     Color color;
 
-    if (action == "next") {
+    if (action == StepAction.next) {
       icon =
           _rosaryPrayerService.isLastStep() ? Icons.check : Icons.arrow_forward;
       color = Colors.white;
-    } else if (action == "previous") {
+    } else if (action == StepAction.previous) {
       icon = Icons.arrow_back;
       color = Colors.white;
-    } else if (action == "stop") {
+    } else if (action == StepAction.stop) {
       icon = Icons.stop;
       color = ColorPalette.primary;
     } else {
-      throw Exception("Invalid value. Value must be next, previous, stop");
+      throw Exception("The provided action is not supported.");
     }
 
     return Icon(
@@ -353,3 +353,5 @@ class _PrayScreenState extends State<PrayScreen> {
     );
   }
 }
+
+enum StepAction { previous, stop, next }
