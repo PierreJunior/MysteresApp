@@ -10,8 +10,10 @@ class Font {
 
   static TextStyle heading3 = TextStyle(fontSize: 21.sp, color: Colors.white70);
 
-  static TextStyle paragraph =
-      TextStyle(fontSize: 20.sp, color: Colors.white70, height: 0.3.h);
+  static TextStyle paragraph = TextStyle(
+      fontSize: 20.sp,
+      color: Colors.white70,
+      height: Device.orientation == Orientation.portrait ? 0.3.h : 0.5.h);
 
   static TextStyle containerText = TextStyle(
       fontSize: 18.sp, fontWeight: FontWeight.w600, color: Colors.black);
