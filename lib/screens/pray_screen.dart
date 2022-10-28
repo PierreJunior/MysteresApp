@@ -72,10 +72,9 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget divider() {
-    final size = MediaQuery.of(context).size;
     return SizedBox(
       height: 10,
-      width: size.width * 0.3,
+      width: 40.w,
       child: const Divider(
         color: ColorPalette.primaryDark,
         thickness: 2,
@@ -279,8 +278,6 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Scaffold landscapeScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
@@ -320,7 +317,7 @@ class _PrayScreenState extends State<PrayScreen> {
                       child: Column(
                     children: [
                       Container(
-                        height: screenSize.height * 0.5,
+                        height: 40.h,
                         alignment: Alignment.bottomCenter,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -328,7 +325,7 @@ class _PrayScreenState extends State<PrayScreen> {
                         ),
                       ),
                       Container(
-                        height: screenSize.height * 0.2,
+                        height: 20.h,
                         alignment: Alignment.center,
                         child: Align(
                           alignment: Alignment.center,
