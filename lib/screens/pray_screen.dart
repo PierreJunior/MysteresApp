@@ -10,6 +10,7 @@ import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../widgets/ads.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
@@ -72,10 +73,10 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   Widget divider() {
-    return const SizedBox(
+    return SizedBox(
       height: 10,
-      width: 150.0,
-      child: Divider(
+      width: 40.w,
+      child: const Divider(
         color: ColorPalette.primaryDark,
         thickness: 2,
       ),
@@ -89,28 +90,21 @@ class _PrayScreenState extends State<PrayScreen> {
       title += " (x$repeat)";
     }
 
+    double scrollVelocity = title.length < 30 ? 35 : 70;
+
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 12),
-      child: Text(
-        title,
-        style: Font.heading1,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget titleLandscape() {
-    int repeat = _selectedPrayer["repeat"] as int? ?? 1;
-    String title = _selectedPrayer["title"] as String? ?? "";
-    if (repeat > 1) {
-      title += " (x$repeat)";
-    }
-
-    return Text(
-      title,
-      style: Font.heading1Landscape,
-      textAlign: TextAlign.center,
-    );
+        padding:
+            const EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+        child: TextScroll(
+          title,
+          numberOfReps: 1,
+          velocity: Velocity(pixelsPerSecond: Offset(scrollVelocity, 0)),
+          pauseBetween: const Duration(milliseconds: 1000),
+          delayBefore: const Duration(milliseconds: 500),
+          mode: TextScrollMode.bouncing,
+          style: Font.heading1,
+          textAlign: TextAlign.center,
+        ));
   }
 
   Widget subTitle() {
@@ -126,22 +120,9 @@ class _PrayScreenState extends State<PrayScreen> {
     }
   }
 
-  Widget subTitleLandscape() {
-    if (_selectedPrayer["type"] == "mystere") {
-      String mystere = _selectedPrayer["mystere"] as String? ?? "";
-      String count = _selectedPrayer["count"] as String? ?? "";
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 5),
-        child: Text("$count $mystere", style: Font.heading3),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
-  }
-
   Widget stopButton() {
     return ElevatedButton(
-        style: stepButtonStyle("stop"),
+        style: stepButtonStyle(StepAction.stop),
         onPressed: () {
           LandingScreen.checkPage = false;
           Navigator.pop(context, LandingScreen.id);
@@ -150,12 +131,12 @@ class _PrayScreenState extends State<PrayScreen> {
                 "You ended your Rosary early", 5, ColorPalette.primaryWarning);
           }
         },
-        child: stepIcon("stop"));
+        child: stepIcon(StepAction.stop));
   }
 
   Widget nextStepButton() {
     return ElevatedButton(
-      style: stepButtonStyle("next"),
+      style: stepButtonStyle(StepAction.next),
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
@@ -164,30 +145,30 @@ class _PrayScreenState extends State<PrayScreen> {
           nextStep();
         }
       },
-      child: stepIcon("next"),
+      child: stepIcon(StepAction.next),
     );
   }
 
   Widget previousStepButton() {
     return ElevatedButton(
-      style: stepButtonStyle("previous"),
+      style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
           previousStep();
         }
       },
-      child: stepIcon("previous"),
+      child: stepIcon(StepAction.previous),
     );
   }
 
-  ButtonStyle stepButtonStyle(String action) {
+  ButtonStyle stepButtonStyle(StepAction action) {
     Color backgrounColor;
-    if (action == "next" || action == "previous") {
+    if (action == StepAction.next || action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
-    } else if (action == "stop") {
+    } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
     } else {
-      throw Exception("Invalid value. Value must be next, previous, stop");
+      throw Exception("The provided action is not supported.");
     }
 
     return ButtonStyle(
@@ -195,22 +176,22 @@ class _PrayScreenState extends State<PrayScreen> {
         backgroundColor: MaterialStateProperty.all<Color>(backgrounColor));
   }
 
-  Icon stepIcon(String action) {
+  Icon stepIcon(StepAction action) {
     IconData icon;
     Color color;
 
-    if (action == "next") {
+    if (action == StepAction.next) {
       icon =
           _rosaryPrayerService.isLastStep() ? Icons.check : Icons.arrow_forward;
       color = Colors.white;
-    } else if (action == "previous") {
+    } else if (action == StepAction.previous) {
       icon = Icons.arrow_back;
       color = Colors.white;
-    } else if (action == "stop") {
+    } else if (action == StepAction.stop) {
       icon = Icons.stop;
       color = ColorPalette.primary;
     } else {
-      throw Exception("Invalid value. Value must be next, previous, stop");
+      throw Exception("The provided action is not supported.");
     }
 
     return Icon(
@@ -335,23 +316,33 @@ class _PrayScreenState extends State<PrayScreen> {
                     ]),
                   ),
                   Expanded(
-                    child: Column(children: [
-                      title(),
-                      subTitle(),
-                      divider(),
-                      Align(
+                      child: Column(
+                    children: [
+                      Container(
+                        height: 40.h,
                         alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            previousStepButton(),
-                            stopButton(),
-                            nextStepButton(),
-                          ],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [title(), subTitle(), divider()],
                         ),
                       ),
-                    ]),
-                  )
+                      Container(
+                        height: 20.h,
+                        alignment: Alignment.center,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              previousStepButton(),
+                              stopButton(),
+                              nextStepButton(),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
                 ],
               ),
             ],
@@ -362,3 +353,5 @@ class _PrayScreenState extends State<PrayScreen> {
     );
   }
 }
+
+enum StepAction { previous, stop, next }
