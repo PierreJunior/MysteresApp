@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RoundedButton extends StatelessWidget {
-  const RoundedButton({
+  RoundedButton({
     Key? key,
     required this.colour,
     required this.pressed,
     required this.title,
   }) : super(key: key);
+
+  final double roundButtonHeight =
+      Device.screenType == ScreenType.tablet ? 80 : 42.0;
 
   final Color? colour;
   final VoidCallback pressed;
@@ -24,7 +27,7 @@ class RoundedButton extends StatelessWidget {
         child: MaterialButton(
           onPressed: pressed,
           minWidth: 150.0,
-          height: 42.0,
+          height: roundButtonHeight,
           child: Text(
             title,
             style: const TextStyle(
