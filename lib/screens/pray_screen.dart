@@ -9,6 +9,7 @@ import 'package:mysteres/widgets/container_content.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../constants.dart';
 import '../widgets/ads.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -162,6 +163,7 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   ButtonStyle stepButtonStyle(StepAction action) {
+    // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
     if (action == StepAction.next || action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
@@ -172,6 +174,8 @@ class _PrayScreenState extends State<PrayScreen> {
     }
 
     return ButtonStyle(
+        fixedSize:
+            MaterialStateProperty.all(Size.fromHeight(actionButtonWidth)),
         shape: MaterialStateProperty.all<OutlinedBorder>(const CircleBorder()),
         backgroundColor: MaterialStateProperty.all<Color>(backgrounColor));
   }

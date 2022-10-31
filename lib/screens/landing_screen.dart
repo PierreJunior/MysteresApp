@@ -102,7 +102,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
                           width: MediaQuery.of(context).size.width * 1,
-                          height: Adaptive.h(50),
+                          height: Adaptive.h(40),
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 left: bodyChildPadding,
