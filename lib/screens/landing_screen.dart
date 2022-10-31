@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
@@ -23,12 +25,17 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  late InterstitialAd? interstitial;
+  bool isAdLoaded = false;
+  late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
   String _selectedLanguage = "";
 
   @override
   void initState() {
+    interstitial = null;
+    banner = null;
     super.initState();
     checkingPage();
     _rosaryConfigService = RosaryConfigService();
@@ -61,6 +68,35 @@ class _LandingScreenState extends State<LandingScreen> {
     setState(() {
       _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
     });
+  }
+
+  void showInterstitialAd() {
+    if (interstitial != null) {
+      interstitial!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          createInterstitialAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          createInterstitialAd();
+        },
+      );
+    }
+  }
+
+  void createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: InterstitialAdState().interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: onAdLoaded,
+            onAdFailedToLoad: (LoadAdError error) => interstitial = null));
+  }
+
+  void onAdLoaded(InterstitialAd ad) {
+    interstitial = ad;
+    isAdLoaded = true;
   }
 
   @override
