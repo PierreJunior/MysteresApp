@@ -25,7 +25,7 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  ShowInterstitial Interstitial = ShowInterstitial();
+  late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
@@ -33,10 +33,11 @@ class _LandingScreenState extends State<LandingScreen> {
 
   @override
   void initState() {
-    banner = null;
     super.initState();
-    checkingPage();
+    banner = null;
+    interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
+    checkingPage();
     initDay();
     initLanguage();
   }
@@ -71,7 +72,7 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Interstitial.createInterstitialAd();
+    interstitial.createInterstitialAd();
   }
 
   @override
@@ -278,8 +279,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () {
                                   LandingScreen.checkPage = true;
-                                  if (Interstitial.isAdLoaded == true) {
-                                    Interstitial.showInterstitialAd();
+                                  if (interstitial.isAdLoaded == true) {
+                                    interstitial.showInterstitialAd();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
