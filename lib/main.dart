@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mysteres/ads_state.dart';
+import 'package:provider/provider.dart';
 import 'package:mysteres/screens/Splash_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  final initFuture = MobileAds.instance.initialize();
+  print('1');
+  final adState = AdState(initFuture);
+  print('2');
+  runApp(
+    Provider.value(
+      value: adState,
+      builder: (context, child) => const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
