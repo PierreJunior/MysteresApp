@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mysteres/env.dart';
 
 class AdState {
   Future<InitializationStatus> initialization;
 
   AdState(this.initialization);
 
-  String get bannerAdUnitID => Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/6300978111'
-      : 'ca-app-pub-4599738429544607/4693530341';
+  String get bannerAdUnitID =>
+      Platform.isAndroid ? Env.bannerAdUnitAndroidID : Env.bannerAdUnitIosID;
 
   final BannerAdListener bannerListener = BannerAdListener(
     // Called when an ad is successfully received.
@@ -30,8 +30,8 @@ class AdState {
 
 class InterstitialAdState {
   String get interstitialAdUnitId => Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/8691691433'
-      : 'ca-app-pub-4599738429544607/5408201437';
+      ? Env.interstitialAdUnitAndroidID
+      : Env.interstitialAdUnitIosID;
 
   final BannerAdListener bannerListener = BannerAdListener(
     // Called when an ad is successfully received.
