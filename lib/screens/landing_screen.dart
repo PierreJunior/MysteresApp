@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
@@ -23,6 +25,8 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  late ShowInterstitial interstitial;
+  late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
   String _selectedLanguage = "";
@@ -30,8 +34,10 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
-    checkingPage();
+    banner = null;
+    interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
+    checkingPage();
     initDay();
     initLanguage();
   }
@@ -61,6 +67,12 @@ class _LandingScreenState extends State<LandingScreen> {
     setState(() {
       _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    interstitial.createInterstitialAd();
   }
 
   @override
@@ -267,11 +279,14 @@ class _LandingScreenState extends State<LandingScreen> {
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () {
                                   LandingScreen.checkPage = true;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PrayScreen(
-                                              selectedDay: _selectedDay)));
+                                  if (interstitial.isAdLoaded == true) {
+                                    interstitial.showInterstitialAd();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PrayScreen(
+                                                selectedDay: _selectedDay)));
+                                  }
                                 },
                                 title: 'Pray'),
                           ],
