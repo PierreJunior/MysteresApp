@@ -1,9 +1,4 @@
 abstract class Env {
-  static const String bugsnagApiKey = String.fromEnvironment(
-    'BUGSNAG_API_KEY',
-    defaultValue: '',
-  );
-
   static const String bannerAdUnitAndroidID = String.fromEnvironment(
     'AD_BANNER_ANDROID_UNIT_ID',
     defaultValue: '',
