@@ -39,7 +39,7 @@ class _LandingScreenState extends State<LandingScreen> {
     _rosaryConfigService = RosaryConfigService();
     checkingPage();
     initDay();
-    initLanguage();
+    // initLanguage();
   }
 
   bool checkingPage() {

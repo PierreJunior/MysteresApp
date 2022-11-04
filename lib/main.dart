@@ -4,13 +4,14 @@ import 'package:mysteres/ads_state.dart';
 import 'package:provider/provider.dart';
 import 'package:mysteres/screens/Splash_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final initFuture = MobileAds.instance.initialize();
-  print('1');
   final adState = AdState(initFuture);
-  print('2');
   runApp(
     Provider.value(
       value: adState,
