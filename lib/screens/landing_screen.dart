@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -29,7 +30,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
-  String _selectedLanguage = "";
+  late String _selectedLanguage = "English";
 
   @override
   void initState() {
@@ -133,65 +134,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                DropdownButtonHideUnderline(
-                                  child: DropdownButton2<String>(
-                                    isExpanded: true,
-                                    style: const TextStyle(
-                                        color: Colors.black, fontSize: 20),
-                                    value: _selectedLanguage,
-                                    buttonHeight: 50,
-                                    buttonWidth:
-                                        MediaQuery.of(context).size.width * 2,
-                                    dropdownDecoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            widgetBorderRadius),
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                        ),
-                                        color: Colors.grey.shade200,
-                                        boxShadow: const [
-                                          BoxShadow(color: Colors.transparent)
-                                        ]),
-                                    buttonPadding: const EdgeInsets.only(
-                                        left: 14, right: 14),
-                                    buttonDecoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            widgetBorderRadius),
-                                        border: Border.all(
-                                          color: Colors.grey,
-                                        ),
-                                        color: Colors.transparent,
-                                        boxShadow: const [
-                                          BoxShadow(color: Colors.transparent)
-                                        ]),
-                                    itemHeight: 40,
-                                    itemPadding: const EdgeInsets.only(
-                                        left: 14, right: 14),
-                                    dropdownMaxHeight: 200,
-                                    dropdownPadding: null,
-                                    scrollbarRadius: const Radius.circular(40),
-                                    scrollbarThickness: 6,
-                                    scrollbarAlwaysShow: true,
-                                    buttonElevation: 8,
-                                    items: _rosaryConfigService
-                                        .getLanguages()
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: Font.containerText,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedLanguage = value as String;
-                                      });
-                                    },
-                                  ),
-                                ),
+                                languageDropdown(),
                                 const SizedBox(height: 20),
                                 Row(
                                   children: [
@@ -302,5 +245,66 @@ class _LandingScreenState extends State<LandingScreen> {
         );
       },
     );
+  }
+
+  FutureBuilder<QuerySnapshot<Object?>> languageDropdown() {
+    return FutureBuilder<QuerySnapshot>(
+        future: FirebaseFirestore.instance.collection('languages').get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return DropdownButtonHideUnderline(
+            child: DropdownButton2<String>(
+              isExpanded: true,
+              style: const TextStyle(color: Colors.black, fontSize: 20),
+              value: _selectedLanguage,
+              buttonHeight: 50,
+              buttonWidth: MediaQuery.of(context).size.width * 2,
+              dropdownDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widgetBorderRadius),
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  color: Colors.grey.shade200,
+                  boxShadow: const [BoxShadow(color: Colors.transparent)]),
+              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+              buttonDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widgetBorderRadius),
+                  border: Border.all(
+                    color: Colors.grey,
+                  ),
+                  color: Colors.transparent,
+                  boxShadow: const [BoxShadow(color: Colors.transparent)]),
+              itemHeight: 40,
+              itemPadding: const EdgeInsets.only(left: 14, right: 14),
+              dropdownMaxHeight: 200,
+              dropdownPadding: null,
+              scrollbarRadius: const Radius.circular(40),
+              scrollbarThickness: 6,
+              scrollbarAlwaysShow: true,
+              buttonElevation: 8,
+              items: _rosaryConfigService.getLanguages().map((value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: Font.containerText,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedLanguage = value as String;
+                });
+              },
+            ),
+          );
+        });
   }
 }

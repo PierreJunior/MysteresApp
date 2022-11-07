@@ -5,11 +5,9 @@ class RosaryConfigService {
 
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    initLang();
+    setLanguages();
   }
-
-  // final List<String> _lang = <String>['English', 'French', 'Portuguese'];
-  late List<String> _lang = [];
+  late final List<String> _languages = [];
 
   final List<String> _daysofWeek = <String>[
     'Monday',
@@ -34,20 +32,18 @@ class RosaryConfigService {
   List<String> getDays() => _daysofWeek;
   List<String> getMysteres() => _mysteresMap.values.toSet().toList();
   String getMystere(String day) => _mysteresMap[day] ?? "";
-  String getDefaultLanguage() => _lang.first;
-  List<String> getLanguages() => _lang.toSet().toList();
+  String getDefaultLanguage() => _languages.first;
+  List<String> getLanguages() => _languages.toSet().toList();
 
   String getCurrentDay() {
     int weekdayNum = DateTime.now().weekday;
     return _daysofWeek[weekdayNum - 1];
   }
 
-  void initLang() async {
+  void setLanguages() async {
     await _db.collection("languages").get().then((event) {
       for (var doc in event.docs) {
-        print("${doc.id} => ${doc.data()['value']}");
-        _lang ??= [];
-        _lang.add(doc.data()['value']);
+        _languages.add(doc.data()['value']);
       }
     });
   }
