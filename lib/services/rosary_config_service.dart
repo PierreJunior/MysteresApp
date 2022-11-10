@@ -50,7 +50,7 @@ class RosaryConfigService {
     _selectedWeekDay = getCurrentWeekDay();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getDaysOfWeekFuture() {
+  Future<QuerySnapshot<Map<String, dynamic>>> getWeekDaysFuture() {
     return _db.collection('week_days').get();
   }
 

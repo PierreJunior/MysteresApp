@@ -184,7 +184,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   FutureBuilder<QuerySnapshot<Object?>> loadWeekDaysDropdown() {
     return FutureBuilder<QuerySnapshot>(
-      future: _rosaryConfigService.getDaysOfWeekFuture(),
+      future: _rosaryConfigService.getWeekDaysFuture(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
