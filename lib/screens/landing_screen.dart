@@ -49,7 +49,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onDayChanged(String day) {
-    _rosaryConfigService.setSelectedDay(day);
+    _rosaryConfigService.setSelectedWeekDay(day);
     setState(() {});
   }
 
@@ -163,7 +163,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                             builder: (context) => PrayScreen(
                                                 selectedDay:
                                                     _rosaryConfigService
-                                                        .selectedDay)));
+                                                        .selectedWeekDay)));
                                   }
                                 },
                                 title: 'Pray'),
@@ -225,7 +225,7 @@ class _LandingScreenState extends State<LandingScreen> {
             boxShadow: const [BoxShadow(color: Colors.transparent)]),
         isExpanded: true,
         style: const TextStyle(color: Colors.black, fontSize: 20),
-        value: _rosaryConfigService.selectedDay,
+        value: _rosaryConfigService.selectedWeekDay,
         buttonHeight: 50,
         buttonWidth: MediaQuery.of(context).size.width * 2,
         dropdownDecoration: BoxDecoration(
@@ -244,7 +244,7 @@ class _LandingScreenState extends State<LandingScreen> {
         scrollbarThickness: 6,
         scrollbarAlwaysShow: true,
         buttonElevation: 8,
-        items: _rosaryConfigService.getDays().map((String value) {
+        items: _rosaryConfigService.getWeekDays().map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(

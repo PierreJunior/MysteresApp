@@ -4,23 +4,23 @@ class RosaryConfigService {
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
     _setLanguages();
-    _setDaysOfWeek();
+    _setWeekDays();
   }
 
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
   late String _selectedLanguage = "English";
-  late String _selectedDay = "";
-  late final List<String> _daysofWeek = [];
+  late String _selectedWeekDay = "";
+  late final List<String> _weekDays = [];
 
-  String getDefaultDay() => "";
-  List<String> getDays() => _daysofWeek.toSet().toList();
+  String getDefaultWeekDay() => "";
+  List<String> getWeekDays() => _weekDays.toSet().toList();
   String getDefaultLanguage() => "English";
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void _refreshDays() {
-    _daysofWeek.clear();
-    _setDaysOfWeek();
+  void _refreshWeekDays() {
+    _weekDays.clear();
+    _setWeekDays();
   }
 
   void _setLanguages() async {
@@ -35,7 +35,7 @@ class RosaryConfigService {
     return _db.collection('languages').get();
   }
 
-  void _setDaysOfWeek() async {
+  void _setWeekDays() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     await _db
         .collection('week_days')
@@ -44,31 +44,31 @@ class RosaryConfigService {
         .get()
         .then((value) {
       for (var doc in value.docs) {
-        _daysofWeek.add(doc.data()['value']);
+        _weekDays.add(doc.data()['value']);
       }
     });
-    _selectedDay = getCurrentDay();
+    _selectedWeekDay = getCurrentWeekDay();
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getDaysOfWeekFuture() {
     return _db.collection('week_days').get();
   }
 
-  String getCurrentDay() {
+  String getCurrentWeekDay() {
     int weekdayNum = DateTime.now().weekday;
-    return _daysofWeek.isEmpty ? "" : _daysofWeek[weekdayNum];
+    return _weekDays.isEmpty ? "" : _weekDays[weekdayNum];
   }
 
   void setSelectedLang(String lang) {
     _selectedLanguage = lang;
   }
 
-  void setSelectedDay(String dayOW) {
-    _selectedDay = dayOW;
+  void setSelectedWeekDay(String dayOW) {
+    _selectedWeekDay = dayOW;
   }
 
-  String get selectedDay {
-    return _selectedDay;
+  String get selectedWeekDay {
+    return _selectedWeekDay;
   }
 
   String get selectedLanguage {
@@ -78,15 +78,15 @@ class RosaryConfigService {
   void reset() {
     if (_selectedLanguage == getDefaultLanguage()) {
       // No need to fetch everything from the API
-      _selectedDay = getCurrentDay();
+      _selectedWeekDay = getCurrentWeekDay();
     } else {
       setSelectedLang(getDefaultLanguage());
-      _refreshDays();
+      _refreshWeekDays();
     }
   }
 
   void changeLanguage(String lang) {
     setSelectedLang(lang);
-    _refreshDays();
+    _refreshWeekDays();
   }
 }
