@@ -49,9 +49,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void onResetPressed() {
     setState(() {
-      _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
-      _rosaryConfigService.setSelectedLang(_selectedLanguage);
-      _rosaryConfigService.refreshDays();
+      _rosaryConfigService.reset();
+      _selectedLanguage = _rosaryConfigService.selectedLanguage;
     });
   }
 
@@ -64,9 +63,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void onLanguageChanged(String lang) {
     setState(() {
-      _selectedLanguage = lang;
-      _rosaryConfigService.setSelectedLang(lang);
-      _rosaryConfigService.refreshDays();
+      _rosaryConfigService.changeLanguage(lang);
+      _selectedLanguage = _rosaryConfigService.selectedLanguage;
     });
   }
 

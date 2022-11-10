@@ -18,7 +18,7 @@ class RosaryConfigService {
   String getDefaultLanguage() => "English";
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void refreshDays() {
+  void _refreshDays() {
     _daysofWeek.clear();
     _setDaysOfWeek();
   }
@@ -65,5 +65,20 @@ class RosaryConfigService {
 
   String get selectedLanguage {
     return _selectedLanguage;
+  }
+
+  void reset() {
+    if (_selectedLanguage == getDefaultLanguage()) {
+      // No need to fetch everything from the API
+      _selectedDay = getCurrentDay();
+    } else {
+      setSelectedLang(getDefaultLanguage());
+      _refreshDays();
+    }
+  }
+
+  void changeLanguage(String lang) {
+    setSelectedLang(lang);
+    _refreshDays();
   }
 }
