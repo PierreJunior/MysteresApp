@@ -29,8 +29,6 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-  late String _selectedDay;
-  late String _selectedLanguage;
 
   @override
   void initState() {
@@ -38,8 +36,6 @@ class _LandingScreenState extends State<LandingScreen> {
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
-    _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
-    _selectedDay = _rosaryConfigService.getDefaultDay();
     checkingPage();
   }
 
@@ -48,24 +44,18 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
-    setState(() {
-      _rosaryConfigService.reset();
-      _selectedLanguage = _rosaryConfigService.selectedLanguage;
-    });
+    _rosaryConfigService.reset();
+    setState(() {});
   }
 
   void onDayChanged(String day) {
-    setState(() {
-      _selectedDay = day;
-      _rosaryConfigService.setSelectedDay(day);
-    });
+    _rosaryConfigService.setSelectedDay(day);
+    setState(() {});
   }
 
   void onLanguageChanged(String lang) {
-    setState(() {
-      _rosaryConfigService.changeLanguage(lang);
-      _selectedLanguage = _rosaryConfigService.selectedLanguage;
-    });
+    _rosaryConfigService.changeLanguage(lang);
+    setState(() {});
   }
 
   @override
@@ -171,7 +161,9 @@ class _LandingScreenState extends State<LandingScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PrayScreen(
-                                                selectedDay: _selectedDay)));
+                                                selectedDay:
+                                                    _rosaryConfigService
+                                                        .selectedDay)));
                                   }
                                 },
                                 title: 'Pray'),
