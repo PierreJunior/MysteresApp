@@ -1,38 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RosaryConfigService {
-  late FirebaseFirestore _db;
-
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
     setLanguages();
-    setDay();
+    setDaysOfWeek();
   }
+
+  late FirebaseFirestore _db;
   late final List<String> _languages = [];
   late String _selectedLanguage = "English";
-  late String _selectedDay;
-
+  late String _selectedDay = "";
   late final List<String> _daysofWeek = [];
 
-  final Map<String, String> _mysteresMap = {
-    'Monday': 'Joyeux',
-    'Tuesday': 'Douloureux',
-    'Wednesday': 'Glorieux',
-    'Thursday': 'Lumineux',
-    'Friday': 'Douloureux',
-    'Saturday': 'Joyeux',
-    'Sunday': 'Glorieux',
-  };
-
   List<String> getDays() => _daysofWeek.toSet().toList();
-  List<String> getMysteres() => _mysteresMap.values.toSet().toList();
-  String getMystere(String day) => _mysteresMap[day] ?? "";
-  String getDefaultLanguage() => _languages.first;
+  String getDefaultLanguage() => "English";
   List<String> getLanguages() => _languages.toSet().toList();
 
   void rebuildWeekDays() {
     _daysofWeek.clear();
-    setDay();
+    setDaysOfWeek();
   }
 
   void setLanguages() async {
@@ -43,7 +30,7 @@ class RosaryConfigService {
     });
   }
 
-  void setDay() async {
+  void setDaysOfWeek() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     await _db
         .collection('week_days')

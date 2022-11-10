@@ -30,7 +30,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
   String _selectedDay = "";
-  late String _selectedLanguage = "English";
+  late String _selectedLanguage;
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _LandingScreenState extends State<LandingScreen> {
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
+    _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
     checkingPage();
   }
 
@@ -46,21 +47,25 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
-    resetting();
+    setState(() {
+      _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
+      _rosaryConfigService.setSelectedLang(_selectedLanguage);
+      _rosaryConfigService.rebuildWeekDays();
+    });
   }
 
   void onDayChanged(String day) {
     setState(() {
       _selectedDay = day;
+      _rosaryConfigService.setSelectedDay(day);
     });
   }
 
-  void resetting() {
+  void onLanguageChanged(String lang) {
     setState(() {
-      _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
-      _rosaryConfigService.setSelectedLang(_selectedLanguage);
+      _selectedLanguage = lang;
+      _rosaryConfigService.setSelectedLang(lang);
       _rosaryConfigService.rebuildWeekDays();
-      _rosaryConfigService.setDay();
     });
   }
 
@@ -238,9 +243,7 @@ class _LandingScreenState extends State<LandingScreen> {
               );
             }).toList(),
             onChanged: (value) {
-              setState(() {
-                _rosaryConfigService.setSelectedDay(value!);
-              });
+              onDayChanged(value!);
             },
           ),
         );
@@ -300,13 +303,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 );
               }).toList(),
               onChanged: (value) {
-                setState(() {
-                  // _selectedLanguage = value as String;
-                  _rosaryConfigService.setSelectedLang(value!);
-                  _rosaryConfigService.setDay();
-                  _rosaryConfigService.rebuildWeekDays();
-                  // _rosaryConfigService.setDay();
-                });
+                onLanguageChanged(value!);
               },
             ),
           );
