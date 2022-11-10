@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RosaryConfigService {
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    setLanguages();
-    setDaysOfWeek();
+    _setLanguages();
+    _setDaysOfWeek();
   }
 
   late FirebaseFirestore _db;
@@ -13,16 +13,17 @@ class RosaryConfigService {
   late String _selectedDay = "";
   late final List<String> _daysofWeek = [];
 
+  String getDefaultDay() => "";
   List<String> getDays() => _daysofWeek.toSet().toList();
   String getDefaultLanguage() => "English";
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void rebuildWeekDays() {
+  void refreshDays() {
     _daysofWeek.clear();
-    setDaysOfWeek();
+    _setDaysOfWeek();
   }
 
-  void setLanguages() async {
+  void _setLanguages() async {
     await _db.collection("languages").get().then((event) {
       for (var doc in event.docs) {
         _languages.add(doc.data()['value']);
@@ -30,7 +31,7 @@ class RosaryConfigService {
     });
   }
 
-  void setDaysOfWeek() async {
+  void _setDaysOfWeek() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     await _db
         .collection('week_days')
@@ -47,7 +48,7 @@ class RosaryConfigService {
 
   String getCurrentDay() {
     int weekdayNum = DateTime.now().weekday;
-    return _daysofWeek[weekdayNum];
+    return _daysofWeek.isEmpty ? "" : _daysofWeek[weekdayNum];
   }
 
   void setSelectedLang(String lang) {

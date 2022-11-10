@@ -29,7 +29,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-  String _selectedDay = "";
+  late String _selectedDay;
   late String _selectedLanguage;
 
   @override
@@ -39,6 +39,7 @@ class _LandingScreenState extends State<LandingScreen> {
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
+    _selectedDay = _rosaryConfigService.getDefaultDay();
     checkingPage();
   }
 
@@ -50,7 +51,7 @@ class _LandingScreenState extends State<LandingScreen> {
     setState(() {
       _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
       _rosaryConfigService.setSelectedLang(_selectedLanguage);
-      _rosaryConfigService.rebuildWeekDays();
+      _rosaryConfigService.refreshDays();
     });
   }
 
@@ -65,7 +66,7 @@ class _LandingScreenState extends State<LandingScreen> {
     setState(() {
       _selectedLanguage = lang;
       _rosaryConfigService.setSelectedLang(lang);
-      _rosaryConfigService.rebuildWeekDays();
+      _rosaryConfigService.refreshDays();
     });
   }
 
