@@ -184,7 +184,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   FutureBuilder<QuerySnapshot<Object?>> loadWeekDaysDropdown() {
     return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance.collection('week_days').get(),
+      future: _rosaryConfigService.getDaysOfWeekFuture(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -200,7 +200,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   FutureBuilder<QuerySnapshot<Object?>> loadLanguagesDropdown() {
     return FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection('languages').get(),
+        future: _rosaryConfigService.getLanguagesFuture(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(

@@ -31,6 +31,10 @@ class RosaryConfigService {
     });
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getLanguagesFuture() {
+    return _db.collection('languages').get();
+  }
+
   void _setDaysOfWeek() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     await _db
@@ -44,6 +48,10 @@ class RosaryConfigService {
       }
     });
     _selectedDay = getCurrentDay();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDaysOfWeekFuture() {
+    return _db.collection('week_days').get();
   }
 
   String getCurrentDay() {
