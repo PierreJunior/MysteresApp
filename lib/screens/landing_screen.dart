@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -8,9 +8,9 @@ import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../widgets/ads.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -182,8 +182,8 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  FutureBuilder<QuerySnapshot<Object?>> loadWeekDaysDropdown() {
-    return FutureBuilder<QuerySnapshot>(
+  FutureBuilder loadWeekDaysDropdown() {
+    return FutureBuilder(
       future: _rosaryConfigService.getWeekDaysFuture(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -198,8 +198,8 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  FutureBuilder<QuerySnapshot<Object?>> loadLanguagesDropdown() {
-    return FutureBuilder<QuerySnapshot>(
+  FutureBuilder loadLanguagesDropdown() {
+    return FutureBuilder(
         future: _rosaryConfigService.getLanguagesFuture(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
