@@ -1,41 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RosaryConfigService {
-  late FirebaseFirestore _db;
-
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    setLanguages();
-    setDay();
+    _setLanguages();
+    _setWeekDays();
   }
+
+  late FirebaseFirestore _db;
   late final List<String> _languages = [];
   late String _selectedLanguage = "English";
-  late String _selectedDay;
+  late String _selectedWeekDay = "";
+  late final List<String> _weekDays = [];
 
-  late final List<String> _daysofWeek = [];
-
-  final Map<String, String> _mysteresMap = {
-    'Monday': 'Joyeux',
-    'Tuesday': 'Douloureux',
-    'Wednesday': 'Glorieux',
-    'Thursday': 'Lumineux',
-    'Friday': 'Douloureux',
-    'Saturday': 'Joyeux',
-    'Sunday': 'Glorieux',
-  };
-
-  List<String> getDays() => _daysofWeek.toSet().toList();
-  List<String> getMysteres() => _mysteresMap.values.toSet().toList();
-  String getMystere(String day) => _mysteresMap[day] ?? "";
-  String getDefaultLanguage() => _languages.first;
+  String getDefaultWeekDay() => "";
+  List<String> getWeekDays() => _weekDays.toSet().toList();
+  String getDefaultLanguage() => "English";
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void rebuildWeekDays() {
-    _daysofWeek.clear();
-    setDay();
+  void _refreshWeekDays() {
+    _weekDays.clear();
+    _setWeekDays();
   }
 
-  void setLanguages() async {
+  void _setLanguages() async {
     await _db.collection("languages").get().then((event) {
       for (var doc in event.docs) {
         _languages.add(doc.data()['value']);
@@ -43,7 +31,11 @@ class RosaryConfigService {
     });
   }
 
-  void setDay() async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getLanguagesFuture() {
+    return _db.collection('languages').get();
+  }
+
+  void _setWeekDays() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     await _db
         .collection('week_days')
@@ -52,30 +44,49 @@ class RosaryConfigService {
         .get()
         .then((value) {
       for (var doc in value.docs) {
-        _daysofWeek.add(doc.data()['value']);
+        _weekDays.add(doc.data()['value']);
       }
     });
-    _selectedDay = getCurrentDay();
+    _selectedWeekDay = getCurrentWeekDay();
   }
 
-  String getCurrentDay() {
+  Future<QuerySnapshot<Map<String, dynamic>>> getWeekDaysFuture() {
+    return _db.collection('week_days').get();
+  }
+
+  String getCurrentWeekDay() {
     int weekdayNum = DateTime.now().weekday;
-    return _daysofWeek[weekdayNum];
+    return _weekDays.isEmpty ? "" : _weekDays[weekdayNum];
   }
 
   void setSelectedLang(String lang) {
     _selectedLanguage = lang;
   }
 
-  void setSelectedDay(String dayOW) {
-    _selectedDay = dayOW;
+  void setSelectedWeekDay(String dayOW) {
+    _selectedWeekDay = dayOW;
   }
 
-  String get selectedDay {
-    return _selectedDay;
+  String get selectedWeekDay {
+    return _selectedWeekDay;
   }
 
   String get selectedLanguage {
     return _selectedLanguage;
+  }
+
+  void reset() {
+    if (_selectedLanguage == getDefaultLanguage()) {
+      // No need to fetch everything from the API
+      _selectedWeekDay = getCurrentWeekDay();
+    } else {
+      setSelectedLang(getDefaultLanguage());
+      _refreshWeekDays();
+    }
+  }
+
+  void changeLanguage(String lang) {
+    setSelectedLang(lang);
+    _refreshWeekDays();
   }
 }

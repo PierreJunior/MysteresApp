@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -8,9 +8,9 @@ import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_Drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 import '../widgets/ads.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -29,8 +29,6 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-  String _selectedDay = "";
-  late String _selectedLanguage = "English";
 
   @override
   void initState() {
@@ -46,22 +44,18 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
-    resetting();
+    _rosaryConfigService.reset();
+    setState(() {});
   }
 
   void onDayChanged(String day) {
-    setState(() {
-      _selectedDay = day;
-    });
+    _rosaryConfigService.setSelectedWeekDay(day);
+    setState(() {});
   }
 
-  void resetting() {
-    setState(() {
-      _selectedLanguage = _rosaryConfigService.getDefaultLanguage();
-      _rosaryConfigService.setSelectedLang(_selectedLanguage);
-      _rosaryConfigService.rebuildWeekDays();
-      _rosaryConfigService.setDay();
-    });
+  void onLanguageChanged(String lang) {
+    _rosaryConfigService.changeLanguage(lang);
+    setState(() {});
   }
 
   @override
@@ -128,7 +122,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                languageDropdown(),
+                                loadLanguagesDropdown(),
                                 const SizedBox(height: 20),
                                 Row(
                                   children: [
@@ -141,7 +135,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                weekDaysDropdown(),
+                                loadWeekDaysDropdown(),
                               ],
                             ),
                           ),
@@ -167,7 +161,9 @@ class _LandingScreenState extends State<LandingScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PrayScreen(
-                                                selectedDay: _selectedDay)));
+                                                selectedDay:
+                                                    _rosaryConfigService
+                                                        .selectedWeekDay)));
                                   }
                                 },
                                 title: 'Pray'),
@@ -186,9 +182,9 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  FutureBuilder<QuerySnapshot<Object?>> weekDaysDropdown() {
-    return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance.collection('week_days').get(),
+  FutureBuilder loadWeekDaysDropdown() {
+    return FutureBuilder(
+      future: _rosaryConfigService.getWeekDaysFuture(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -197,60 +193,14 @@ class _LandingScreenState extends State<LandingScreen> {
         } else if (snapshot.hasError) {
           return const Text('could not retrieve Days of the week');
         }
-        return DropdownButtonHideUnderline(
-          child: DropdownButton2<String>(
-            buttonDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widgetBorderRadius),
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-                color: Colors.transparent,
-                boxShadow: const [BoxShadow(color: Colors.transparent)]),
-            isExpanded: true,
-            style: const TextStyle(color: Colors.black, fontSize: 20),
-            value: _rosaryConfigService.selectedDay,
-            buttonHeight: 50,
-            buttonWidth: MediaQuery.of(context).size.width * 2,
-            dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widgetBorderRadius),
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-                color: Colors.grey.shade200,
-                boxShadow: const [BoxShadow(color: Colors.transparent)]),
-            buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-            itemHeight: 40,
-            itemPadding: const EdgeInsets.only(left: 14, right: 14),
-            dropdownMaxHeight: 200,
-            dropdownPadding: null,
-            scrollbarRadius: const Radius.circular(40),
-            scrollbarThickness: 6,
-            scrollbarAlwaysShow: true,
-            buttonElevation: 8,
-            items: _rosaryConfigService.getDays().map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  style: Font.containerText,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _rosaryConfigService.setSelectedDay(value!);
-              });
-            },
-          ),
-        );
+        return weekDaysDropdown();
       },
     );
   }
 
-  FutureBuilder<QuerySnapshot<Object?>> languageDropdown() {
-    return FutureBuilder<QuerySnapshot>(
-        future: FirebaseFirestore.instance.collection('languages').get(),
+  FutureBuilder loadLanguagesDropdown() {
+    return FutureBuilder(
+        future: _rosaryConfigService.getLanguagesFuture(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -259,57 +209,103 @@ class _LandingScreenState extends State<LandingScreen> {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return DropdownButtonHideUnderline(
-            child: DropdownButton2<String>(
-              isExpanded: true,
-              style: const TextStyle(color: Colors.black, fontSize: 20),
-              value: _rosaryConfigService.selectedLanguage,
-              buttonHeight: 50,
-              buttonWidth: MediaQuery.of(context).size.width * 2,
-              dropdownDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widgetBorderRadius),
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.grey.shade200,
-                  boxShadow: const [BoxShadow(color: Colors.transparent)]),
-              buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-              buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widgetBorderRadius),
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.transparent,
-                  boxShadow: const [BoxShadow(color: Colors.transparent)]),
-              itemHeight: 40,
-              itemPadding: const EdgeInsets.only(left: 14, right: 14),
-              dropdownMaxHeight: 200,
-              dropdownPadding: null,
-              scrollbarRadius: const Radius.circular(40),
-              scrollbarThickness: 6,
-              scrollbarAlwaysShow: true,
-              buttonElevation: 8,
-              items: _rosaryConfigService.getLanguages().map((value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: Font.containerText,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  // _selectedLanguage = value as String;
-                  _rosaryConfigService.setSelectedLang(value!);
-                  _rosaryConfigService.setDay();
-                  _rosaryConfigService.rebuildWeekDays();
-                  // _rosaryConfigService.setDay();
-                });
-              },
+          return languagesDropdown();
+        });
+  }
+
+  Widget weekDaysDropdown() {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2<String>(
+        buttonDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widgetBorderRadius),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+            color: Colors.transparent,
+            boxShadow: const [BoxShadow(color: Colors.transparent)]),
+        isExpanded: true,
+        style: const TextStyle(color: Colors.black, fontSize: 20),
+        value: _rosaryConfigService.selectedWeekDay,
+        buttonHeight: 50,
+        buttonWidth: MediaQuery.of(context).size.width * 2,
+        dropdownDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widgetBorderRadius),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+            color: Colors.grey.shade200,
+            boxShadow: const [BoxShadow(color: Colors.transparent)]),
+        buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+        itemHeight: 40,
+        itemPadding: const EdgeInsets.only(left: 14, right: 14),
+        dropdownMaxHeight: 200,
+        dropdownPadding: null,
+        scrollbarRadius: const Radius.circular(40),
+        scrollbarThickness: 6,
+        scrollbarAlwaysShow: true,
+        buttonElevation: 8,
+        items: _rosaryConfigService.getWeekDays().map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: Font.containerText,
+              overflow: TextOverflow.ellipsis,
             ),
           );
-        });
+        }).toList(),
+        onChanged: (value) {
+          onDayChanged(value!);
+        },
+      ),
+    );
+  }
+
+  Widget languagesDropdown() {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton2<String>(
+        isExpanded: true,
+        style: const TextStyle(color: Colors.black, fontSize: 20),
+        value: _rosaryConfigService.selectedLanguage,
+        buttonHeight: 50,
+        buttonWidth: MediaQuery.of(context).size.width * 2,
+        dropdownDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widgetBorderRadius),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+            color: Colors.grey.shade200,
+            boxShadow: const [BoxShadow(color: Colors.transparent)]),
+        buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+        buttonDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widgetBorderRadius),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+            color: Colors.transparent,
+            boxShadow: const [BoxShadow(color: Colors.transparent)]),
+        itemHeight: 40,
+        itemPadding: const EdgeInsets.only(left: 14, right: 14),
+        dropdownMaxHeight: 200,
+        dropdownPadding: null,
+        scrollbarRadius: const Radius.circular(40),
+        scrollbarThickness: 6,
+        scrollbarAlwaysShow: true,
+        buttonElevation: 8,
+        items: _rosaryConfigService.getLanguages().map((value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: Font.containerText,
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+        }).toList(),
+        onChanged: (value) {
+          onLanguageChanged(value!);
+        },
+      ),
+    );
   }
 }
