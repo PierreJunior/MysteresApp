@@ -5,20 +5,25 @@ import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
-import 'package:mysteres/navigation_Drawer.dart';
+import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
+import 'package:mysteres/screens/languagepreference_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/ads.dart';
 
+//ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
+  late String valueLanguage;
   static const String id = "LandingPage";
   static bool checkPage = false;
 
-  const LandingScreen({
+  LandingScreen({
     Key? key,
+    required this.valueLanguage,
   }) : super(key: key);
 
   @override
@@ -26,17 +31,28 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  late LanguageSettings langSettings;
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
+
+  String get jj => const LanguageSettings().getData3();
 
   @override
   void initState() {
     super.initState();
     banner = null;
+    getData();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     checkingPage();
+    // onLanguageChanged(widget.valueLanguage);
+  }
+
+  Future getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    widget.valueLanguage = prefs.getString(jj)!;
+    onLanguageChanged(widget.valueLanguage);
   }
 
   bool checkingPage() {
@@ -44,6 +60,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
+    getData();
     _rosaryConfigService.reset();
     setState(() {});
   }
@@ -153,7 +170,6 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () {
-                                  print('object');
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();
@@ -303,6 +319,7 @@ class _LandingScreenState extends State<LandingScreen> {
           );
         }).toList(),
         onChanged: (value) {
+          // widget.valueLanguage = value;
           onLanguageChanged(value!);
         },
       ),
