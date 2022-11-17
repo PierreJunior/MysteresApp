@@ -10,13 +10,13 @@ class RosaryConfigService {
 
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
-  late String _selectedLanguage = const LanguageSettings().getData3();
+  late String _selectedLanguage = const LanguageSettings().getSavedLanguage();
   late String _selectedWeekDay = "";
   late final List<String> _weekDays = [];
 
   String getDefaultWeekDay() => "";
   List<String> getWeekDays() => _weekDays.toSet().toList();
-  String getDefaultLanguage() => const LanguageSettings().getData3();
+  String getDefaultLanguage() => const LanguageSettings().getSavedLanguage();
   List<String> getLanguages() => _languages.toSet().toList();
 
   void _refreshWeekDays() {

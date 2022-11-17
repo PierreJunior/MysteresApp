@@ -36,22 +36,22 @@ class _LandingScreenState extends State<LandingScreen> {
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
 
-  String get jj => const LanguageSettings().getData3();
+  String get savedLanguagePref => const LanguageSettings().getSavedLanguage();
 
   @override
   void initState() {
     super.initState();
     banner = null;
-    getData();
+    getSavedLanguage();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     checkingPage();
     // onLanguageChanged(widget.valueLanguage);
   }
 
-  Future getData() async {
+  Future getSavedLanguage() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    widget.valueLanguage = prefs.getString(jj)!;
+    widget.valueLanguage = prefs.getString(savedLanguagePref)!;
     onLanguageChanged(widget.valueLanguage);
   }
 
@@ -60,7 +60,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
-    getData();
+    getSavedLanguage();
     _rosaryConfigService.reset();
     setState(() {});
   }
@@ -319,7 +319,6 @@ class _LandingScreenState extends State<LandingScreen> {
           );
         }).toList(),
         onChanged: (value) {
-          // widget.valueLanguage = value;
           onLanguageChanged(value!);
         },
       ),

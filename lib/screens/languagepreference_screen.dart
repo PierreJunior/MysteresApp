@@ -13,7 +13,7 @@ import '../widgets/rounded_button.dart';
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({Key? key}) : super(key: key);
 
-  String getData3() {
+  String getSavedLanguage() {
     _LanguageSettingsState().getData();
     return _LanguageSettingsState().savedLanguage;
   }
@@ -35,7 +35,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     changed = false;
     _rosaryConfigService = RosaryConfigService();
     getData();
-    widget.getData3();
+    widget.getSavedLanguage();
   }
 
   void onLanguageChanged(String lang) {
@@ -51,10 +51,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   Future getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     savedLanguage = prefs.getString(sharedPreferenceKey)!;
-    getData2();
-  }
-
-  String getData2() {
     return savedLanguage;
   }
 

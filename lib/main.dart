@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.id: (context) => const SplashScreen(),
         LandingScreen.id: (context) => LandingScreen(
-              valueLanguage: const LanguageSettings().getData3(),
+              valueLanguage: const LanguageSettings().getSavedLanguage(),
             ),
       },
     );
