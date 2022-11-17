@@ -54,7 +54,7 @@ class NavigationDrawer extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => LandingScreen(
-              valueLanguage: const LanguageSettings().getData3(),
+              valueLanguage: const LanguageSettings().getSavedLanguage(),
             ),
           ),
         );
