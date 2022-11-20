@@ -179,7 +179,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                             builder: (context) => PrayScreen(
                                                 selectedDay:
                                                     _rosaryConfigService
-                                                        .selectedWeekDay)));
+                                                        .selectedWeekDay!)));
                                   }
                                 },
                                 title: 'Pray'),
@@ -202,14 +202,20 @@ class _LandingScreenState extends State<LandingScreen> {
     return FutureBuilder(
       future: _rosaryConfigService.getWeekDaysFuture(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return const Text('could not retrieve Days of the week');
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              return weekDaysDropdown();
+            } else {
+              return const Text('Error: Unexpected error');
+            }
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
         }
-        return weekDaysDropdown();
       },
     );
   }
