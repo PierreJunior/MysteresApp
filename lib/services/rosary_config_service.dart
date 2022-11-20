@@ -21,7 +21,9 @@ class RosaryConfigService {
 
   void _refreshWeekDays() {
     _weekDays.clear();
-    getWeekDaysFuture();
+    getWeekDaysFuture().then((value) {
+      _selectedWeekDay = getCurrentWeekDay();
+    });
   }
 
   void _initDefaultLangs() async {
@@ -31,39 +33,27 @@ class RosaryConfigService {
     _defaultLanguage = _selectedLanguage;
   }
 
-  Future<List<String>> load() async {
+  Future<String> load() async {
     return await getLanguagesFuture().then((value) async {
-      var languageRef = _db.collection('languages').doc(_selectedLanguage);
-      return await _db
-          .collection('week_days')
-          .where('language_code', isEqualTo: languageRef)
-          .orderBy('order')
-          .get()
-          .then((value) {
-        for (var doc in value.docs) {
-          _weekDays.add(doc.data()['value']);
-        }
+      return getWeekDaysFuture().then((val) {
         _selectedWeekDay = getCurrentWeekDay();
-        return _weekDays;
+        return "Done";
       });
     });
   }
 
   Future<List<String>> getWeekDaysFuture() async {
-    return await getLanguagesFuture().then((value) async {
-      var languageRef = _db.collection('languages').doc(_selectedLanguage);
-      return await _db
-          .collection('week_days')
-          .where('language_code', isEqualTo: languageRef)
-          .orderBy('order')
-          .get()
-          .then((value) {
-        for (var doc in value.docs) {
-          _weekDays.add(doc.data()['value']);
-        }
-        _selectedWeekDay = getCurrentWeekDay();
-        return _weekDays;
-      });
+    var languageRef = _db.collection('languages').doc(_selectedLanguage);
+    return await _db
+        .collection('week_days')
+        .where('language_code', isEqualTo: languageRef)
+        .orderBy('order')
+        .get()
+        .then((value) {
+      for (var doc in value.docs) {
+        _weekDays.add(doc.data()['value']);
+      }
+      return _weekDays;
     });
   }
 
