@@ -7,11 +7,9 @@ import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
-import 'package:mysteres/screens/language_settings_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/ads.dart';
 
@@ -31,36 +29,36 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  late LanguageSettings langSettings;
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-
-  String get savedLanguagePref => const LanguageSettings().getDefaultLanguage();
+  bool isLoadingLanguage = true;
+  bool isLoadingWeekDays = true;
 
   @override
   void initState() {
     super.initState();
     banner = null;
-    getSavedLanguage();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
-    checkingPage();
-    // onLanguageChanged(widget.valueLanguage);
+    _initialLoad();
+    _checkingPage();
   }
 
-  Future getSavedLanguage() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    widget.valueLanguage = prefs.getString(savedLanguagePref)!;
-    onLanguageChanged(widget.valueLanguage);
-  }
-
-  bool checkingPage() {
+  bool _checkingPage() {
     return LandingScreen.checkPage = false;
   }
 
+  _initialLoad() {
+    _rosaryConfigService.load().then((value) {
+      setState(() {
+        isLoadingLanguage = false;
+        isLoadingWeekDays = false;
+      });
+    });
+  }
+
   void onResetPressed() {
-    getSavedLanguage();
     _rosaryConfigService.reset();
     setState(() {});
   }
@@ -198,41 +196,22 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  FutureBuilder loadWeekDaysDropdown() {
-    return FutureBuilder(
-      future: _rosaryConfigService.getWeekDaysFuture(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              return weekDaysDropdown();
-            } else {
-              return const Text('Error: Unexpected error');
-            }
-          default:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-        }
-      },
-    );
+  Widget loadWeekDaysDropdown() {
+    while (isLoadingLanguage) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return weekDaysDropdown();
   }
 
-  FutureBuilder loadLanguagesDropdown() {
-    return FutureBuilder(
-        future: _rosaryConfigService.getLanguagesFuture(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return languagesDropdown();
-        });
+  Widget loadLanguagesDropdown() {
+    while (isLoadingLanguage) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return languagesDropdown();
   }
 
   Widget weekDaysDropdown() {
