@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mysteres/screens/languagepreference_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 
 class RosaryConfigService {
   RosaryConfigService() {
@@ -10,13 +10,13 @@ class RosaryConfigService {
 
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
-  late String _selectedLanguage = const LanguageSettings().getSavedLanguage();
+  late String _selectedLanguage = const LanguageSettings().getDefaultLanguage();
   late String _selectedWeekDay = "";
   late final List<String> _weekDays = [];
 
   String getDefaultWeekDay() => "";
   List<String> getWeekDays() => _weekDays.toSet().toList();
-  String getDefaultLanguage() => const LanguageSettings().getSavedLanguage();
+  String getDefaultLanguage() => const LanguageSettings().getDefaultLanguage();
   List<String> getLanguages() => _languages.toSet().toList();
 
   void _refreshWeekDays() {

@@ -7,7 +7,7 @@ import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
-import 'package:mysteres/screens/languagepreference_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -36,7 +36,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
 
-  String get savedLanguagePref => const LanguageSettings().getSavedLanguage();
+  String get savedLanguagePref => const LanguageSettings().getDefaultLanguage();
 
   @override
   void initState() {

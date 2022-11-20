@@ -7,15 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../components/color_palette.dart';
 import '../components/font.dart';
 import '../constants.dart';
+import '../global_variable.dart';
 import '../widgets/ads.dart';
 import '../widgets/rounded_button.dart';
 
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({Key? key}) : super(key: key);
 
-  String getSavedLanguage() {
-    _LanguageSettingsState().getData();
-    return _LanguageSettingsState().savedLanguage;
+  String getDefaultLanguage() {
+    _LanguageSettingsState().getDefaultLanguage();
+    return _LanguageSettingsState().selectedLanguage;
   }
 
   @override
@@ -24,34 +25,39 @@ class LanguageSettings extends StatefulWidget {
 
 class _LanguageSettingsState extends State<LanguageSettings> {
   late RosaryConfigService _rosaryConfigService;
-  late String valueLanguage = "English";
-  late String savedLanguage = "";
-  late bool changed;
-  late String sharedPreferenceKey = "";
+  final String startingLanguage = "English";
+  late String selectedLanguage = "English";
+  late bool languageChanged;
+  final String sharedPreferenceKey = "defaultLanguage";
 
   @override
   void initState() {
     super.initState();
-    changed = false;
+    languageChanged = false;
     _rosaryConfigService = RosaryConfigService();
-    getData();
-    widget.getSavedLanguage();
+    saveDefaultLanguage(startingLanguage);
   }
 
   void onLanguageChanged(String lang) {
-    _rosaryConfigService.changeLanguage(lang);
-    setState(() {});
+    setState(() {
+      languageChanged = true;
+      selectedLanguage = lang;
+    });
   }
 
-  Future<bool> saveData(value) async {
+  Future<bool> saveDefaultLanguage(value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (languageChanged) {
+      prefs.setInt(GlobalValue.sharedPreferenceLanguageSetKey, 1);
+    }
+
     return prefs.setString(sharedPreferenceKey, value);
   }
 
-  Future getData() async {
+  Future getDefaultLanguage() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    savedLanguage = prefs.getString(sharedPreferenceKey)!;
-    return savedLanguage;
+    selectedLanguage = prefs.getString(sharedPreferenceKey)!;
+    return selectedLanguage;
   }
 
   @override
@@ -74,9 +80,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Configure your Language setting',
+                          'Welcome! \n\nPlease set your default language',
                           style: Font.heading1,
-                          textAlign: TextAlign.start,
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(
                           height: 15,
@@ -93,12 +99,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(Icons.language),
                                     const SizedBox(width: 5),
-                                    Text(
-                                      'Select a Language',
-                                      style: Font.containerText,
-                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 5),
@@ -114,18 +115,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                             RoundedButton(
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () {
-                                  changed == false
-                                      ? saveData(valueLanguage)
-                                      : getData();
-                                  _rosaryConfigService
-                                      .setSelectedLang(valueLanguage);
-                                  onLanguageChanged(valueLanguage);
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => LandingScreen(
-                                            valueLanguage: valueLanguage,
-                                          )));
+                                  onConfirmPressed(context);
                                 },
-                                title: 'Confirm'),
+                                title: 'Continue'),
                           ],
                         )
                       ],
@@ -139,6 +131,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         );
       },
     );
+  }
+
+  void onConfirmPressed(BuildContext context) {
+    saveDefaultLanguage(selectedLanguage);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => LandingScreen(
+              valueLanguage: selectedLanguage,
+            )));
   }
 
   FutureBuilder loadLanguagesDropdown() {
@@ -161,7 +161,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       child: DropdownButton2<String>(
         isExpanded: true,
         style: const TextStyle(color: Colors.black, fontSize: 20),
-        value: valueLanguage,
+        value: selectedLanguage,
         buttonHeight: 50,
         buttonWidth: MediaQuery.of(context).size.width * 2,
         dropdownDecoration: BoxDecoration(
@@ -198,11 +198,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           );
         }).toList(),
         onChanged: (value) {
-          changed = true;
-          saveData(value!);
-          getData();
-          onLanguageChanged(value);
-          valueLanguage = value;
+          onLanguageChanged(value!);
         },
       ),
     );

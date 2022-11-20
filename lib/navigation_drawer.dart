@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/drawer_item.dart';
 import 'package:mysteres/screens/landing_screen.dart';
-import 'package:mysteres/screens/languagepreference_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class NavigationDrawer extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => LandingScreen(
-              valueLanguage: const LanguageSettings().getSavedLanguage(),
+              valueLanguage: const LanguageSettings().getDefaultLanguage(),
             ),
           ),
         );

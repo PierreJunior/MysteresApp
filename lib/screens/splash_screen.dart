@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/screens/landing_screen.dart';
-import 'package:mysteres/screens/languagepreference_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,17 +23,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void landing() async {
     final prefs = await SharedPreferences.getInstance();
-    int launchCount = prefs.getInt('counter') ?? 0;
-    prefs.setInt('counter', launchCount + 1);
+    int defaultLangSet =
+        prefs.getInt(GlobalValue.sharedPreferenceLanguageSetKey) ?? 0;
     if (!mounted) return;
-    launchCount == 0
+    defaultLangSet == 0
         ? Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const LanguageSettings()))
         : Future.delayed(const Duration(seconds: 3)).then((value) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => LandingScreen(
                       valueLanguage:
-                          const LanguageSettings().getSavedLanguage(),
+                          const LanguageSettings().getDefaultLanguage(),
                     )));
           });
   }
