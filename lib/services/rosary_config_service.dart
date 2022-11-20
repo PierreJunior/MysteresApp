@@ -22,8 +22,12 @@ class RosaryConfigService {
   void _refreshWeekDays() {
     _weekDays.clear();
     getWeekDaysFuture().then((value) {
-      _selectedWeekDay = getCurrentWeekDay();
+      initDefaultWeekDay();
     });
+  }
+
+  void initDefaultWeekDay() {
+    _selectedWeekDay = getCurrentWeekDay();
   }
 
   void _initDefaultLangs() async {
@@ -87,18 +91,8 @@ class RosaryConfigService {
     return _selectedLanguage;
   }
 
-  void reset() {
-    if (_selectedLanguage == getDefaultLanguage()) {
-      // No need to fetch everything from the API
-      _selectedWeekDay = getCurrentWeekDay();
-    } else {
-      setSelectedLang(getDefaultLanguage());
-      _refreshWeekDays();
-    }
-  }
-
   void changeLanguage(String lang) {
     setSelectedLang(lang);
-    _refreshWeekDays();
+    _weekDays.clear();
   }
 }

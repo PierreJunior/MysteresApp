@@ -59,8 +59,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onResetPressed() {
-    _rosaryConfigService.reset();
-    setState(() {});
+    onLanguageChanged(_rosaryConfigService.getDefaultLanguage());
   }
 
   void onDayChanged(String day) {
@@ -70,7 +69,16 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void onLanguageChanged(String lang) {
     _rosaryConfigService.changeLanguage(lang);
-    setState(() {});
+    setState(() {
+      isLoadingWeekDays = true;
+    });
+
+    _rosaryConfigService.getWeekDaysFuture().then((value) {
+      _rosaryConfigService.initDefaultWeekDay();
+      setState(() {
+        isLoadingWeekDays = false;
+      });
+    });
   }
 
   @override
@@ -197,7 +205,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   Widget loadWeekDaysDropdown() {
-    while (isLoadingLanguage) {
+    while (isLoadingWeekDays) {
       return const Center(
         child: CircularProgressIndicator(),
       );
