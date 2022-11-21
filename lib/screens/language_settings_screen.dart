@@ -58,13 +58,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         GlobalValue.sharedPreferenceDefaultLanguageKey, value);
   }
 
-  Future getDefaultLanguage() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    selectedLanguage =
-        prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey)!;
-    return selectedLanguage;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
