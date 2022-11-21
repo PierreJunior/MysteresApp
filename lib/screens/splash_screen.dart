@@ -30,11 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
         ? Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const LanguageSettings()))
         : Future.delayed(const Duration(seconds: 3)).then((value) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => LandingScreen(
-                      valueLanguage:
-                          const LanguageSettings().getDefaultLanguage(),
-                    )));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LandingScreen()));
           });
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
-import 'package:mysteres/screens/language_settings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mysteres/screens/splash_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
@@ -31,9 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => const SplashScreen(),
-        LandingScreen.id: (context) => LandingScreen(
-              valueLanguage: const LanguageSettings().getDefaultLanguage(),
-            ),
+        LandingScreen.id: (context) => LandingScreen(),
       },
     );
   }

@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
-import 'package:mysteres/services/rosary_config_service.dart';
+import 'package:mysteres/services/language_service.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/color_palette.dart';
@@ -14,49 +14,55 @@ import '../widgets/rounded_button.dart';
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({Key? key}) : super(key: key);
 
-  String getDefaultLanguage() {
-    _LanguageSettingsState().getDefaultLanguage();
-    return _LanguageSettingsState().selectedLanguage;
-  }
-
   @override
   State<LanguageSettings> createState() => _LanguageSettingsState();
 }
 
 class _LanguageSettingsState extends State<LanguageSettings> {
-  late RosaryConfigService _rosaryConfigService;
+  late LanguageService _languageService;
   final String startingLanguage = "English";
   late String selectedLanguage = "English";
   late bool languageChanged;
-  final String sharedPreferenceKey = "defaultLanguage";
+  bool isLoadingLanguages = true;
 
   @override
   void initState() {
     super.initState();
     languageChanged = false;
-    _rosaryConfigService = RosaryConfigService();
-    saveDefaultLanguage(startingLanguage);
+    _setLanguagePref(startingLanguage);
+    _languageService = LanguageService();
+    _initialLoad();
   }
 
-  void onLanguageChanged(String lang) {
+  void _initialLoad() {
+    _languageService.loadLanguages().then((value) {
+      setState(() {
+        isLoadingLanguages = false;
+      });
+    });
+  }
+
+  void _onLanguageChanged(String lang) {
     setState(() {
       languageChanged = true;
       selectedLanguage = lang;
     });
   }
 
-  Future<bool> saveDefaultLanguage(value) async {
+  Future<bool> _setLanguagePref(value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (languageChanged) {
       prefs.setInt(GlobalValue.sharedPreferenceLanguageSetKey, 1);
     }
 
-    return prefs.setString(sharedPreferenceKey, value);
+    return prefs.setString(
+        GlobalValue.sharedPreferenceDefaultLanguageKey, value);
   }
 
   Future getDefaultLanguage() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    selectedLanguage = prefs.getString(sharedPreferenceKey)!;
+    selectedLanguage =
+        prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey)!;
     return selectedLanguage;
   }
 
@@ -134,26 +140,18 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   void onConfirmPressed(BuildContext context) {
-    saveDefaultLanguage(selectedLanguage);
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => LandingScreen(
-              valueLanguage: selectedLanguage,
-            )));
+    _setLanguagePref(selectedLanguage);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LandingScreen()));
   }
 
-  FutureBuilder loadLanguagesDropdown() {
-    return FutureBuilder(
-        future: _rosaryConfigService.getLanguagesFuture(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return languagesDropdown();
-        });
+  Widget loadLanguagesDropdown() {
+    while (isLoadingLanguages) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return languagesDropdown();
   }
 
   Widget languagesDropdown() {
@@ -187,7 +185,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         scrollbarThickness: 6,
         scrollbarAlwaysShow: true,
         buttonElevation: 8,
-        items: _rosaryConfigService.getLanguages().map((value) {
+        items: _languageService.getLanguages().map((value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
@@ -198,7 +196,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           );
         }).toList(),
         onChanged: (value) {
-          onLanguageChanged(value!);
+          _onLanguageChanged(value!);
         },
       ),
     );

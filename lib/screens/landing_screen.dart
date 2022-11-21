@@ -21,7 +21,6 @@ class LandingScreen extends StatefulWidget {
 
   LandingScreen({
     Key? key,
-    required this.valueLanguage,
   }) : super(key: key);
 
   @override
