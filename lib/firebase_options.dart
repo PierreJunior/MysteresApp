@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:mysteres/env.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -50,22 +51,22 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBHamf60rf2bAGv87gmv5bBPn6T8twpNfc',
-    appId: '1:634669023130:android:789413516398d084f50423',
-    messagingSenderId: '634669023130',
-    projectId: 'therosary-92ab7',
-    databaseURL: 'https://therosary-92ab7-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'therosary-92ab7.appspot.com',
+    apiKey: Env.firebaseAndroidApiKey,
+    appId: Env.firebaseAndroidAppId,
+    messagingSenderId: Env.firebaseMessagingSenderId,
+    projectId: Env.firebaseProjectId,
+    databaseURL: Env.firebaseDatabaseURL,
+    storageBucket: Env.firebaseStorageBucket,
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB0oAGmxlO8gy6r6BSQeyLFWVIhnHOEsMQ',
-    appId: '1:634669023130:ios:b8dace31616ecc43f50423',
-    messagingSenderId: '634669023130',
-    projectId: 'therosary-92ab7',
-    databaseURL: 'https://therosary-92ab7-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'therosary-92ab7.appspot.com',
-    iosClientId: '634669023130-gej4004j45qnkfu84qondno1slnn94ft.apps.googleusercontent.com',
-    iosBundleId: 'com.KahoziJunior.mysteres',
+    apiKey: Env.firebaseIosApiKey,
+    appId: Env.firebaseIosAppId,
+    messagingSenderId: Env.firebaseMessagingSenderId,
+    projectId: Env.firebaseProjectId,
+    databaseURL: Env.firebaseDatabaseURL,
+    storageBucket: Env.firebaseStorageBucket,
+    iosClientId: Env.firebaseIosClientId,
+    iosBundleId: Env.firebaseIosBundleId,
   );
 }
