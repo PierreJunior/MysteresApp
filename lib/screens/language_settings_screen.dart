@@ -21,14 +21,13 @@ class LanguageSettings extends StatefulWidget {
 class _LanguageSettingsState extends State<LanguageSettings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
-  late String selectedLanguage = "English";
-  late bool languageChanged;
+  String selectedLanguage = "English";
+  bool languageChanged = false;
   bool isLoadingLanguages = true;
 
   @override
   void initState() {
     super.initState();
-    languageChanged = false;
     _setLanguagePref(startingLanguage);
     _languageService = LanguageService();
     _initialLoad();

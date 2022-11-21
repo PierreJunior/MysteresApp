@@ -21,7 +21,7 @@ class RosaryConfigService {
 
   void _refreshWeekDays() {
     _weekDays.clear();
-    getWeekDaysFuture().then((value) {
+    loadWeekDays().then((value) {
       initDefaultWeekDay();
     });
   }
@@ -38,15 +38,15 @@ class RosaryConfigService {
   }
 
   Future<String> load() async {
-    return await getLanguagesFuture().then((value) async {
-      return getWeekDaysFuture().then((val) {
+    return await loadLanguages().then((value) async {
+      return loadWeekDays().then((val) {
         _selectedWeekDay = getCurrentWeekDay();
         return "Done";
       });
     });
   }
 
-  Future<List<String>> getWeekDaysFuture() async {
+  Future<List<String>> loadWeekDays() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
     return await _db
         .collection('week_days')
@@ -61,7 +61,7 @@ class RosaryConfigService {
     });
   }
 
-  Future<List<String>> getLanguagesFuture() async {
+  Future<List<String>> loadLanguages() async {
     return await _db.collection('languages').get().then((event) {
       for (var doc in event.docs) {
         _languages.add(doc.data()['value']);
