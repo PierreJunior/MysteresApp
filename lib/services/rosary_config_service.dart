@@ -19,13 +19,6 @@ class RosaryConfigService {
   String getDefaultLanguage() => _defaultLanguage;
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void _refreshWeekDays() {
-    _weekDays.clear();
-    loadWeekDays().then((value) {
-      initDefaultWeekDay();
-    });
-  }
-
   void initDefaultWeekDay() {
     _selectedWeekDay = getCurrentWeekDay();
   }
