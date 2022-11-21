@@ -1,57 +1,66 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mysteres/global_variable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RosaryConfigService {
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    _setLanguages();
-    _setWeekDays();
+    _initDefaultLangs();
   }
 
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
-  late String _selectedLanguage = "English";
-  late String _selectedWeekDay = "";
+  late String _selectedLanguage;
+  late String _defaultLanguage;
+  late String? _selectedWeekDay;
   late final List<String> _weekDays = [];
 
-  String getDefaultWeekDay() => "";
   List<String> getWeekDays() => _weekDays.toSet().toList();
-  String getDefaultLanguage() => "English";
+  String getDefaultLanguage() => _defaultLanguage;
   List<String> getLanguages() => _languages.toSet().toList();
 
-  void _refreshWeekDays() {
-    _weekDays.clear();
-    _setWeekDays();
+  void initDefaultWeekDay() {
+    _selectedWeekDay = getCurrentWeekDay();
   }
 
-  void _setLanguages() async {
-    await _db.collection("languages").get().then((event) {
-      for (var doc in event.docs) {
-        _languages.add(doc.data()['value']);
-      }
+  void _initDefaultLangs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _selectedLanguage =
+        prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey)!;
+    _defaultLanguage = _selectedLanguage;
+  }
+
+  Future<String> load() async {
+    return await loadLanguages().then((value) async {
+      return loadWeekDays().then((val) {
+        _selectedWeekDay = getCurrentWeekDay();
+        return "Done";
+      });
     });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getLanguagesFuture() {
-    return _db.collection('languages').get();
-  }
-
-  void _setWeekDays() async {
+  Future<List<String>> loadWeekDays() async {
     var languageRef = _db.collection('languages').doc(_selectedLanguage);
-    await _db
+    return await _db
         .collection('week_days')
-        .where("language_code", isEqualTo: languageRef)
+        .where('language_code', isEqualTo: languageRef)
         .orderBy('order')
         .get()
         .then((value) {
       for (var doc in value.docs) {
         _weekDays.add(doc.data()['value']);
       }
+      return _weekDays;
     });
-    _selectedWeekDay = getCurrentWeekDay();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getWeekDaysFuture() {
-    return _db.collection('week_days').get();
+  Future<List<String>> loadLanguages() async {
+    return await _db.collection('languages').get().then((event) {
+      for (var doc in event.docs) {
+        _languages.add(doc.data()['value']);
+      }
+      return _languages;
+    });
   }
 
   String getCurrentWeekDay() {
@@ -67,7 +76,7 @@ class RosaryConfigService {
     _selectedWeekDay = dayOW;
   }
 
-  String get selectedWeekDay {
+  String? get selectedWeekDay {
     return _selectedWeekDay;
   }
 
@@ -75,18 +84,8 @@ class RosaryConfigService {
     return _selectedLanguage;
   }
 
-  void reset() {
-    if (_selectedLanguage == getDefaultLanguage()) {
-      // No need to fetch everything from the API
-      _selectedWeekDay = getCurrentWeekDay();
-    } else {
-      setSelectedLang(getDefaultLanguage());
-      _refreshWeekDays();
-    }
-  }
-
   void changeLanguage(String lang) {
     setSelectedLang(lang);
-    _refreshWeekDays();
+    _weekDays.clear();
   }
 }

@@ -52,7 +52,7 @@ class NavigationDrawer extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const LandingScreen(),
+            builder: (context) => LandingScreen(),
           ),
         );
         if (LandingScreen.checkPage == true) {

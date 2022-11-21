@@ -5,7 +5,7 @@ import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
-import 'package:mysteres/navigation_Drawer.dart';
+import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
@@ -13,11 +13,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../widgets/ads.dart';
 
+//ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
+  late String valueLanguage;
   static const String id = "LandingPage";
   static bool checkPage = false;
 
-  const LandingScreen({
+  LandingScreen({
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +31,8 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
+  bool isLoadingLanguage = true;
+  bool isLoadingWeekDays = true;
 
   @override
   void initState() {
@@ -36,16 +40,25 @@ class _LandingScreenState extends State<LandingScreen> {
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
-    checkingPage();
+    _initialLoad();
+    _checkingPage();
   }
 
-  bool checkingPage() {
+  bool _checkingPage() {
     return LandingScreen.checkPage = false;
   }
 
+  _initialLoad() {
+    _rosaryConfigService.load().then((value) {
+      setState(() {
+        isLoadingLanguage = false;
+        isLoadingWeekDays = false;
+      });
+    });
+  }
+
   void onResetPressed() {
-    _rosaryConfigService.reset();
-    setState(() {});
+    onLanguageChanged(_rosaryConfigService.getDefaultLanguage());
   }
 
   void onDayChanged(String day) {
@@ -55,7 +68,16 @@ class _LandingScreenState extends State<LandingScreen> {
 
   void onLanguageChanged(String lang) {
     _rosaryConfigService.changeLanguage(lang);
-    setState(() {});
+    setState(() {
+      isLoadingWeekDays = true;
+    });
+
+    _rosaryConfigService.loadWeekDays().then((value) {
+      _rosaryConfigService.initDefaultWeekDay();
+      setState(() {
+        isLoadingWeekDays = false;
+      });
+    });
   }
 
   @override
@@ -153,7 +175,6 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () {
-                                  print('object');
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();
@@ -163,7 +184,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                             builder: (context) => PrayScreen(
                                                 selectedDay:
                                                     _rosaryConfigService
-                                                        .selectedWeekDay)));
+                                                        .selectedWeekDay!)));
                                   }
                                 },
                                 title: 'Pray'),
@@ -182,35 +203,22 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  FutureBuilder loadWeekDaysDropdown() {
-    return FutureBuilder(
-      future: _rosaryConfigService.getWeekDaysFuture(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return const Text('could not retrieve Days of the week');
-        }
-        return weekDaysDropdown();
-      },
-    );
+  Widget loadWeekDaysDropdown() {
+    while (isLoadingWeekDays) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return weekDaysDropdown();
   }
 
-  FutureBuilder loadLanguagesDropdown() {
-    return FutureBuilder(
-        future: _rosaryConfigService.getLanguagesFuture(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return languagesDropdown();
-        });
+  Widget loadLanguagesDropdown() {
+    while (isLoadingLanguage) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return languagesDropdown();
   }
 
   Widget weekDaysDropdown() {

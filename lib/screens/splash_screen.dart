@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,11 +18,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    landing();
+  }
 
-    Future.delayed(const Duration(seconds: 3)).then((value) {
-      Navigator.of(context).pushReplacement(
-          CupertinoPageRoute(builder: (ctx) => const LandingScreen()));
-    });
+  void landing() async {
+    final prefs = await SharedPreferences.getInstance();
+    int defaultLangSet =
+        prefs.getInt(GlobalValue.sharedPreferenceLanguageSetKey) ?? 0;
+    if (!mounted) return;
+    defaultLangSet == 0
+        ? Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const LanguageSettings()))
+        : Future.delayed(const Duration(seconds: 3)).then((value) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LandingScreen()));
+          });
   }
 
   @override
