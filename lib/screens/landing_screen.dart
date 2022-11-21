@@ -72,7 +72,7 @@ class _LandingScreenState extends State<LandingScreen> {
       isLoadingWeekDays = true;
     });
 
-    _rosaryConfigService.getWeekDaysFuture().then((value) {
+    _rosaryConfigService.loadWeekDays().then((value) {
       _rosaryConfigService.initDefaultWeekDay();
       setState(() {
         isLoadingWeekDays = false;
