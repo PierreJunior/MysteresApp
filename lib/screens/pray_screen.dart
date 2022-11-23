@@ -127,7 +127,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   Widget subTitle() {
     if (_selectedPrayer["type"] == "mystere") {
-      String mystere = _selectedPrayer["mystere"] as String? ?? "";
+      String mystere = _selectedPrayer["sub_title"] as String? ?? "";
       String count = _selectedPrayer["count"] as String? ?? "";
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
