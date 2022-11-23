@@ -138,15 +138,15 @@ class _PrayScreenState extends State<PrayScreen> {
     }
   }
 
-  Widget stopButton([String? message]) {
-    message ??= "You ended your Rosary early";
+  Widget stopButton() {
     return ElevatedButton(
         style: stepButtonStyle(StepAction.stop),
         onPressed: () {
           LandingScreen.checkPage = false;
           Navigator.pop(context, LandingScreen.id);
           if (!_rosaryPrayerService.isLastStep()) {
-            showNotification(message!, 5, ColorPalette.primaryWarning);
+            showNotification(
+                "You ended your Rosary early", 5, ColorPalette.primaryWarning);
           }
         },
         child: stepIcon(StepAction.stop));
@@ -246,13 +246,34 @@ class _PrayScreenState extends State<PrayScreen> {
         if (isLoadingPrayers && !loadingError) {
           return const CircularProgressIndicator();
         } else if (isLoadingPrayers && loadingError) {
-          return errorButton();
+          return errorBuild();
         } else {
           return Device.orientation == Orientation.portrait
               ? portraitScaffold(scaffoldKey)
               : landscapeScaffold(scaffoldKey);
         }
       },
+    );
+  }
+
+  Scaffold errorBuild() {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('ROSARY'),
+        backgroundColor: ColorPalette.primaryDark,
+      ),
+      backgroundColor: ColorPalette.primary,
+      body: SafeArea(
+          child: Center(
+              child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Error loading prayers",
+            style: Font.heading1,
+          ),
+        ],
+      ))),
     );
   }
 
