@@ -182,9 +182,25 @@ class _LandingScreenState extends State<LandingScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PrayScreen(
-                                                selectedDay:
-                                                    _rosaryConfigService
-                                                        .selectedWeekDay!)));
+                                                  selectedDay:
+                                                      _rosaryConfigService
+                                                          .selectedWeekDay!,
+                                                  selectedLanguage:
+                                                      _rosaryConfigService
+                                                          .selectedLanguage,
+                                                )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PrayScreen(
+                                                  selectedDay:
+                                                      _rosaryConfigService
+                                                          .selectedWeekDay!,
+                                                  selectedLanguage:
+                                                      _rosaryConfigService
+                                                          .selectedLanguage,
+                                                )));
                                   }
                                 },
                                 title: 'Pray'),

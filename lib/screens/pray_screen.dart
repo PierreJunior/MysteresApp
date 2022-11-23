@@ -14,9 +14,12 @@ import '../widgets/ads.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class PrayScreen extends StatefulWidget {
-  const PrayScreen({Key? key, required this.selectedDay}) : super(key: key);
+  const PrayScreen(
+      {Key? key, required this.selectedDay, required this.selectedLanguage})
+      : super(key: key);
   static const String id = "PrayingScreen";
   final String selectedDay;
+  final String selectedLanguage;
 
   @override
   State<PrayScreen> createState() => _PrayScreenState();
@@ -24,13 +27,27 @@ class PrayScreen extends StatefulWidget {
 
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
-  late Map<String, Object> _selectedPrayer;
+  late Map<String, dynamic> _selectedPrayer;
+  bool isLoadingPrayers = true;
+  bool loadingError = false;
 
   @override
   void initState() {
     super.initState();
-    _rosaryPrayerService = RosaryPrayerService(widget.selectedDay);
-    initPrayer();
+    _rosaryPrayerService =
+        RosaryPrayerService(widget.selectedDay, widget.selectedLanguage);
+    _rosaryPrayerService.loadPrayers().then((value) {
+      setState(() {
+        initPrayer();
+        isLoadingPrayers = false;
+      });
+    }).catchError((e) {
+      setState(() {
+        showNotification(
+            "Error loading prayers", 5, ColorPalette.primaryWarning);
+        loadingError = true;
+      });
+    });
   }
 
   void nextStep() {
@@ -121,18 +138,29 @@ class _PrayScreenState extends State<PrayScreen> {
     }
   }
 
-  Widget stopButton() {
+  Widget stopButton([String? message]) {
+    message ??= "You ended your Rosary early";
     return ElevatedButton(
         style: stepButtonStyle(StepAction.stop),
         onPressed: () {
           LandingScreen.checkPage = false;
           Navigator.pop(context, LandingScreen.id);
           if (!_rosaryPrayerService.isLastStep()) {
-            showNotification(
-                "You ended your Rosary early", 5, ColorPalette.primaryWarning);
+            showNotification(message!, 5, ColorPalette.primaryWarning);
           }
         },
         child: stepIcon(StepAction.stop));
+  }
+
+  Widget errorButton([String? message]) {
+    message ??= "Error loading prayers";
+    return ElevatedButton(
+        style: stepButtonStyle(StepAction.error),
+        onPressed: () {
+          LandingScreen.checkPage = false;
+          Navigator.pop(context, LandingScreen.id);
+        },
+        child: stepIcon(StepAction.error));
   }
 
   Widget nextStepButton() {
@@ -169,6 +197,8 @@ class _PrayScreenState extends State<PrayScreen> {
       backgrounColor = ColorPalette.secondaryDark;
     } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
+    } else if (action == StepAction.error) {
+      backgrounColor = ColorPalette.primaryDark;
     } else {
       throw Exception("The provided action is not supported.");
     }
@@ -194,6 +224,9 @@ class _PrayScreenState extends State<PrayScreen> {
     } else if (action == StepAction.stop) {
       icon = Icons.stop;
       color = ColorPalette.primary;
+    } else if (action == StepAction.error) {
+      icon = Icons.keyboard_return;
+      color = ColorPalette.primary;
     } else {
       throw Exception("The provided action is not supported.");
     }
@@ -210,9 +243,15 @@ class _PrayScreenState extends State<PrayScreen> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return Device.orientation == Orientation.portrait
-            ? portraitScaffold(scaffoldKey)
-            : landscapeScaffold(scaffoldKey);
+        if (isLoadingPrayers && !loadingError) {
+          return const CircularProgressIndicator();
+        } else if (isLoadingPrayers && loadingError) {
+          return errorButton();
+        } else {
+          return Device.orientation == Orientation.portrait
+              ? portraitScaffold(scaffoldKey)
+              : landscapeScaffold(scaffoldKey);
+        }
       },
     );
   }
@@ -358,4 +397,4 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 }
 
-enum StepAction { previous, stop, next }
+enum StepAction { previous, stop, next, error }

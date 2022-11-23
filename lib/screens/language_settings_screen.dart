@@ -96,8 +96,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Row(
-                                  children: [
-                                    const SizedBox(width: 5),
+                                  children: const [
+                                    SizedBox(width: 5),
                                   ],
                                 ),
                                 const SizedBox(height: 5),
