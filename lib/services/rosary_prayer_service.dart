@@ -7,7 +7,7 @@ class RosaryPrayerService {
 
   RosaryPrayerService(String selectedDay, String selectedLanguage) {
     _db = FirebaseFirestore.instance;
-    _currentStep = 15;
+    _currentStep = 1;
     _selectedDay = selectedDay;
     _selectedLanguage = selectedLanguage;
   }
