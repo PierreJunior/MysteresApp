@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mysteres/services/logging_service.dart';
 
 class RosaryPrayerService {
   RosaryPrayerService(String selectedDay, String selectedLanguage) {
@@ -7,13 +6,11 @@ class RosaryPrayerService {
     _currentStep = 1;
     _selectedDay = selectedDay;
     _selectedLanguage = selectedLanguage;
-    _log = LoggingService();
   }
 
   late int _currentStep;
   late final String _selectedDay;
   late final String _selectedLanguage;
-  late final LoggingService _log;
   late FirebaseFirestore _db;
   late final List<Map<String, dynamic>> _rosarySteps = [];
 
@@ -41,11 +38,10 @@ class RosaryPrayerService {
         });
       }
       if (_rosarySteps.isEmpty) {
-        throw Exception('Some arbitrary error');
+        throw Exception(
+            'Business logic error. Rosary steps are empty for the selected configuration');
       }
       return _rosarySteps;
-    }).catchError((e, s) async {
-      await _log.exception(e, s);
     });
   }
 

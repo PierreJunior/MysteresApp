@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mysteres/global_variable.dart';
-import 'package:mysteres/services/logging_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RosaryConfigService {
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    _log = LoggingService();
     _initDefaultLangs();
   }
 
@@ -16,7 +14,6 @@ class RosaryConfigService {
   late String _defaultLanguage;
   late String? _selectedWeekDay;
   late final List<String> _weekDays = [];
-  late final LoggingService _log;
 
   List<String> getWeekDays() => _weekDays.toSet().toList();
   String getDefaultLanguage() => _defaultLanguage;
@@ -39,8 +36,6 @@ class RosaryConfigService {
         _selectedWeekDay = getCurrentWeekDay();
         return "Done";
       });
-    }).catchError((e, s) async {
-      await _log.exception(e, s);
     });
   }
 
@@ -56,8 +51,6 @@ class RosaryConfigService {
         _weekDays.add(doc.data()['value']);
       }
       return _weekDays;
-    }).catchError((e, s) async {
-      await _log.exception(e, s);
     });
   }
 
@@ -67,8 +60,6 @@ class RosaryConfigService {
         _languages.add(doc.data()['value']);
       }
       return _languages;
-    }).catchError((e, s) async {
-      await _log.exception(e, s);
     });
   }
 
