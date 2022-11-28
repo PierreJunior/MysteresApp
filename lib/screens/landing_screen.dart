@@ -83,7 +83,9 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingWeekDays = false;
       });
     }).catchError((e, s) {
-      _log.exception(e, s);
+      Map<String, dynamic> context = {"selectedLanguage": lang};
+      String transaction = "_LandingScreenState.onLanguageChanged";
+      _log.exception(e, s, context, transaction);
     });
   }
 
