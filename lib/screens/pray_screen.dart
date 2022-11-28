@@ -45,7 +45,11 @@ class _PrayScreenState extends State<PrayScreen> {
         isLoadingPrayers = false;
       });
     }).catchError((e, s) async {
-      await _log.exception(e, s);
+      Map<String, dynamic> context = {
+        "selectedDay": widget.selectedDay,
+        "selectedLanguage": widget.selectedLanguage
+      };
+      await _log.exception(e, s, context, "${PrayScreen.id}.initState");
       setState(() {
         showNotification(
             "Error loading prayers", 5, ColorPalette.primaryWarning);
