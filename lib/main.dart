@@ -27,7 +27,8 @@ Future<void> main() async {
   }, appRunner: () {
     FlutterError.onError = (details) {
       FlutterError.presentError(details);
-      LoggingService.message(details.exceptionAsString());
+      LoggingService.message(details.exceptionAsString(),
+          level: LoggingLevel.error);
     };
     PlatformDispatcher.instance.onError = (error, stack) {
       LoggingService().exception(error, stack);

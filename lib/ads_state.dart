@@ -16,7 +16,8 @@ class AdState {
     onAdFailedToLoad: (Ad ad, LoadAdError error) async {
       // Dispose the ad here to free resources.
       ad.dispose();
-      await LoggingService.message('Ad failed to load: $error');
+      await LoggingService.message('Ad failed to load: $error',
+          level: LoggingLevel.error);
     },
   );
 }
@@ -31,7 +32,8 @@ class InterstitialAdState {
     onAdFailedToLoad: (Ad ad, LoadAdError error) async {
       // Dispose the ad here to free resources.
       ad.dispose();
-      await LoggingService.message('Interstitial Ad failed to load: $error');
+      await LoggingService.message('Interstitial Ad failed to load: $error',
+          level: LoggingLevel.error);
     },
   );
 }
@@ -45,7 +47,8 @@ class ShowInterstitial {
       interstitial!.fullScreenContentCallback = FullScreenContentCallback(
         onAdFailedToShowFullScreenContent: (ad, error) async {
           ad.dispose();
-          await LoggingService.message('Ad failed to load: $error');
+          await LoggingService.message('Ad failed to load: $error',
+              level: LoggingLevel.error);
           createInterstitialAd();
         },
       );
@@ -61,7 +64,8 @@ class ShowInterstitial {
         adLoadCallback: InterstitialAdLoadCallback(
             onAdLoaded: onAdLoaded,
             onAdFailedToLoad: (LoadAdError error) async {
-              await LoggingService.message('Ad failed to load: $error');
+              await LoggingService.message('Ad failed to load: $error',
+                  level: LoggingLevel.error);
             }));
   }
 
