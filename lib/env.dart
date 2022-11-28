@@ -72,4 +72,14 @@ abstract class Env {
     defaultValue: '',
   );
   // END FIREBASE VARIABLES
+
+  // START SENTRY VARIABLES
+  static const String sentryDSN = String.fromEnvironment(
+    'SENTRY_DSN',
+    defaultValue: '',
+  );
+
+  static const String sentryTraceSampleRate =
+      String.fromEnvironment('SENTRY_TRACE_SAMPLE_RATE', defaultValue: "1.0");
+  // END SENTRY VARIABLES
 }
