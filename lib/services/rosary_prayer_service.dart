@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mysteres/services/logging_service.dart';
 
 class RosaryPrayerService {
-  late int _currentStep;
-  late final String _selectedDay;
-  late final String _selectedLanguage;
-
   RosaryPrayerService(String selectedDay, String selectedLanguage) {
     _db = FirebaseFirestore.instance;
     _currentStep = 1;
     _selectedDay = selectedDay;
     _selectedLanguage = selectedLanguage;
+    _log = LoggingService();
   }
 
+  late int _currentStep;
+  late final String _selectedDay;
+  late final String _selectedLanguage;
+  late final LoggingService _log;
   late FirebaseFirestore _db;
   late final List<Map<String, dynamic>> _rosarySteps = [];
 
@@ -42,7 +44,9 @@ class RosaryPrayerService {
         throw Exception('Some arbitrary error');
       }
       return _rosarySteps;
-    }).catchError((e) {});
+    }).catchError((e, s) async {
+      await _log.exception(e, s);
+    });
   }
 
   void setStep(int step) => _currentStep = step;

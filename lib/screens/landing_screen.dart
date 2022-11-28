@@ -7,6 +7,7 @@ import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
+import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -31,6 +32,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
+  late final LoggingService _log;
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
 
@@ -40,6 +42,7 @@ class _LandingScreenState extends State<LandingScreen> {
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
+    _log = LoggingService();
     _initialLoad();
     _checkingPage();
   }
@@ -54,6 +57,8 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingLanguage = false;
         isLoadingWeekDays = false;
       });
+    }).catchError((e, s) {
+      _log.exception(e, s);
     });
   }
 
@@ -77,6 +82,8 @@ class _LandingScreenState extends State<LandingScreen> {
       setState(() {
         isLoadingWeekDays = false;
       });
+    }).catchError((e, s) {
+      _log.exception(e, s);
     });
   }
 
