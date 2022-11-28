@@ -18,7 +18,7 @@ class LoggingService {
   }
 
   static Future<void> message(String? message,
-      {LoggingLevel? level = LoggingLevel.info}) async {
+      {LoggingLevel? level = LoggingLevel.info, String? transction}) async {
     SentryLevel logLevel;
     switch (level) {
       case LoggingLevel.debug:
