@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/env.dart';
+import 'package:mysteres/services/logging_service.dart';
 import 'package:provider/provider.dart';
 import 'package:mysteres/screens/splash_screen.dart';
 import 'package:mysteres/screens/landing_screen.dart';
@@ -20,6 +23,14 @@ Future<void> main() async {
     options.tracesSampleRate = double.parse(Env.sentryTraceSampleRate);
     options.addIntegration(LoggingIntegration());
   }, appRunner: () {
+    FlutterError.onError = (details) {
+      FlutterError.presentError(details);
+      LoggingService.message(details.exceptionAsString());
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      LoggingService().exception(error, stack);
+      return true;
+    };
     runApp(
       Provider.value(
         value: adState,
