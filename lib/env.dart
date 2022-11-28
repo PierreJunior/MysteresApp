@@ -79,7 +79,9 @@ abstract class Env {
     defaultValue: '',
   );
 
+  /// Must be a number between 0 and 1. (For example, to send 20% of
+  /// transactions, set the value to 0.2.)
   static const String sentryTraceSampleRate =
-      String.fromEnvironment('SENTRY_TRACE_SAMPLE_RATE', defaultValue: "1.0");
+      String.fromEnvironment('SENTRY_TRACE_SAMPLE_RATE', defaultValue: "0.1");
   // END SENTRY VARIABLES
 }
