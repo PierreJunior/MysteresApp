@@ -83,5 +83,10 @@ abstract class Env {
   /// transactions, set the value to 0.2.)
   static const String sentryTraceSampleRate =
       String.fromEnvironment('SENTRY_TRACE_SAMPLE_RATE', defaultValue: "0.1");
+
+  static const String sentryAttachScreenshot = String.fromEnvironment(
+    'SENTRY_ATTACH_SCREENSHOT',
+    defaultValue: 'false',
+  );
   // END SENTRY VARIABLES
 }

@@ -21,6 +21,8 @@ Future<void> main() async {
   await SentryFlutter.init((options) {
     options.dsn = Env.sentryDSN;
     options.tracesSampleRate = double.parse(Env.sentryTraceSampleRate);
+    options.attachScreenshot =
+        Env.sentryAttachScreenshot.toLowerCase() == 'true';
     options.addIntegration(LoggingIntegration());
   }, appRunner: () {
     FlutterError.onError = (details) {
