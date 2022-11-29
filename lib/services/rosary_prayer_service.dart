@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RosaryPrayerService {
-  late int _currentStep;
-  late final String _selectedDay;
-  late final String _selectedLanguage;
-
   RosaryPrayerService(String selectedDay, String selectedLanguage) {
     _db = FirebaseFirestore.instance;
     _currentStep = 1;
@@ -12,6 +8,9 @@ class RosaryPrayerService {
     _selectedLanguage = selectedLanguage;
   }
 
+  late int _currentStep;
+  late final String _selectedDay;
+  late final String _selectedLanguage;
   late FirebaseFirestore _db;
   late final List<Map<String, dynamic>> _rosarySteps = [];
 
@@ -39,10 +38,11 @@ class RosaryPrayerService {
         });
       }
       if (_rosarySteps.isEmpty) {
-        throw Exception('Some arbitrary error');
+        throw Exception(
+            'Business logic error. Rosary steps are empty for the selected configuration');
       }
       return _rosarySteps;
-    }).catchError((e) {});
+    });
   }
 
   void setStep(int step) => _currentStep = step;

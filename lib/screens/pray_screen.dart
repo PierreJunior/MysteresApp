@@ -3,6 +3,7 @@ import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:mysteres/widgets/container_content.dart';
@@ -28,12 +29,14 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
+  late final LoggingService _log;
   bool isLoadingPrayers = true;
   bool loadingError = false;
 
   @override
   void initState() {
     super.initState();
+    _log = LoggingService();
     _rosaryPrayerService =
         RosaryPrayerService(widget.selectedDay, widget.selectedLanguage);
     _rosaryPrayerService.loadPrayers().then((value) {
@@ -41,7 +44,13 @@ class _PrayScreenState extends State<PrayScreen> {
         initPrayer();
         isLoadingPrayers = false;
       });
-    }).catchError((e) {
+    }).catchError((e, s) async {
+      Map<String, dynamic> context = {
+        "selectedDay": widget.selectedDay,
+        "selectedLanguage": widget.selectedLanguage
+      };
+      String transaction = "_PrayScreenState.initState";
+      await _log.exception(e, s, context, transaction);
       setState(() {
         showNotification(
             "Error loading prayers", 5, ColorPalette.primaryWarning);

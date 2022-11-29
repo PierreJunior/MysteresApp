@@ -72,4 +72,21 @@ abstract class Env {
     defaultValue: '',
   );
   // END FIREBASE VARIABLES
+
+  // START SENTRY VARIABLES
+  static const String sentryDSN = String.fromEnvironment(
+    'SENTRY_DSN',
+    defaultValue: '',
+  );
+
+  /// Must be a number between 0 and 1. (For example, to send 20% of
+  /// transactions, set the value to 0.2.)
+  static const String sentryTraceSampleRate =
+      String.fromEnvironment('SENTRY_TRACE_SAMPLE_RATE', defaultValue: "0.1");
+
+  static const String sentryAttachScreenshot = String.fromEnvironment(
+    'SENTRY_ATTACH_SCREENSHOT',
+    defaultValue: 'false',
+  );
+  // END SENTRY VARIABLES
 }

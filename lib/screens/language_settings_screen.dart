@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
+import 'package:mysteres/services/logging_service.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/color_palette.dart';
@@ -24,12 +25,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   String selectedLanguage = "English";
   bool languageChanged = false;
   bool isLoadingLanguages = true;
+  late final LoggingService _log;
 
   @override
   void initState() {
     super.initState();
     _setLanguagePref(startingLanguage);
     _languageService = LanguageService();
+    _log = LoggingService();
     _initialLoad();
   }
 
@@ -38,6 +41,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       setState(() {
         isLoadingLanguages = false;
       });
+    }).catchError((e, s) {
+      _log.exception(e, s);
     });
   }
 
