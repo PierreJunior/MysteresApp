@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/screens/language_settings_screen.dart';
+import 'package:mysteres/services/logging_service.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,9 +16,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late final LoggingService _log;
+
   @override
   void initState() {
     super.initState();
+    _log = LoggingService();
     landing();
   }
 
@@ -32,6 +36,8 @@ class _SplashScreenState extends State<SplashScreen> {
         : Future.delayed(const Duration(seconds: 3)).then((value) {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => LandingScreen()));
+          }).catchError((e, s) {
+            _log.exception(e, s);
           });
   }
 

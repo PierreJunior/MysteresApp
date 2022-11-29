@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/env.dart';
+import 'package:mysteres/services/logging_service.dart';
 
 class AdState {
   Future<InitializationStatus> initialization;
@@ -12,37 +12,13 @@ class AdState {
       Platform.isAndroid ? Env.bannerAdUnitAndroidID : Env.bannerAdUnitIosID;
 
   final BannerAdListener bannerListener = BannerAdListener(
-    // Called when an ad is successfully received.
-    onAdLoaded: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad loaded.');
-      }
-    },
     // Called when an ad request failed.
-    onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    onAdFailedToLoad: (Ad ad, LoadAdError error) async {
       // Dispose the ad here to free resources.
       ad.dispose();
-      if (kDebugMode) {
-        print('Ad failed to load: $error');
-      }
-    },
-    // Called when an ad opens an overlay that covers the screen.
-    onAdOpened: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad opened.');
-      }
-    },
-    // Called when an ad removes an overlay that covers the screen.
-    onAdClosed: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad closed.');
-      }
-    },
-    // Called when an impression occurs on the ad.
-    onAdImpression: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad impression.');
-      }
+      await LoggingService.message('Ad failed to load: $error',
+          level: LoggingLevel.error,
+          transction: "AdState.BannerAdListener.onAdFailedToLoad");
     },
   );
 }
@@ -53,34 +29,13 @@ class InterstitialAdState {
       : Env.interstitialAdUnitIosID;
 
   final BannerAdListener bannerListener = BannerAdListener(
-    // Called when an ad is successfully received.
-    onAdLoaded: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad loaded.');
-      }
-    },
     // Called when an ad request failed.
-    onAdFailedToLoad: (Ad ad, LoadAdError error) {
+    onAdFailedToLoad: (Ad ad, LoadAdError error) async {
       // Dispose the ad here to free resources.
       ad.dispose();
-    },
-    // Called when an ad opens an overlay that covers the screen.
-    onAdOpened: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad opened.');
-      }
-    },
-    // Called when an ad removes an overlay that covers the screen.
-    onAdClosed: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad closed.');
-      }
-    },
-    // Called when an impression occurs on the ad.
-    onAdImpression: (Ad ad) {
-      if (kDebugMode) {
-        print('Ad impression.');
-      }
+      await LoggingService.message('Interstitial Ad failed to load: $error',
+          level: LoggingLevel.error,
+          transction: "InterstitialAdState.BannerAdListener.onAdFailedToLoad");
     },
   );
 }
@@ -92,17 +47,12 @@ class ShowInterstitial {
   void showInterstitialAd() {
     if (interstitial != null) {
       interstitial!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdShowedFullScreenContent: (ad) {
-          if (kDebugMode) {
-            print('ad showed');
-          }
-        },
-        onAdDismissedFullScreenContent: (ad) {
+        onAdFailedToShowFullScreenContent: (ad, error) async {
           ad.dispose();
-          createInterstitialAd();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
+          await LoggingService.message('Ad failed to load: $error',
+              level: LoggingLevel.error,
+              transction:
+                  "ShowInterstitial.showInterstitialAd.onAdFailedToShowFullScreenContent");
           createInterstitialAd();
         },
       );
@@ -117,17 +67,15 @@ class ShowInterstitial {
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
             onAdLoaded: onAdLoaded,
-            onAdFailedToLoad: (LoadAdError error) {
-              if (kDebugMode) {
-                print("Interstitial Ad Failed to Load");
-              }
+            onAdFailedToLoad: (LoadAdError error) async {
+              await LoggingService.message('Ad failed to load: $error',
+                  level: LoggingLevel.error,
+                  transction:
+                      "ShowInterstitial.createInterstitialAd.onAdFailedToLoad");
             }));
   }
 
   void onAdLoaded(InterstitialAd ad) {
-    if (kDebugMode) {
-      print("interstitial Ad Loaded");
-    }
     interstitial = ad;
     isAdLoaded = true;
   }
