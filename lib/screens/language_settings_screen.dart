@@ -9,7 +9,6 @@ import '../components/color_palette.dart';
 import '../components/font.dart';
 import '../constants.dart';
 import '../global_variable.dart';
-import '../widgets/ads.dart';
 import '../widgets/rounded_button.dart';
 
 class LanguageSettings extends StatefulWidget {
@@ -129,7 +128,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                 ),
               ),
             ),
-            bottomNavigationBar: const Ads(),
           ),
         );
       },

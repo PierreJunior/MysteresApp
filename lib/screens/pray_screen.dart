@@ -30,6 +30,7 @@ class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
   late final LoggingService _log;
+  int module = 1;
   bool isLoadingPrayers = true;
   bool loadingError = false;
 
@@ -152,7 +153,8 @@ class _PrayScreenState extends State<PrayScreen> {
         style: stepButtonStyle(StepAction.stop),
         onPressed: () {
           LandingScreen.checkPage = false;
-          Navigator.pop(context, LandingScreen.id);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
             showNotification(
                 "You ended your Rosary early", 5, ColorPalette.primaryWarning);
@@ -180,6 +182,7 @@ class _PrayScreenState extends State<PrayScreen> {
           Navigator.popAndPushNamed(context, LandingScreen.id);
           showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
         } else {
+          module = _rosaryPrayerService.getCurrentStep() % 2;
           nextStep();
         }
       },
@@ -192,6 +195,7 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
+          module = _rosaryPrayerService.getCurrentStep() % 2;
           previousStep();
         }
       },
@@ -348,7 +352,11 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const Ads(),
+      bottomNavigationBar: module == 0
+          ? SizedBox(
+              height: Adaptive.h(10),
+            )
+          : const Ads(),
     );
   }
 
@@ -422,7 +430,11 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomSheet: const Ads(),
+      bottomSheet: module == 0
+          ? SizedBox(
+              height: Adaptive.h(10),
+            )
+          : const Ads(),
     );
   }
 }
