@@ -30,7 +30,7 @@ class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
   late final LoggingService _log;
-  int module = 1;
+  int module = 0;
   bool isLoadingPrayers = true;
   bool loadingError = false;
 
@@ -430,7 +430,7 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomSheet: module == 0
+      bottomSheet: module != 0
           ? SizedBox(
               height: Adaptive.h(10),
             )
