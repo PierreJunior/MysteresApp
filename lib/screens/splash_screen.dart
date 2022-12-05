@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, orientation, screenType) {
         return MaterialApp(
           home: Scaffold(
-            backgroundColor: ColorPalette.primaryLight,
+            backgroundColor: ColorPalette.primary,
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
