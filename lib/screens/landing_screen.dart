@@ -173,14 +173,14 @@ class _LandingScreenState extends State<LandingScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RoundedButton(
-                                colour: ColorPalette.primaryDark,
+                                colour: ColorPalette.secondaryDark,
                                 pressed: () => onResetPressed(),
                                 title: 'RESET'),
                             const SizedBox(
                               width: 20,
                             ),
                             RoundedButton(
-                                colour: ColorPalette.secondaryDark,
+                                colour: ColorPalette.primaryDark,
                                 pressed: () {
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
