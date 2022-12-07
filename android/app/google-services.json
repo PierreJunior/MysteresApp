@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "634669023130",
+    "firebase_url": "https://therosary-92ab7-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "therosary-92ab7",
+    "storage_bucket": "therosary-92ab7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634669023130:android:789413516398d084f50423",
+        "android_client_info": {
+          "package_name": "com.KahoziJunior.mysteres"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634669023130-blkee06bs148t6em8v45li241c88hd84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHamf60rf2bAGv87gmv5bBPn6T8twpNfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634669023130-blkee06bs148t6em8v45li241c88hd84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
