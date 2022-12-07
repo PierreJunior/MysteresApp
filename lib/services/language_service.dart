@@ -10,11 +10,32 @@ class LanguageService {
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
 
+  void clearLanguagesPrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
   List<String> getLanguages() => _languages.toSet().toList();
 
-  Future<String> getDefaultLanguage() async {
+  Future<bool> setDefaultLanguage(String defaultLanguage) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey)!;
+    prefs.setInt(GlobalValue.sharedPreferenceLanguageSetKey, 1);
+    return prefs.setString(
+        GlobalValue.sharedPreferenceDefaultLanguageKey, defaultLanguage);
+  }
+
+  Future<int> defaultLanguageIsInit() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var prefValue = prefs.getInt(GlobalValue.sharedPreferenceLanguageSetKey);
+    if (prefValue == null) {
+      return 0;
+    }
+    return prefValue;
+  }
+
+  Future<String?> getDefaultLanguage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey);
   }
 
   Future<List<String>> loadLanguages() async {

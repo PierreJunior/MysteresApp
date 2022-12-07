@@ -4,11 +4,9 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../components/color_palette.dart';
 import '../components/font.dart';
 import '../constants.dart';
-import '../global_variable.dart';
 import '../widgets/rounded_button.dart';
 
 class LanguageSettings extends StatefulWidget {
@@ -53,13 +51,10 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   Future<bool> _setLanguagePref(value) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (languageChanged) {
-      prefs.setInt(GlobalValue.sharedPreferenceLanguageSetKey, 1);
+      return _languageService.setDefaultLanguage(value);
     }
-
-    return prefs.setString(
-        GlobalValue.sharedPreferenceDefaultLanguageKey, value);
+    return false;
   }
 
   @override
