@@ -3,10 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'test_helper.dart';
 import 'mock.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  SharedPreferences.setMockInitialValues({});
+  setupSharedPreferencesMock();
   setupFirebaseAuthMocks();
 
   group('default languages', () {
