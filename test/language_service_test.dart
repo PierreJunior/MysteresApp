@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
+import 'helper.dart';
 import 'mock.dart';
 
 void main() {
@@ -16,12 +17,11 @@ void main() {
       await result.then((value) {
         expect(value, null);
       });
-      // language.clearLanguagesPrefs();
     });
   });
 
-  group('default a', () {
-    test('default a', () async {
+  group('language service without being initialized', () {
+    test('default language init should be 0', () async {
       await Firebase.initializeApp();
       LanguageService language = LanguageService();
 
@@ -30,25 +30,26 @@ void main() {
       await result.then((value) {
         expect(value, 0);
       });
-      // language.clearLanguagesPrefs();
     });
   });
 
-  group('default b', () {
-    test('default b', () async {
+  group('language service after default language is set', () {
+    test('default language init when language is set should be 1', () async {
       await Firebase.initializeApp();
       LanguageService language = LanguageService();
 
-      language.setDefaultLanguage('French');
+      String randomWord = TestHelper.generateRandomWord();
+
+      language.setDefaultLanguage(randomWord);
       var r = language.defaultLanguageIsInit();
 
       await r.then((value) {
         expect(value, 1);
       });
-      // language.clearLanguagesPrefs();
     });
 
-    test('set language', () async {
+    test('set language after clearing SharedPreferences should be null',
+        () async {
       await Firebase.initializeApp();
       LanguageService language = LanguageService();
 
@@ -61,18 +62,19 @@ void main() {
     });
   });
 
-  group('default c', () {
-    test('default c', () async {
+  group('language service after being initialized', () {
+    test('Default language should be equal to language set', () async {
       await Firebase.initializeApp();
       LanguageService language = LanguageService();
 
-      language.setDefaultLanguage('English');
+      String randomWord = TestHelper.generateRandomWord();
+
+      language.setDefaultLanguage(randomWord);
       var r = language.getDefaultLanguage();
 
       await r.then((value) {
-        expect(value, 'English');
+        expect(value, randomWord);
       });
-      // language.clearLanguagesPrefs();
     });
   });
 }
