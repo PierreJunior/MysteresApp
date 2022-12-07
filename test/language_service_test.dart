@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
-import 'helper.dart';
+import 'test_helper.dart';
 import 'mock.dart';
 
 void main() {
