@@ -12,8 +12,6 @@ import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../widgets/ads.dart';
-
 //ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
   late String valueLanguage;
@@ -175,14 +173,14 @@ class _LandingScreenState extends State<LandingScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RoundedButton(
-                                colour: ColorPalette.primaryDark,
+                                colour: ColorPalette.secondaryDark,
                                 pressed: () => onResetPressed(),
                                 title: 'RESET'),
                             const SizedBox(
                               width: 20,
                             ),
                             RoundedButton(
-                                colour: ColorPalette.secondaryDark,
+                                colour: ColorPalette.primaryDark,
                                 pressed: () {
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
@@ -221,7 +219,6 @@ class _LandingScreenState extends State<LandingScreen> {
                 ),
               ),
             ),
-            bottomNavigationBar: const Ads(),
           ),
         );
       },

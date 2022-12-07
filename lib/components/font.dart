@@ -12,7 +12,7 @@ class Font {
 
   static TextStyle paragraph = TextStyle(
       fontSize: 20.sp,
-      color: Colors.white70,
+      color: Colors.grey.shade700,
       height: Device.orientation == Orientation.portrait
           ? Device.screenType == ScreenType.tablet
               ? 0.2.h
