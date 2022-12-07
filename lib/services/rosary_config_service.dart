@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mysteres/global_variable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mysteres/services/language_service.dart';
+import 'package:mysteres/services/logging_service.dart';
 
 class RosaryConfigService {
   RosaryConfigService() {
     _db = FirebaseFirestore.instance;
-    _initDefaultLangs();
+    _languageService = LanguageService();
   }
 
   late FirebaseFirestore _db;
@@ -14,6 +14,7 @@ class RosaryConfigService {
   late String _defaultLanguage;
   late String? _selectedWeekDay;
   late final List<String> _weekDays = [];
+  late final LanguageService _languageService;
 
   List<String> getWeekDays() => _weekDays.toSet().toList();
   String getDefaultLanguage() => _defaultLanguage;
@@ -23,11 +24,17 @@ class RosaryConfigService {
     _selectedWeekDay = getCurrentWeekDay();
   }
 
-  void _initDefaultLangs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _selectedLanguage =
-        prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey)!;
-    _defaultLanguage = _selectedLanguage;
+  void init() async {
+    await _languageService.getDefaultLanguage().then((value) {
+      if (value != null) {
+        _selectedLanguage = value;
+        _defaultLanguage = value;
+      } else {
+        String error = "Default language is not set.";
+        LoggingService.message(error, level: LoggingLevel.fatal);
+        throw Exception(error);
+      }
+    });
   }
 
   Future<String> load() async {

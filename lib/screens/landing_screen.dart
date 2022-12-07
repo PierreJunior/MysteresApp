@@ -40,6 +40,7 @@ class _LandingScreenState extends State<LandingScreen> {
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
+    _rosaryConfigService.init();
     _log = LoggingService();
     _initialLoad();
     _checkingPage();
