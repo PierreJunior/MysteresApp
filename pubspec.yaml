@@ -56,6 +56,7 @@ dependencies:
   sentry_flutter: ^6.17.0
   sentry_logging: ^6.17.0
   logging: ^1.1.0
+  fake_cloud_firestore: ^2.1.0
 
 
 dev_dependencies:
