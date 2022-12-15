@@ -20,19 +20,20 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Material(
-        elevation: 5.0,
-        color: colour,
-        borderRadius: BorderRadius.circular(widgetBorderRadius),
-        child: MaterialButton(
-          onPressed: pressed,
-          minWidth: 150.0,
-          height: roundButtonHeight,
-          child: Text(
-            title,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
+      child: OutlinedButton(
+        onPressed: pressed,
+        style: OutlinedButton.styleFrom(
+          backgroundColor: colour,
+          side: BorderSide.none,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shadowColor: Colors.grey,
+          elevation: 20,
+          fixedSize: Size(150, roundButtonHeight),
+        ),
+        child: Text(
+          title,
+          style: const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

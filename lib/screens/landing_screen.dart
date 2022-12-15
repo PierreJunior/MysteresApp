@@ -98,10 +98,29 @@ class _LandingScreenState extends State<LandingScreen> {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return MaterialApp(
+          theme: ThemeData(useMaterial3: true),
           home: Scaffold(
             drawer: const NavigationDrawer(),
             appBar: AppBar(
-              title: const Text('ROSARY'),
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    tooltip:
+                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  );
+                },
+              ),
+              title: const Text(
+                'ROSARY',
+                style: TextStyle(color: ColorPalette.primary),
+              ),
               backgroundColor: ColorPalette.primaryDark,
             ),
             backgroundColor: ColorPalette.primary,
