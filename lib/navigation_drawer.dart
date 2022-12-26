@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/drawer_item.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -59,6 +60,10 @@ class NavigationDrawer extends StatelessWidget {
           showNotification(
               "You ended your Rosary early", 5, ColorPalette.warning);
         }
+        break;
+      case 1:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LanguageSettings()));
         break;
     }
   }
