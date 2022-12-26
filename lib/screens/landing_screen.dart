@@ -71,21 +71,24 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void onLanguageChanged(String lang) {
-    _rosaryConfigService.changeLanguage(lang);
+    _rosaryConfigService.setSelectedLang(lang);
     setState(() {
       isLoadingWeekDays = true;
     });
 
-    _rosaryConfigService.loadWeekDays().then((value) {
-      _rosaryConfigService.initDefaultWeekDay();
-      setState(() {
-        isLoadingWeekDays = false;
-      });
-    }).catchError((e, s) {
-      Map<String, dynamic> context = {"selectedLanguage": lang};
-      String transaction = "_LandingScreenState.onLanguageChanged";
-      _log.exception(e, s, context, transaction);
+    _rosaryConfigService.reset();
+    setState(() {
+      isLoadingWeekDays = false;
     });
+    // _rosaryConfigService.loadWeekDays().then((value) {
+    //   _rosaryConfigService.reset();
+    //   setState(() {
+    //   });
+    // }).catchError((e, s) {
+    //   Map<String, dynamic> context = {"selectedLanguage": lang};
+    //   String transaction = "_LandingScreenState.onLanguageChanged";
+    //   _log.exception(e, s, context, transaction);
+    // });
   }
 
   @override

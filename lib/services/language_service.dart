@@ -46,4 +46,8 @@ class LanguageService {
       return _languages;
     });
   }
+
+  Future<DocumentReference<Map<String, dynamic>>> loadLanguageReference(String language) async {
+    return _db.collection('languages').doc(language);
+  }
 }
