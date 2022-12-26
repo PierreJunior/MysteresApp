@@ -55,7 +55,11 @@ class RosaryConfigService {
   }
 
   Future<List<String>> loadLanguages() async {
-    return await _db.collection('languages').get().then((event) {
+    return await _db
+        .collection('languages')
+        .where('status', isEqualTo: 1)
+        .get()
+        .then((event) {
       for (var doc in event.docs) {
         _languages.add(doc.data()['value']);
       }

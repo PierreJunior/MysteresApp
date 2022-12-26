@@ -19,7 +19,7 @@ class LanguageSettings extends StatefulWidget {
 class _LanguageSettingsState extends State<LanguageSettings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
-  String selectedLanguage = "English";
+  late String selectedLanguage;
   bool languageChanged = false;
   bool isLoadingLanguages = true;
   late final LoggingService _log;
@@ -37,6 +37,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     _languageService.loadLanguages().then((value) {
       setState(() {
         isLoadingLanguages = false;
+        selectedLanguage = _languageService.getLanguages().first;
       });
     }).catchError((e, s) {
       _log.exception(e, s);
@@ -77,7 +78,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Welcome! \n\nPlease set your default language',
+                          'Please set your default language',
                           style: Font.heading1,
                           textAlign: TextAlign.center,
                         ),
@@ -110,7 +111,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RoundedButton(
-                                colour: ColorPalette.secondaryDark,
+                                colour: ColorPalette.primaryDark,
                                 pressed: () {
                                   onConfirmPressed(context);
                                 },

@@ -31,7 +31,7 @@ class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
   late final LoggingService _log;
-  int module = 0;
+  int module = 2;
   bool isLoadingPrayers = true;
   bool loadingError = false;
 
@@ -54,8 +54,7 @@ class _PrayScreenState extends State<PrayScreen> {
       String transaction = "_PrayScreenState.initState";
       await _log.exception(e, s, context, transaction);
       setState(() {
-        showNotification(
-            "Error loading prayers", 5, ColorPalette.primaryWarning);
+        showNotification("Error loading prayers", 5, ColorPalette.warning);
         loadingError = true;
       });
     });
@@ -93,7 +92,7 @@ class _PrayScreenState extends State<PrayScreen> {
       backgroundColor: color,
       message: message,
       duration: Duration(seconds: duration),
-      flushbarPosition: FlushbarPosition.TOP,
+      flushbarPosition: FlushbarPosition.BOTTOM,
     ).show(context);
   }
 
@@ -158,7 +157,7 @@ class _PrayScreenState extends State<PrayScreen> {
               MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
             showNotification(
-                "You ended your Rosary early", 5, ColorPalette.primaryWarning);
+                "You ended your Rosary early", 5, ColorPalette.warning);
           }
         },
         child: stepIcon(StepAction.stop));
@@ -181,9 +180,9 @@ class _PrayScreenState extends State<PrayScreen> {
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
-          showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
+          showNotification("Prayer finished!", 5, ColorPalette.success);
         } else {
-          module = _rosaryPrayerService.getCurrentStep() % 2;
+          // module = _rosaryPrayerService.getCurrentStep() % 2;
           nextStep();
         }
       },
@@ -196,7 +195,7 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          module = _rosaryPrayerService.getCurrentStep() % 2;
+          // module = _rosaryPrayerService.getCurrentStep() % 2;
           previousStep();
         }
       },
@@ -207,7 +206,11 @@ class _PrayScreenState extends State<PrayScreen> {
   ButtonStyle stepButtonStyle(StepAction action) {
     // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
-    if (action == StepAction.next || action == StepAction.previous) {
+    if (action == StepAction.next) {
+      backgrounColor = _rosaryPrayerService.isLastStep()
+          ? ColorPalette.primaryDark
+          : ColorPalette.secondaryDark;
+    } else if (action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
     } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
