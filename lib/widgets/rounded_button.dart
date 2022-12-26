@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RoundedButton extends StatelessWidget {
