@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
@@ -5,15 +6,16 @@ import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:mysteres/widgets/container_content.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:text_scroll/text_scroll.dart';
+
 import '../constants.dart';
 import '../widgets/ads.dart';
-import 'package:text_scroll/text_scroll.dart';
+import '../widgets/custom_app_bar.dart';
 
 class PrayScreen extends StatefulWidget {
   const PrayScreen(
@@ -294,27 +296,7 @@ class _PrayScreenState extends State<PrayScreen> {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
-        appBar: AppBar(
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
-            },
-          ),
-          title: const Text(
-            'ROSARY',
-            style: TextStyle(color: ColorPalette.primary),
-          ),
-          backgroundColor: ColorPalette.primaryDark,
-        ),
+        appBar: const CustomAppBar(),
         backgroundColor: ColorPalette.primary,
         body: SafeArea(
             child: Center(
@@ -344,27 +326,7 @@ class _PrayScreenState extends State<PrayScreen> {
       home: Scaffold(
         key: scaffoldKey,
         drawer: const NavigationDrawer(),
-        appBar: AppBar(
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
-            },
-          ),
-          title: const Text(
-            'ROSARY',
-            style: TextStyle(color: ColorPalette.primary),
-          ),
-          backgroundColor: ColorPalette.primaryDark,
-        ),
+        appBar: const CustomAppBar(),
         backgroundColor: ColorPalette.primary,
         body: SafeArea(
           child: Padding(
@@ -432,10 +394,7 @@ class _PrayScreenState extends State<PrayScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: const NavigationDrawer(),
-      appBar: AppBar(
-        title: const Text('ROSARY'),
-        backgroundColor: ColorPalette.primaryDark,
-      ),
+      appBar: const CustomAppBar(),
       backgroundColor: ColorPalette.primary,
       body: SafeArea(
         child: Padding(

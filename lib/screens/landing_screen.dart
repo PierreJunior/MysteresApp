@@ -9,6 +9,7 @@ import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
+import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -101,28 +102,7 @@ class _LandingScreenState extends State<LandingScreen> {
           theme: ThemeData(useMaterial3: true),
           home: Scaffold(
             drawer: const NavigationDrawer(),
-            appBar: AppBar(
-              leading: Builder(
-                builder: (BuildContext context) {
-                  return IconButton(
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    tooltip:
-                        MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  );
-                },
-              ),
-              title: const Text(
-                'ROSARY',
-                style: TextStyle(color: ColorPalette.primary),
-              ),
-              backgroundColor: ColorPalette.primaryDark,
-            ),
+            appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
             body: SingleChildScrollView(
               child: SafeArea(

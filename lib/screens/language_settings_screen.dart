@@ -7,6 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../components/color_palette.dart';
 import '../components/font.dart';
 import '../constants.dart';
+import '../widgets/custom_app_bar.dart';
 import '../widgets/rounded_button.dart';
 
 class LanguageSettings extends StatefulWidget {
@@ -64,10 +65,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       builder: (context, orientation, screenType) {
         return MaterialApp(
           home: Scaffold(
-            appBar: AppBar(
-              title: const Text('ROSARY'),
-              backgroundColor: ColorPalette.primaryDark,
-            ),
+            appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
             body: Center(
               child: SingleChildScrollView(
