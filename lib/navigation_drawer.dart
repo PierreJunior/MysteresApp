@@ -57,7 +57,7 @@ class NavigationDrawer extends StatelessWidget {
         );
         if (LandingScreen.checkPage == true) {
           showNotification(
-              "You ended your Rosary early", 5, ColorPalette.primaryWarning);
+              "You ended your Rosary early", 5, ColorPalette.warning);
         }
         break;
     }

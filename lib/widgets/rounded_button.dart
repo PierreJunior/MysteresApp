@@ -26,7 +26,7 @@ class RoundedButton extends StatelessWidget {
           side: BorderSide.none,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           shadowColor: Colors.grey,
-          elevation: 20,
+          elevation: 3,
           fixedSize: Size(150, roundButtonHeight),
         ),
         child: Text(

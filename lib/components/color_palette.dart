@@ -9,4 +9,6 @@ class ColorPalette {
   static const secondaryDark = Color(0xFFaec4c7);
   static const primaryWarning = Color(0xFF4f9a94);
   static const secondaryWarning = Color(0xFF4f9a94);
+  static const success = Color(0xFF4caf50);
+  static const warning = Color(0xFFff9800);
 }
