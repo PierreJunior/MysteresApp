@@ -206,7 +206,11 @@ class _PrayScreenState extends State<PrayScreen> {
   ButtonStyle stepButtonStyle(StepAction action) {
     // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
-    if (action == StepAction.next || action == StepAction.previous) {
+    if (action == StepAction.next) {
+      backgrounColor = _rosaryPrayerService.isLastStep()
+          ? ColorPalette.primaryDark
+          : ColorPalette.secondaryDark;
+    } else if (action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
     } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
