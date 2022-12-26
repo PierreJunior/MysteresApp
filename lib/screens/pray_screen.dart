@@ -8,6 +8,7 @@ import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:mysteres/widgets/container_content.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
+import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../constants.dart';
@@ -30,7 +31,7 @@ class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
   late final LoggingService _log;
-  int module = 0;
+  int module = 2;
   bool isLoadingPrayers = true;
   bool loadingError = false;
 
@@ -53,8 +54,7 @@ class _PrayScreenState extends State<PrayScreen> {
       String transaction = "_PrayScreenState.initState";
       await _log.exception(e, s, context, transaction);
       setState(() {
-        showNotification(
-            "Error loading prayers", 5, ColorPalette.primaryWarning);
+        showNotification("Error loading prayers", 5, ColorPalette.warning);
         loadingError = true;
       });
     });
@@ -92,7 +92,7 @@ class _PrayScreenState extends State<PrayScreen> {
       backgroundColor: color,
       message: message,
       duration: Duration(seconds: duration),
-      flushbarPosition: FlushbarPosition.TOP,
+      flushbarPosition: FlushbarPosition.BOTTOM,
     ).show(context);
   }
 
@@ -157,7 +157,7 @@ class _PrayScreenState extends State<PrayScreen> {
               MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
             showNotification(
-                "You ended your Rosary early", 5, ColorPalette.primaryWarning);
+                "You ended your Rosary early", 5, ColorPalette.warning);
           }
         },
         child: stepIcon(StepAction.stop));
@@ -180,9 +180,9 @@ class _PrayScreenState extends State<PrayScreen> {
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
-          showNotification("Prayer finished!", 5, ColorPalette.secondaryDark);
+          showNotification("Prayer finished!", 5, ColorPalette.success);
         } else {
-          module = _rosaryPrayerService.getCurrentStep() % 2;
+          // module = _rosaryPrayerService.getCurrentStep() % 2;
           nextStep();
         }
       },
@@ -195,7 +195,7 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          module = _rosaryPrayerService.getCurrentStep() % 2;
+          // module = _rosaryPrayerService.getCurrentStep() % 2;
           previousStep();
         }
       },
@@ -206,7 +206,11 @@ class _PrayScreenState extends State<PrayScreen> {
   ButtonStyle stepButtonStyle(StepAction action) {
     // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
-    if (action == StepAction.next || action == StepAction.previous) {
+    if (action == StepAction.next) {
+      backgrounColor = _rosaryPrayerService.isLastStep()
+          ? ColorPalette.primaryDark
+          : ColorPalette.secondaryDark;
+    } else if (action == StepAction.previous) {
       backgrounColor = ColorPalette.secondaryDark;
     } else if (action == StepAction.stop) {
       backgrounColor = ColorPalette.primaryDark;
@@ -269,94 +273,141 @@ class _PrayScreenState extends State<PrayScreen> {
     );
   }
 
-  Scaffold errorBuild() {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ROSARY'),
-        backgroundColor: ColorPalette.primaryDark,
-      ),
-      backgroundColor: ColorPalette.primary,
-      body: SafeArea(
-          child: Center(
-              child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Error loading prayers",
-            style: Font.heading1,
+  MaterialApp errorBuild() {
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: Scaffold(
+        appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
           ),
-        ],
-      ))),
+          title: const Text(
+            'ROSARY',
+            style: TextStyle(color: ColorPalette.primary),
+          ),
+          backgroundColor: ColorPalette.primaryDark,
+        ),
+        backgroundColor: ColorPalette.primary,
+        body: SafeArea(
+            child: Center(
+                child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Error loading prayers",
+              style: Font.heading1,
+            ),
+            const SizedBox(height: 10),
+            RoundedButton(
+                colour: ColorPalette.primaryDark,
+                pressed: () {
+                  Navigator.pop(context);
+                },
+                title: 'Home')
+          ],
+        ))),
+      ),
     );
   }
 
-  Scaffold portraitScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: const NavigationDrawer(),
-      appBar: AppBar(
-        title: const Text('ROSARY'),
-        backgroundColor: ColorPalette.primaryDark,
-      ),
-      backgroundColor: ColorPalette.primary,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              StepProgressIndicator(
-                totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
-                size: 7,
-                currentStep: _rosaryPrayerService.getCurrentStep(),
-                unselectedColor: ColorPalette.secondaryDark,
-                selectedColor: ColorPalette.primaryDark,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: titleSectionChildren(),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+  MaterialApp portraitScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: Scaffold(
+        key: scaffoldKey,
+        drawer: const NavigationDrawer(),
+        appBar: AppBar(
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+          title: const Text(
+            'ROSARY',
+            style: TextStyle(color: ColorPalette.primary),
+          ),
+          backgroundColor: ColorPalette.primaryDark,
+        ),
+        backgroundColor: ColorPalette.primary,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                StepProgressIndicator(
+                  totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
+                  size: 7,
+                  currentStep: _rosaryPrayerService.getCurrentStep(),
+                  unselectedColor: ColorPalette.secondaryDark,
+                  selectedColor: ColorPalette.primaryDark,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: titleSectionChildren(),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _selectedPrayer["value"] as String? ?? "",
+                            style: Font.paragraph,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          _selectedPrayer["value"] as String? ?? "",
-                          style: Font.paragraph,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.fade,
-                        ),
+                        previousStepButton(),
+                        stopButton(),
+                        nextStepButton(),
                       ],
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      previousStepButton(),
-                      stopButton(),
-                      nextStepButton(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: module == 0
+            ? SizedBox(
+                height: Adaptive.h(10),
+              )
+            : const Ads(),
       ),
-      bottomNavigationBar: module == 0
-          ? SizedBox(
-              height: Adaptive.h(10),
-            )
-          : const Ads(),
     );
   }
 
@@ -430,7 +481,7 @@ class _PrayScreenState extends State<PrayScreen> {
           ),
         ),
       ),
-      bottomSheet: module != 0
+      bottomNavigationBar: module != 0
           ? SizedBox(
               height: Adaptive.h(10),
             )
