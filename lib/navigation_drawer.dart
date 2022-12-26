@@ -1,8 +1,8 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/drawer_item.dart';
 import 'package:mysteres/screens/landing_screen.dart';
+import 'package:mysteres/screens/language_settings_screen.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -37,16 +37,6 @@ class NavigationDrawer extends StatelessWidget {
   void onItemPressed(BuildContext context, {required int index}) {
     Navigator.pop(context);
 
-    void showNotification(String message, int duration, Color color) {
-      Flushbar(
-        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-        backgroundColor: color,
-        message: message,
-        duration: Duration(seconds: duration),
-        flushbarPosition: FlushbarPosition.TOP,
-      ).show(context);
-    }
-
     switch (index) {
       case 0:
         Navigator.push(
@@ -55,10 +45,10 @@ class NavigationDrawer extends StatelessWidget {
             builder: (context) => LandingScreen(),
           ),
         );
-        if (LandingScreen.checkPage == true) {
-          showNotification(
-              "You ended your Rosary early", 5, ColorPalette.primaryWarning);
-        }
+        break;
+      case 1:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LanguageSettings()));
         break;
     }
   }
