@@ -261,7 +261,24 @@ class _PrayScreenState extends State<PrayScreen> {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         if (isLoadingPrayers && !loadingError) {
-          return const CircularProgressIndicator();
+          return MaterialApp(
+            theme: ThemeData(useMaterial3: true),
+            home: Scaffold(
+              backgroundColor: ColorPalette.primary,
+              body: Center(
+                child: SizedBox(
+                  height: Adaptive.h(25),
+                  width: Adaptive.w(50),
+                  child: const CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation(ColorPalette.secondaryDark),
+                    backgroundColor: ColorPalette.primaryDark,
+                    strokeWidth: 10,
+                  ),
+                ),
+              ),
+            ),
+          );
         } else if (isLoadingPrayers && loadingError) {
           return errorBuild();
         } else {
