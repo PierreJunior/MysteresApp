@@ -1,4 +1,4 @@
-package com.KahoziJunior.mysteres
+package com.kalani.rosary
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:634669023130:android:789413516398d084f50423",
+        "mobilesdk_app_id": "1:634669023130:android:0efcdd883d8d716bf50423",
         "android_client_info": {
-          "package_name": "com.KahoziJunior.mysteres"
+          "package_name": "com.kalani.rosary"
         }
       },
       "oauth_client": [
@@ -30,6 +30,13 @@
             {
               "client_id": "634669023130-blkee06bs148t6em8v45li241c88hd84.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "634669023130-gej4004j45qnkfu84qondno1slnn94ft.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.KahoziJunior.mysteres"
+              }
             }
           ]
         }
