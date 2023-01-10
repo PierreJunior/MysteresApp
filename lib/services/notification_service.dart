@@ -6,8 +6,8 @@ class NotificationService {
   static Flushbar getFlushbar(String message, int duration, Color color,
       NotificationPosition position) {
     Map<NotificationPosition, FlushbarPosition> positionMap = {
-      NotificationPosition.TOP: FlushbarPosition.TOP,
-      NotificationPosition.BOTTOM: FlushbarPosition.BOTTOM
+      NotificationPosition.top: FlushbarPosition.TOP,
+      NotificationPosition.bottom: FlushbarPosition.BOTTOM
     };
     return Flushbar(
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
@@ -19,4 +19,4 @@ class NotificationService {
   }
 }
 
-enum NotificationPosition { TOP, BOTTOM }
+enum NotificationPosition { top, bottom }
