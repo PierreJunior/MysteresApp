@@ -68,9 +68,17 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   Future<bool> _setLanguagePref(value) async {
+    if (selectedLanguage == "--") {
+      NotificationService.getFlushbar("Please select a valid language", 5,
+              ColorPalette.warning, NotificationPosition.BOTTOM)
+          .show(context);
+      return false;
+    }
+
     if (languageChanged) {
       return _languageService.setDefaultLanguage(value);
     }
+
     return false;
   }
 
@@ -156,9 +164,12 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   void onConfirmPressed(BuildContext context) {
-    _setLanguagePref(selectedLanguage);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+    _setLanguagePref(selectedLanguage).then((value) {
+      if (value == true) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+      }
+    });
   }
 
   Widget languagesDropdown() {
