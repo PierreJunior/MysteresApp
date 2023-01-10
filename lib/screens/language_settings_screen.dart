@@ -27,12 +27,13 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   late String title = "";
   bool languageChanged = false;
   bool fetchingDefaults = true;
+  bool isFirstScreen = true;
   late final LoggingService _log;
 
   @override
   void initState() {
     super.initState();
-    _setLanguagePref(startingLanguage);
+    // _setLanguagePref(startingLanguage);
     _languageService = LanguageService();
     _log = LoggingService();
     _initialLoad();
@@ -48,6 +49,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           });
         } else {
           setState(() {
+            isFirstScreen = false;
             title = "Please set your default language";
           });
         }
@@ -96,6 +98,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     return mainWidget(context);
   }
 
+  Widget displayEmoji() {
+    if (isFirstScreen) {
+      return Text(Emojis.wavingHand, style: TextStyle(fontSize: 30.sp));
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
@@ -120,10 +130,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  Emojis.wavingHand,
-                  style: TextStyle(fontSize: 30.sp),
-                ),
+                displayEmoji(),
                 Text(
                   title,
                   style: Font.heading1,
