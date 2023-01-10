@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/widgets/loader.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../components/color_palette.dart';
@@ -21,10 +22,9 @@ class LanguageSettings extends StatefulWidget {
 class _LanguageSettingsState extends State<LanguageSettings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
-  late String selectedLanguage;
+  late String selectedLanguage = "--";
   late String title = "";
   bool languageChanged = false;
-  bool isLoadingLanguages = true;
   bool fetchingDefaults = true;
   late final LoggingService _log;
 
@@ -49,7 +49,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
             title = "Please set your default language";
           });
         }
-        selectedLanguage = _languageService.getLanguages().first;
         fetchingDefaults = false;
       });
     }).catchError((e, s) {
@@ -57,6 +56,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       setState(() {
         fetchingDefaults = false;
       });
+      // TODO: Display error build here
     });
   }
 
@@ -192,7 +192,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         scrollbarThickness: 6,
         scrollbarAlwaysShow: true,
         buttonElevation: 8,
-        items: _languageService.getLanguages().map((value) {
+        items: _languageService.getLanguages(includeEmpty: true).map((value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(
