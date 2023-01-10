@@ -91,7 +91,7 @@ class _PrayScreenState extends State<PrayScreen> {
 
   void showNotification(String message, int duration, Color color) {
     NotificationService.getFlushbar(
-            message, duration, color, NotificationPosition.BOTTOM)
+            message, duration, color, NotificationPosition.bottom)
         .show(context);
   }
 

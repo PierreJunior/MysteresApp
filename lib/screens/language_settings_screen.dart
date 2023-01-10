@@ -74,14 +74,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   Future<bool> _setLanguagePref(value) async {
     if (!languageChanged) {
       NotificationService.getFlushbar("Please select a valid language", 2,
-              ColorPalette.warning, NotificationPosition.BOTTOM)
+              ColorPalette.warning, NotificationPosition.bottom)
           .show(context);
       return false;
     }
 
     if (selectedLanguage == "--") {
       NotificationService.getFlushbar("Please select a valid language", 2,
-              ColorPalette.warning, NotificationPosition.BOTTOM)
+              ColorPalette.warning, NotificationPosition.bottom)
           .show(context);
       return false;
     }
