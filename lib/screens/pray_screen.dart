@@ -7,6 +7,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:mysteres/widgets/container_content.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -271,12 +272,7 @@ class _PrayScreenState extends State<PrayScreen> {
                 child: SizedBox(
                   height: Adaptive.h(25),
                   width: Adaptive.w(50),
-                  child: const CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation(ColorPalette.secondaryDark),
-                    backgroundColor: ColorPalette.primaryDark,
-                    strokeWidth: 10,
-                  ),
+                  child: const Loader(),
                 ),
               ),
             ),
