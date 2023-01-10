@@ -1,12 +1,13 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:mysteres/widgets/container_content.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -89,13 +90,9 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   void showNotification(String message, int duration, Color color) {
-    Flushbar(
-      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-      backgroundColor: color,
-      message: message,
-      duration: Duration(seconds: duration),
-      flushbarPosition: FlushbarPosition.BOTTOM,
-    ).show(context);
+    NotificationService.getFlushbar(
+            message, duration, color, NotificationPosition.bottom)
+        .show(context);
   }
 
   List<Widget> titleSectionChildren() {
@@ -271,12 +268,7 @@ class _PrayScreenState extends State<PrayScreen> {
                 child: SizedBox(
                   height: Adaptive.h(25),
                   width: Adaptive.w(50),
-                  child: const CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation(ColorPalette.secondaryDark),
-                    backgroundColor: ColorPalette.primaryDark,
-                    strokeWidth: 10,
-                  ),
+                  child: const Loader(),
                 ),
               ),
             ),

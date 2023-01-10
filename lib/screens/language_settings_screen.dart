@@ -1,8 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../components/color_palette.dart';
 import '../components/font.dart';
@@ -20,15 +23,17 @@ class LanguageSettings extends StatefulWidget {
 class _LanguageSettingsState extends State<LanguageSettings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
-  late String selectedLanguage;
+  late String selectedLanguage = "--";
+  late String title = "";
   bool languageChanged = false;
-  bool isLoadingLanguages = true;
+  bool fetchingDefaults = true;
+  bool isFirstScreen = true;
   late final LoggingService _log;
 
   @override
   void initState() {
     super.initState();
-    _setLanguagePref(startingLanguage);
+    // _setLanguagePref(startingLanguage);
     _languageService = LanguageService();
     _log = LoggingService();
     _initialLoad();
@@ -36,12 +41,26 @@ class _LanguageSettingsState extends State<LanguageSettings> {
 
   void _initialLoad() {
     _languageService.loadLanguages().then((value) {
-      setState(() {
-        isLoadingLanguages = false;
-        selectedLanguage = _languageService.getLanguages().first;
+      _languageService.defaultLanguageIsInit().then((value) {
+        if (value == 0) {
+          setState(() {
+            title =
+                "Hi there \n\nPlease set your default language to get started.";
+          });
+        } else {
+          setState(() {
+            isFirstScreen = false;
+            title = "Please set your default language";
+          });
+        }
+        fetchingDefaults = false;
       });
     }).catchError((e, s) {
       _log.exception(e, s);
+      setState(() {
+        fetchingDefaults = false;
+      });
+      // TODO: Display error build here
     });
   }
 
@@ -53,10 +72,38 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   Future<bool> _setLanguagePref(value) async {
-    if (languageChanged) {
-      return _languageService.setDefaultLanguage(value);
+    if (!languageChanged) {
+      NotificationService.getFlushbar("Please select a valid language", 2,
+              ColorPalette.warning, NotificationPosition.bottom)
+          .show(context);
+      return false;
     }
-    return false;
+
+    if (selectedLanguage == "--") {
+      NotificationService.getFlushbar("Please select a valid language", 2,
+              ColorPalette.warning, NotificationPosition.bottom)
+          .show(context);
+      return false;
+    }
+
+    return _languageService.setDefaultLanguage(value);
+  }
+
+  Widget loadMainWidget(BuildContext context) {
+    while (fetchingDefaults) {
+      return const Center(
+        child: Loader(),
+      );
+    }
+    return mainWidget(context);
+  }
+
+  Widget displayEmoji() {
+    if (isFirstScreen) {
+      return Text(Emojis.wavingHand, style: TextStyle(fontSize: 30.sp));
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   @override
@@ -67,80 +114,78 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           home: Scaffold(
             appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
-            body: Center(
-              child: SingleChildScrollView(
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(bodyChildPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Please set your default language',
-                          style: Font.heading1,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 1,
-                          height: Adaptive.h(20),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: bodyChildPadding,
-                                right: bodyChildPadding),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: const [
-                                    SizedBox(width: 5),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                loadLanguagesDropdown(),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RoundedButton(
-                                colour: ColorPalette.primaryDark,
-                                pressed: () {
-                                  onConfirmPressed(context);
-                                },
-                                title: 'Continue'),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            body: loadMainWidget(context),
           ),
         );
       },
     );
   }
 
-  void onConfirmPressed(BuildContext context) {
-    _setLanguagePref(selectedLanguage);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+  Center mainWidget(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(bodyChildPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                displayEmoji(),
+                Text(
+                  title,
+                  style: Font.heading1,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: Adaptive.h(20),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: bodyChildPadding, right: bodyChildPadding),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: const [
+                            SizedBox(width: 5),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        languagesDropdown(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RoundedButton(
+                        colour: ColorPalette.primaryDark,
+                        pressed: () {
+                          onConfirmPressed(context);
+                        },
+                        title: 'Continue'),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget loadLanguagesDropdown() {
-    while (isLoadingLanguages) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return languagesDropdown();
+  void onConfirmPressed(BuildContext context) {
+    _setLanguagePref(selectedLanguage).then((value) {
+      if (value == true) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+      }
+    });
   }
 
   Widget languagesDropdown() {
@@ -174,7 +219,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         scrollbarThickness: 6,
         scrollbarAlwaysShow: true,
         buttonElevation: 8,
-        items: _languageService.getLanguages().map((value) {
+        items: _languageService.getLanguages(includeEmpty: true).map((value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(

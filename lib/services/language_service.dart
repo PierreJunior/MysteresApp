@@ -15,7 +15,14 @@ class LanguageService {
     prefs.clear();
   }
 
-  List<String> getLanguages() => _languages.toSet().toList();
+  List<String> getLanguages({bool includeEmpty = false}) {
+    List<String> languages = _languages.toSet().toList();
+    if (includeEmpty) {
+      languages.insert(0, "--");
+    }
+
+    return languages;
+  }
 
   Future<bool> setDefaultLanguage(String defaultLanguage) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

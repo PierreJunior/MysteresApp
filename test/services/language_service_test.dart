@@ -3,8 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'test_helper.dart';
-import 'mock.dart';
+
+import '../mock.dart';
+import '../test_helper.dart';
 
 void main() {
   setupFirebaseAuthMocks();
@@ -13,29 +14,43 @@ void main() {
     await Firebase.initializeApp();
   });
 
-  group('default languages', () {
-    test('default language service String should be null', () async {
+  group('language service without being initialized', () {
+    test('default language should be null', () async {
       await Firebase.initializeApp();
-      LanguageService language = LanguageService();
+      LanguageService service = LanguageService();
 
-      Future<String?> result = language.getDefaultLanguage();
+      Future<String?> result = service.getDefaultLanguage();
 
       await result.then((value) {
         expect(value, null);
       });
     });
-  });
 
-  group('language service without being initialized', () {
     test('default language init should be 0', () async {
       await Firebase.initializeApp();
-      LanguageService language = LanguageService();
+      LanguageService service = LanguageService();
 
-      Future<int> result = language.defaultLanguageIsInit();
+      Future<int> result = service.defaultLanguageIsInit();
 
       await result.then((value) {
         expect(value, 0);
       });
+    });
+
+    test('getLanguages returns empty list', () async {
+      await Firebase.initializeApp();
+      LanguageService service = LanguageService();
+
+      List<String> languages = service.getLanguages();
+      expect([], languages);
+    });
+
+    test('getLanguages returns -- as single entry', () async {
+      await Firebase.initializeApp();
+      LanguageService service = LanguageService();
+
+      List<String> languages = service.getLanguages(includeEmpty: true);
+      expect(["--"], languages);
     });
   });
 
@@ -47,7 +62,7 @@ void main() {
       String randomWord = TestHelper.generateRandomWord();
 
       language.setDefaultLanguage(randomWord);
-      var r = language.defaultLanguageIsInit();
+      Future<int> r = language.defaultLanguageIsInit();
 
       await r.then((value) {
         expect(value, 1);
@@ -60,7 +75,7 @@ void main() {
       LanguageService language = LanguageService();
 
       language.clearLanguagesPrefs();
-      var r = language.getDefaultLanguage();
+      Future<String?> r = language.getDefaultLanguage();
 
       await r.then((value) {
         expect(value, null);
@@ -76,7 +91,7 @@ void main() {
       String randomWord = TestHelper.generateRandomWord();
 
       language.setDefaultLanguage(randomWord);
-      var r = language.getDefaultLanguage();
+      Future<String?> r = language.getDefaultLanguage();
 
       await r.then((value) {
         expect(value, randomWord);
