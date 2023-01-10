@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
@@ -42,7 +43,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       _languageService.defaultLanguageIsInit().then((value) {
         if (value == 0) {
           setState(() {
-            title = "Welcome! \n\nPlease set your default language";
+            title =
+                "Hi there \n\nPlease set your default language to get started.";
           });
         } else {
           setState(() {
@@ -68,18 +70,21 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   Future<bool> _setLanguagePref(value) async {
-    if (selectedLanguage == "--") {
-      NotificationService.getFlushbar("Please select a valid language", 5,
+    if (!languageChanged) {
+      NotificationService.getFlushbar("Please select a valid language", 2,
               ColorPalette.warning, NotificationPosition.BOTTOM)
           .show(context);
       return false;
     }
 
-    if (languageChanged) {
-      return _languageService.setDefaultLanguage(value);
+    if (selectedLanguage == "--") {
+      NotificationService.getFlushbar("Please select a valid language", 2,
+              ColorPalette.warning, NotificationPosition.BOTTOM)
+          .show(context);
+      return false;
     }
 
-    return false;
+    return _languageService.setDefaultLanguage(value);
   }
 
   Widget loadMainWidget(BuildContext context) {
@@ -115,6 +120,10 @@ class _LanguageSettingsState extends State<LanguageSettings> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Text(
+                  Emojis.wavingHand,
+                  style: TextStyle(fontSize: 30.sp),
+                ),
                 Text(
                   title,
                   style: Font.heading1,

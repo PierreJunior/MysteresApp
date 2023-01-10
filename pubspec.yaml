@@ -55,6 +55,7 @@ dependencies:
   sentry_flutter: ^6.17.0
   sentry_logging: ^6.17.0
   logging: ^1.1.0
+  emojis: ^0.9.9
 
 dev_dependencies:
   flutter_test:
