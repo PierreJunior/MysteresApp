@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import '../components/color_palette.dart';
 import '../components/font.dart';
@@ -21,8 +22,10 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
   late String selectedLanguage;
+  late String title = "";
   bool languageChanged = false;
   bool isLoadingLanguages = true;
+  bool fetchingDefaults = true;
   late final LoggingService _log;
 
   @override
@@ -36,12 +39,24 @@ class _LanguageSettingsState extends State<LanguageSettings> {
 
   void _initialLoad() {
     _languageService.loadLanguages().then((value) {
-      setState(() {
-        isLoadingLanguages = false;
+      _languageService.defaultLanguageIsInit().then((value) {
+        if (value == 0) {
+          setState(() {
+            title = "Welcome! \n\nPlease set your default language";
+          });
+        } else {
+          setState(() {
+            title = "Please set your default language";
+          });
+        }
         selectedLanguage = _languageService.getLanguages().first;
+        fetchingDefaults = false;
       });
     }).catchError((e, s) {
       _log.exception(e, s);
+      setState(() {
+        fetchingDefaults = false;
+      });
     });
   }
 
@@ -59,6 +74,15 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     return false;
   }
 
+  Widget loadMainWidget(BuildContext context) {
+    while (fetchingDefaults) {
+      return const Center(
+        child: Loader(),
+      );
+    }
+    return mainWidget(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
@@ -67,64 +91,67 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           home: Scaffold(
             appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
-            body: Center(
-              child: SingleChildScrollView(
-                child: SafeArea(
+            body: loadMainWidget(context),
+          ),
+        );
+      },
+    );
+  }
+
+  Center mainWidget(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(bodyChildPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  title,
+                  style: Font.heading1,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: Adaptive.h(20),
                   child: Padding(
-                    padding: const EdgeInsets.all(bodyChildPadding),
+                    padding: const EdgeInsets.only(
+                        left: bodyChildPadding, right: bodyChildPadding),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Please set your default language',
-                          style: Font.heading1,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 1,
-                          height: Adaptive.h(20),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: bodyChildPadding,
-                                right: bodyChildPadding),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: const [
-                                    SizedBox(width: 5),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                loadLanguagesDropdown(),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          ),
-                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            RoundedButton(
-                                colour: ColorPalette.primaryDark,
-                                pressed: () {
-                                  onConfirmPressed(context);
-                                },
-                                title: 'Continue'),
+                          children: const [
+                            SizedBox(width: 5),
                           ],
-                        )
+                        ),
+                        const SizedBox(height: 5),
+                        languagesDropdown(),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RoundedButton(
+                        colour: ColorPalette.primaryDark,
+                        pressed: () {
+                          onConfirmPressed(context);
+                        },
+                        title: 'Continue'),
+                  ],
+                )
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -132,15 +159,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     _setLanguagePref(selectedLanguage);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LandingScreen()));
-  }
-
-  Widget loadLanguagesDropdown() {
-    while (isLoadingLanguages) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    return languagesDropdown();
   }
 
   Widget languagesDropdown() {
