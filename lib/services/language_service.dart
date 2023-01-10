@@ -3,8 +3,8 @@ import 'package:mysteres/global_variable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageService {
-  LanguageService() {
-    _db = FirebaseFirestore.instance;
+  LanguageService(FirebaseFirestore db) {
+    _db = db;
   }
 
   late FirebaseFirestore _db;

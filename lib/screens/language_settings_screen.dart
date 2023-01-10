@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +34,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   @override
   void initState() {
     super.initState();
-    // _setLanguagePref(startingLanguage);
-    _languageService = LanguageService();
+    _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();
   }
