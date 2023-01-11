@@ -23,21 +23,13 @@ jobs:
 
       - name: Analyze
         run: flutter pub get && flutter analyze
-
-
-      - name: Define version code
-        env:
-            RUN_NUMBER: ${{ github.run_number }}
-            INITIAL_VERSION_CODE: 2
-        run: 
-            VERSION_CODE=$((INITIAL_VERSION_CODE + RUN_NUMBER))
-            echo "version_code=$VERSION_CODE" >> $GITHUB_ENV
-      
-      - name: Update version code
-        uses: chkfung/android-version-actions@v1.1
+        
+      - name: increment version code
+        uses: chkfung/amdroid-version-actions@v1.
         with:
-          gradlePath: android/app/build.gradle
-          versionCode: ${{ env.version_code }}
+          gradlePath: app/build.gradle
+          versionCode: ${{github.run_number}}
+          versionName: 2.0.0
       
       #- name: Build Android release
       #- run: flutter build appbundle
@@ -60,9 +52,9 @@ jobs:
       #    SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       #    SENTRY_TRACE_SAMPLE_RATE: ${{ secrets.SENTRY_TRACE_SAMPLE_RATE }}
       
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: assets
-          path:
-            ${{ github.workspace }}/app/build/outputs/bundle/release
+      #- name: Upload build artifacts
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: assets
+      #    path:
+      #      ${{ github.workspace }}/app/build/outputs/bundle/release
