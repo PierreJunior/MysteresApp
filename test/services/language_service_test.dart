@@ -3,21 +3,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../mock.dart';
 import '../test_helper.dart';
 
 void main() {
   setupFirebaseAuthMocks();
+  final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
 
   setUpAll(() async {
     await Firebase.initializeApp();
+    SharedPreferences.setMockInitialValues({});
   });
 
   group('language service without being initialized', () {
     test('default language should be null', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       Future<String?> result = service.getDefaultLanguage();
@@ -28,8 +29,6 @@ void main() {
     });
 
     test('default language init should be 0', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       Future<int> result = service.defaultLanguageIsInit();
@@ -40,8 +39,6 @@ void main() {
     });
 
     test('getLanguages returns empty list', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       List<String> languages = service.getLanguages();
@@ -49,8 +46,6 @@ void main() {
     });
 
     test('getLanguages returns -- as single entry', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       List<String> languages = service.getLanguages(includeEmpty: true);
@@ -60,8 +55,6 @@ void main() {
 
   group('language service after default language is set', () {
     test('default language init when language is set should be 1', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       String randomWord = TestHelper.generateRandomWord();
@@ -76,8 +69,6 @@ void main() {
 
     test('set language after clearing SharedPreferences should be null',
         () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       service.clearLanguagesPrefs();
@@ -91,8 +82,6 @@ void main() {
 
   group('language service after being initialized', () {
     test('Default language should be equal to language set', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       LanguageService service = LanguageService(fakeFirestore);
 
       String randomWord = TestHelper.generateRandomWord();
@@ -107,10 +96,7 @@ void main() {
   });
 
   group('fetch data from firestore', () {
-    setupFirebaseAuthMocks();
     test('load and fetch languages', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       CollectionReference<Map<String, dynamic>> db =
           fakeFirestore.collection('languages');
 
@@ -129,8 +115,6 @@ void main() {
     });
 
     test('-- is the first item in the list', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
       CollectionReference<Map<String, dynamic>> db =
           fakeFirestore.collection('languages');
 

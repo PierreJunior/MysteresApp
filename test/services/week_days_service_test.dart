@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:mysteres/services/week_days_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:math';
 
@@ -10,7 +11,7 @@ import '../mock.dart';
 
 void main() {
   setupFirebaseAuthMocks();
-  late final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
+  final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
   const List<String> languages = ["English", "French"];
   const Map<String, List<String>> daysByLanguage = {
     "English": [
@@ -35,6 +36,7 @@ void main() {
 
   setUpAll(() async {
     await Firebase.initializeApp();
+    SharedPreferences.setMockInitialValues({});
   });
 
   group('Has remote data', () {
