@@ -15,11 +15,10 @@ class WeekDaysService {
     return _weekDays.isEmpty ? "" : _weekDays[weekdayNum];
   }
 
-  Future<List<String>> loadWeekDays(
-      DocumentReference<Map<String, dynamic>> languageRef) async {
+  Future<List<String>> loadWeekDays(String language) async {
     return await _db
         .collection('week_days')
-        .where('language_code', isEqualTo: languageRef)
+        .where('language', isEqualTo: language)
         .orderBy('order')
         .get()
         .then((value) {

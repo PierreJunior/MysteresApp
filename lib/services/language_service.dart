@@ -57,9 +57,4 @@ class LanguageService {
       return _languages;
     });
   }
-
-  DocumentReference<Map<String, dynamic>> getLanguageReference(
-      String language) {
-    return _db.collection('languages').doc(language);
-  }
 }

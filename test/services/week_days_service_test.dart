@@ -35,79 +35,61 @@ void main() {
 
     var weekDaysCollection = fakeFirestore.collection('week_days');
 
-    await weekDaysCollection.doc('Sunday').set({
-      'language_code': '/languages/English ',
-      'order': 1,
-      'value': "Sunday"
-    });
-    await weekDaysCollection.doc('Monday').set({
-      'language_code': '/languages/English ',
-      'order': 2,
-      'value': "Monday"
-    });
-    await weekDaysCollection.doc('Tuesday').set({
-      'language_code': '/languages/English ',
-      'order': 3,
-      'value': "Tuesday"
-    });
-    await weekDaysCollection.doc('Wednesday').set({
-      'language_code': '/languages/English ',
-      'order': 4,
-      'value': "Wednesday"
-    });
-    await weekDaysCollection.doc('Thursday').set({
-      'language_code': '/languages/English ',
-      'order': 5,
-      'value': "Thursday"
-    });
-    await weekDaysCollection.doc('Friday').set({
-      'language_code': '/languages/English ',
-      'order': 6,
-      'value': "Friday"
-    });
-    await weekDaysCollection.doc('Saturday').set({
-      'language_code': '/languages/English ',
-      'order': 7,
-      'value': "Saturday"
-    });
-    await weekDaysCollection.doc('Dimanche').set({
-      'language_code': '/languages/French ',
-      'order': 1,
-      'value': "Dimanche"
-    });
-    await weekDaysCollection.doc('Lundi').set(
-        {'language_code': '/languages/French ', 'order': 2, 'value': "Lundi"});
-    await weekDaysCollection.doc('Mardi').set(
-        {'language_code': '/languages/French ', 'order': 3, 'value': "Mardi"});
-    await weekDaysCollection.doc('Mercredi').set({
-      'language_code': '/languages/French ',
-      'order': 4,
-      'value': "Mercredi"
-    });
-    await weekDaysCollection.doc('Jeudi').set(
-        {'language_code': '/languages/French ', 'order': 5, 'value': "Jeudi"});
-    await weekDaysCollection.doc('Vendredi').set({
-      'language_code': '/languages/French ',
-      'order': 6,
-      'value': "Vendredi"
-    });
-    await weekDaysCollection.doc('Samedi').set(
-        {'language_code': '/languages/French ', 'order': 7, 'value': "Samedi"});
+    await weekDaysCollection
+        .doc('Sunday')
+        .set({'language': 'English', 'order': 1, 'value': "Sunday"});
+    await weekDaysCollection
+        .doc('Monday')
+        .set({'language': 'English', 'order': 2, 'value': "Monday"});
+    await weekDaysCollection
+        .doc('Tuesday')
+        .set({'language': 'English', 'order': 3, 'value': "Tuesday"});
+    await weekDaysCollection
+        .doc('Wednesday')
+        .set({'language': 'English', 'order': 4, 'value': "Wednesday"});
+    await weekDaysCollection
+        .doc('Thursday')
+        .set({'language': 'English', 'order': 5, 'value': "Thursday"});
+    await weekDaysCollection
+        .doc('Friday')
+        .set({'language': 'English', 'order': 6, 'value': "Friday"});
+    await weekDaysCollection
+        .doc('Saturday')
+        .set({'language': 'English', 'order': 7, 'value': "Saturday"});
+    await weekDaysCollection
+        .doc('Dimanche')
+        .set({'language': 'French', 'order': 1, 'value': "Dimanche"});
+    await weekDaysCollection
+        .doc('Lundi')
+        .set({'language': 'French', 'order': 2, 'value': "Lundi"});
+    await weekDaysCollection
+        .doc('Mardi')
+        .set({'language': 'French', 'order': 3, 'value': "Mardi"});
+    await weekDaysCollection
+        .doc('Mercredi')
+        .set({'language': 'French', 'order': 4, 'value': "Mercredi"});
+    await weekDaysCollection
+        .doc('Jeudi')
+        .set({'language': 'French', 'order': 5, 'value': "Jeudi"});
+    await weekDaysCollection
+        .doc('Vendredi')
+        .set({'language': 'French', 'order': 6, 'value': "Vendredi"});
+    await weekDaysCollection
+        .doc('Samedi')
+        .set({'language': 'French', 'order': 7, 'value': "Samedi"});
 
-    final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
-        await fakeFirestore.collection('week_days').doc('Samedi').get();
-    final Map<String, dynamic> actualData = documentSnapshot.data()!;
-
-    print(actualData);
-
-    // LanguageService languageService = LanguageService(fakeFirestore);
-    // var langRef = languageService.getLanguageReference("English");
-
-    // WeekDaysService service = WeekDaysService(fakeFirestore);
-    // await service.loadWeekDays(langRef).then((value) {
-    //   List<String> weekDays = service.getWeekDays();
-    //   expect(weekDays,
-    //       ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Saturday"]);
-    // });
+    WeekDaysService service = WeekDaysService(fakeFirestore);
+    await service.loadWeekDays("English").then((value) {
+      List<String> weekDays = service.getWeekDays();
+      expect(weekDays, [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]);
+    });
   });
 }

@@ -31,9 +31,7 @@ class RosaryConfigService {
       _selectedLanguage = defaultLang!;
       _defaultLanguage = _selectedLanguage;
       return await _languageService.loadLanguages().then((languages) async {
-        DocumentReference<Map<String, dynamic>> langRef =
-            _languageService.getLanguageReference(_selectedLanguage);
-        return _weekDaysService.loadWeekDays(langRef).then((val) {
+        return _weekDaysService.loadWeekDays(_selectedLanguage).then((val) {
           _selectedWeekDay = _weekDaysService.getCurrentWeekDay();
           return "Done";
         });
@@ -42,9 +40,7 @@ class RosaryConfigService {
   }
 
   Future<List<String>> loadWeekDays() async {
-    DocumentReference<Map<String, dynamic>> langRef =
-        _languageService.getLanguageReference(_selectedLanguage);
-    return _weekDaysService.loadWeekDays(langRef).then((value) {
+    return _weekDaysService.loadWeekDays(_selectedLanguage).then((value) {
       return value;
     });
   }
