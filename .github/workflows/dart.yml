@@ -40,7 +40,9 @@ jobs:
           versionCode: ${{ env.version_code }}
       
       - name: Build Android release
-        run: flutter build appbundle
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build appbundle
         env:
           AD_BANNER_ANDROID_UNIT_ID: ${{ secrets.AD_BANNER_ANDROID_UNIT_ID }}
           AD_BANNER_IOS_UNIT_ID: ${{ secrets.AD_BANNER_IOS_UNIT_ID }}
