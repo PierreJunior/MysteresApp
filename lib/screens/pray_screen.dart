@@ -7,9 +7,9 @@ import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
 import 'package:mysteres/widgets/container_content.dart';
+import 'package:mysteres/widgets/error.dart';
 import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
-import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -274,41 +274,13 @@ class _PrayScreenState extends State<PrayScreen> {
             ),
           );
         } else if (isLoadingPrayers && loadingError) {
-          return errorBuild();
+          return Error(context: context, message: "Error loading prayers");
         } else {
           return Device.orientation == Orientation.portrait
               ? portraitScaffold(scaffoldKey)
               : landscapeScaffold(scaffoldKey);
         }
       },
-    );
-  }
-
-  MaterialApp errorBuild() {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: Scaffold(
-        appBar: const CustomAppBar(),
-        backgroundColor: ColorPalette.primary,
-        body: SafeArea(
-            child: Center(
-                child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Error loading prayers",
-              style: Font.heading1,
-            ),
-            const SizedBox(height: 10),
-            RoundedButton(
-                colour: ColorPalette.primaryDark,
-                pressed: () {
-                  Navigator.pop(context);
-                },
-                title: 'Home')
-          ],
-        ))),
-      ),
     );
   }
 

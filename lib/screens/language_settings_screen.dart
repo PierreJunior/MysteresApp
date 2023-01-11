@@ -1,17 +1,18 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
+import 'package:mysteres/components/color_palette.dart';
+import 'package:mysteres/components/font.dart';
+import 'package:mysteres/constants.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
+import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/loader.dart';
+import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import '../components/color_palette.dart';
-import '../components/font.dart';
-import '../constants.dart';
-import '../widgets/custom_app_bar.dart';
-import '../widgets/rounded_button.dart';
+import 'package:mysteres/widgets/error.dart';
 
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({Key? key}) : super(key: key);
@@ -28,12 +29,12 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool languageChanged = false;
   bool fetchingDefaults = true;
   bool isFirstScreen = true;
+  bool loadingError = false;
   late final LoggingService _log;
 
   @override
   void initState() {
     super.initState();
-    // _setLanguagePref(startingLanguage);
     _languageService = LanguageService();
     _log = LoggingService();
     _initialLoad();
@@ -59,8 +60,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       _log.exception(e, s);
       setState(() {
         fetchingDefaults = false;
+        loadingError = true;
       });
-      // TODO: Display error build here
     });
   }
 
@@ -110,6 +111,10 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
+        if (loadingError) {
+          return Error(context: context, message: "Error loading settings");
+        }
+
         return MaterialApp(
           home: Scaffold(
             appBar: const CustomAppBar(),
