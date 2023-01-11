@@ -274,7 +274,7 @@ class _PrayScreenState extends State<PrayScreen> {
             ),
           );
         } else if (isLoadingPrayers && loadingError) {
-          return Error(message: "Error loading prayers");
+          return const Error(message: "Error loading prayers");
         } else {
           return Device.orientation == Orientation.portrait
               ? portraitScaffold(scaffoldKey)
