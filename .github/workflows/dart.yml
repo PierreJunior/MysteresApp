@@ -6,8 +6,6 @@
 name: Increment Version code
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -25,7 +23,7 @@ jobs:
         run: flutter pub get && flutter analyze .
         
       - name: increment version
-        uses: chkfung/android-version-actions@v1.2.1
+        uses: chkfung/android-version-actions@v1.1
         with:
           gradlePath: app/build.gradle
           versionCode: ${{github.run_number}}
