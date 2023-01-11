@@ -22,7 +22,7 @@ jobs:
       - name: Analyze
         run: flutter pub get && flutter analyze .
         
-      - name: increment version
+      - name: Increment Version
         uses: chkfung/android-version-actions@v1.2.1
         with:
           gradlePath: android/app/build.gradle
