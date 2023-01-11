@@ -3,21 +3,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../mock.dart';
 import '../test_helper.dart';
 
 void main() {
   setupFirebaseAuthMocks();
+  final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
 
   setUpAll(() async {
     await Firebase.initializeApp();
+    SharedPreferences.setMockInitialValues({});
   });
 
   group('language service without being initialized', () {
     test('default language should be null', () async {
-      await Firebase.initializeApp();
-      LanguageService service = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       Future<String?> result = service.getDefaultLanguage();
 
@@ -27,8 +29,7 @@ void main() {
     });
 
     test('default language init should be 0', () async {
-      await Firebase.initializeApp();
-      LanguageService service = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       Future<int> result = service.defaultLanguageIsInit();
 
@@ -38,16 +39,14 @@ void main() {
     });
 
     test('getLanguages returns empty list', () async {
-      await Firebase.initializeApp();
-      LanguageService service = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       List<String> languages = service.getLanguages();
       expect([], languages);
     });
 
     test('getLanguages returns -- as single entry', () async {
-      await Firebase.initializeApp();
-      LanguageService service = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       List<String> languages = service.getLanguages(includeEmpty: true);
       expect(["--"], languages);
@@ -56,13 +55,12 @@ void main() {
 
   group('language service after default language is set', () {
     test('default language init when language is set should be 1', () async {
-      await Firebase.initializeApp();
-      LanguageService language = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       String randomWord = TestHelper.generateRandomWord();
 
-      language.setDefaultLanguage(randomWord);
-      Future<int> r = language.defaultLanguageIsInit();
+      service.setDefaultLanguage(randomWord);
+      Future<int> r = service.defaultLanguageIsInit();
 
       await r.then((value) {
         expect(value, 1);
@@ -71,11 +69,10 @@ void main() {
 
     test('set language after clearing SharedPreferences should be null',
         () async {
-      await Firebase.initializeApp();
-      LanguageService language = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
-      language.clearLanguagesPrefs();
-      Future<String?> r = language.getDefaultLanguage();
+      service.clearLanguagesPrefs();
+      Future<String?> r = service.getDefaultLanguage();
 
       await r.then((value) {
         expect(value, null);
@@ -85,13 +82,12 @@ void main() {
 
   group('language service after being initialized', () {
     test('Default language should be equal to language set', () async {
-      await Firebase.initializeApp();
-      LanguageService language = LanguageService();
+      LanguageService service = LanguageService(fakeFirestore);
 
       String randomWord = TestHelper.generateRandomWord();
 
-      language.setDefaultLanguage(randomWord);
-      Future<String?> r = language.getDefaultLanguage();
+      service.setDefaultLanguage(randomWord);
+      Future<String?> r = service.getDefaultLanguage();
 
       await r.then((value) {
         expect(value, randomWord);
@@ -100,27 +96,40 @@ void main() {
   });
 
   group('fetch data from firestore', () {
-    setupFirebaseAuthMocks();
-    test('fetch languages and store in a list', () async {
-      await Firebase.initializeApp();
-      final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
-      List<String> mockList = [];
+    test('load and fetch languages', () async {
       CollectionReference<Map<String, dynamic>> db =
           fakeFirestore.collection('languages');
 
-      db.add({'language_code': 'en', 'value': 'English'});
-      db.add({'language_code': 'fr', 'value': 'French'});
-      db.add({'language_code': 'en', 'value': 'English'});
-      db.add({'language_code': 'sw', 'value': 'Swahili'});
-      db.add({'language_code': 'pt', 'value': 'Portuguese'});
+      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
+      await db.add({'language_code': 'fr', 'value': 'French', 'status': 0});
+      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
+      await db.add({'language_code': 'sw', 'value': 'Swahili', 'status': 1});
+      await db.add({'language_code': 'pt', 'value': 'Portuguese', 'status': 0});
 
-      await fakeFirestore.collection('languages').get().then((event) {
-        for (var doc in event.docs) {
-          mockList.add(doc.data()['value']);
-        }
-        return mockList;
+      LanguageService service = LanguageService(fakeFirestore);
+      Future<List<String>> future = service.loadLanguages();
+      await future.then((value) {
+        var langs = service.getLanguages();
+        expect(langs, ["English", "Swahili"]);
       });
-      expect(mockList, isNotEmpty);
+    });
+
+    test('-- is the first item in the list', () async {
+      CollectionReference<Map<String, dynamic>> db =
+          fakeFirestore.collection('languages');
+
+      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
+      await db.add({'language_code': 'fr', 'value': 'French', 'status': 0});
+      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
+      await db.add({'language_code': 'sw', 'value': 'Swahili', 'status': 1});
+      await db.add({'language_code': 'pt', 'value': 'Portuguese', 'status': 0});
+
+      LanguageService service = LanguageService(fakeFirestore);
+      Future<List<String>> future = service.loadLanguages();
+      await future.then((value) {
+        List<String> langs = service.getLanguages(includeEmpty: true);
+        expect(langs[0], "--");
+      });
     });
   });
 }
