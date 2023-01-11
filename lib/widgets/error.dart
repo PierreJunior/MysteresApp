@@ -9,12 +9,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class Error extends StatelessWidget {
   const Error({
     Key? key,
-    required this.context,
     required this.message,
-    this.emoji = Emojis.anxiousFaceWithSweat,
+    this.emoji = Emojis.warning,
   }) : super(key: key);
 
-  final BuildContext context;
   final String message;
   final String emoji;
 
@@ -31,7 +29,11 @@ class Error extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(emoji, style: TextStyle(fontSize: 30.sp)),
-            Text(message, style: Font.heading1),
+            Text(
+              message,
+              style: Font.heading1,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 10),
             RoundedButton(
                 colour: ColorPalette.primaryDark,

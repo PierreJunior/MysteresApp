@@ -8,8 +8,10 @@ import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
+import 'package:mysteres/widgets/error.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -34,6 +36,7 @@ class _LandingScreenState extends State<LandingScreen> {
   late final LoggingService _log;
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
+  bool loadingError = false;
 
   @override
   void initState() {
@@ -58,7 +61,7 @@ class _LandingScreenState extends State<LandingScreen> {
       });
     }).catchError((e, s) {
       _log.exception(e, s);
-      // TODO: Display error build
+      loadingError = true;
     });
   }
 
@@ -83,10 +86,15 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingWeekDays = false;
       });
     }).catchError((e, s) {
-      Map<String, dynamic> context = {"selectedLanguage": lang};
+      Map<String, dynamic> logContext = {"selectedLanguage": lang};
       String transaction = "_LandingScreenState.onLanguageChanged";
-      _log.exception(e, s, context, transaction);
-      // TODO: Display error build
+      _log.exception(e, s, logContext, transaction);
+      NotificationService.getFlushbar(
+              "An error occurred while changing the language. Press reset and try again.",
+              5,
+              ColorPalette.warning,
+              NotificationPosition.bottom)
+          .show(context);
     });
   }
 
@@ -100,6 +108,10 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
+        if (loadingError) {
+          return const Error(message: "An unexpected error occurred");
+        }
+
         return MaterialApp(
           theme: ThemeData(useMaterial3: true),
           home: Scaffold(

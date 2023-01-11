@@ -113,7 +113,11 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         if (loadingError) {
-          return Error(context: context, message: "Error loading settings");
+          return const Error(
+            message:
+                "An unexpected error occurred. \n\nPlease click on the button below to go to the home page.",
+            emoji: Emojis.warning,
+          );
         }
 
         return MaterialApp(
