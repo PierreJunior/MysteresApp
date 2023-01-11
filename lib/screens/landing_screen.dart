@@ -58,6 +58,7 @@ class _LandingScreenState extends State<LandingScreen> {
       });
     }).catchError((e, s) {
       _log.exception(e, s);
+      // TODO: Display error build
     });
   }
 
@@ -85,6 +86,7 @@ class _LandingScreenState extends State<LandingScreen> {
       Map<String, dynamic> context = {"selectedLanguage": lang};
       String transaction = "_LandingScreenState.onLanguageChanged";
       _log.exception(e, s, context, transaction);
+      // TODO: Display error build
     });
   }
 
