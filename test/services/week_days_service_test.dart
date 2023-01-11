@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/week_days_service.dart';
 
 import '../mock.dart';
-import '../test_helper.dart';
 
 void main() {
   setupFirebaseAuthMocks();
