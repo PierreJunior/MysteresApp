@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -40,7 +42,7 @@ class Error extends StatelessWidget {
                 pressed: () {
                   Navigator.pop(context);
                 },
-                title: 'Home')
+                title: LocaleKeys.pageNameHome.tr())
           ],
         ))),
       ),

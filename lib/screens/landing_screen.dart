@@ -10,10 +10,12 @@ import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/error.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
@@ -89,11 +91,8 @@ class _LandingScreenState extends State<LandingScreen> {
       Map<String, dynamic> logContext = {"selectedLanguage": lang};
       String transaction = "_LandingScreenState.onLanguageChanged";
       _log.exception(e, s, logContext, transaction);
-      NotificationService.getFlushbar(
-              "An error occurred while changing the language. Press reset and try again.",
-              5,
-              ColorPalette.warning,
-              NotificationPosition.bottom)
+      NotificationService.getFlushbar(LocaleKeys.errorChangeLanguage.tr(), 5,
+              ColorPalette.warning, NotificationPosition.bottom)
           .show(context);
     });
   }
@@ -109,7 +108,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         if (loadingError) {
-          return const Error(message: "An unexpected error occurred");
+          return Error(message: LocaleKeys.errorUnexpected.tr());
         }
 
         return MaterialApp(
@@ -127,7 +126,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Configure your Prayer settings',
+                          LocaleKeys.landingScreenTitle.tr(),
                           style: Font.heading1,
                           textAlign: TextAlign.start,
                         ),
@@ -158,7 +157,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                     const Icon(Icons.language),
                                     const SizedBox(width: 5),
                                     Text(
-                                      'Select a Language',
+                                      LocaleKeys.dropdownLabelLanguage.tr(),
                                       style: Font.containerText,
                                     ),
                                   ],
@@ -171,7 +170,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                     const Icon(Icons.calendar_month_outlined),
                                     const SizedBox(width: 5),
                                     Text(
-                                      'Select a Day',
+                                      LocaleKeys.dropdownLabelDay.tr(),
                                       style: Font.containerText,
                                     ),
                                   ],
@@ -188,7 +187,7 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () => onResetPressed(),
-                                title: 'RESET'),
+                                title: LocaleKeys.btnReset.tr()),
                             const SizedBox(
                               width: 20,
                             ),
@@ -223,7 +222,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                                 )));
                                   }
                                 },
-                                title: 'Pray'),
+                                title: LocaleKeys.btnPray.tr()),
                           ],
                         )
                       ],

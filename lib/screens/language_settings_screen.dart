@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
@@ -9,6 +10,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
@@ -47,12 +49,12 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         if (value == 0) {
           setState(() {
             title =
-                "Hi there \n\nPlease set your default language to get started.";
+                "${LocaleKeys.languageSettingsScreenTitleInceptionPrefix.tr()} \n\n${LocaleKeys.languageSettingsScreenTitleInception.tr()}";
           });
         } else {
           setState(() {
             isFirstScreen = false;
-            title = "Please set your default language";
+            title = LocaleKeys.languageSettingsScreenTitleAfterInception.tr();
           });
         }
         fetchingDefaults = false;
@@ -66,24 +68,61 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     });
   }
 
-  void _onLanguageChanged(String lang) {
+  Future<void> _onLanguageChanged(String lang) async {
+    if (lang == "--") {
+      NotificationService.getFlushbar(
+              LocaleKeys.notificationInvalidLanguage.tr(),
+              2,
+              ColorPalette.warning,
+              NotificationPosition.bottom)
+          .show(context);
+      return;
+    }
+
     setState(() {
-      languageChanged = true;
-      selectedLanguage = lang;
+      fetchingDefaults = true;
+    });
+    await _languageService.getLanguageCode(lang).then((val) async {
+      if (val != null) {
+        Locale newLocale = Locale(val, null);
+        await context.setLocale(newLocale);
+        setState(() {
+          languageChanged = true;
+          selectedLanguage = lang;
+          fetchingDefaults = false;
+        });
+      }
+    }).catchError((e, s) {
+      _log.exception(e, s);
+      setState(() {
+        fetchingDefaults = false;
+        NotificationService.getFlushbar(
+                LocaleKeys.errorUnexpectedLanguageSettingsScreenSetDefault.tr(),
+                5,
+                ColorPalette.warning,
+                NotificationPosition.bottom)
+            .show(context);
+      });
     });
   }
 
   Future<bool> _setLanguagePref(value) async {
     if (!languageChanged) {
-      NotificationService.getFlushbar("Please select a valid language", 2,
-              ColorPalette.warning, NotificationPosition.bottom)
+      NotificationService.getFlushbar(
+              LocaleKeys.notificationInvalidLanguage.tr(),
+              2,
+              ColorPalette.warning,
+              NotificationPosition.bottom)
           .show(context);
       return false;
     }
 
     if (selectedLanguage == "--") {
-      NotificationService.getFlushbar("Please select a valid language", 2,
-              ColorPalette.warning, NotificationPosition.bottom)
+      NotificationService.getFlushbar(
+              LocaleKeys.notificationInvalidLanguage.tr(),
+              2,
+              ColorPalette.warning,
+              NotificationPosition.bottom)
           .show(context);
       return false;
     }
@@ -113,9 +152,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         if (loadingError) {
-          return const Error(
+          return Error(
             message:
-                "An unexpected error occurred. \n\nPlease click on the button below to go to the home page.",
+                "${LocaleKeys.errorUnexpected.tr()} \n\n${LocaleKeys.languageSettingsScreenTitleInception.tr()}",
             emoji: Emojis.warning,
           );
         }
@@ -178,7 +217,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                         pressed: () {
                           onConfirmPressed(context);
                         },
-                        title: 'Continue'),
+                        title: LocaleKeys.btnContinue.tr()),
                   ],
                 )
               ],
@@ -239,8 +278,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
             ),
           );
         }).toList(),
-        onChanged: (value) {
-          _onLanguageChanged(value!);
+        onChanged: (value) async {
+          await _onLanguageChanged(value!);
         },
       ),
     );
