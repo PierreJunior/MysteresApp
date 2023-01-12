@@ -30,6 +30,7 @@ jobs:
           versionName: 1.0.0
           
       - name: Build App Bundle
+      - uses: subosito/flutter-action@v1
         with:
           AndroidBanner: ${{secrets.AD_BANNER_ANDROID_UNIT_ID}}
           IOSBanner: ${{secrets.AD_BANNER_IOS_UNIT_ID}}
@@ -48,7 +49,6 @@ jobs:
           SentryAttachScreenshot: ${{secrets.SENTRY_ATTACH_SCREENSHOT}}
           SentryDSN: ${{secrets.SENTRY_DSN}}
           SentryTraceSampleRate: ${{secrets.SENTRY_TRACE_SAMPLE_RATE}}
-          uses: subosito/flutter-action@v1
           run: flutter build appbundle
           
           
