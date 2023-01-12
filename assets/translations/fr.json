@@ -1,0 +1,9 @@
+{
+  "btnContinue": "Continue",
+  "errorUnexpected": "Une erreur imprévue s'est produite.",
+  "errorUnexpectedLanguageSettingsScreen": "Clique sur le bouton ci-dessous pour accéder à la page d'accueil.",
+  "languageName": "French",
+  "languageSettingsScreenTitleInception": "Sélectionne ta langue par défaut pour commencer.",
+  "languageSettingsScreenTitleInceptionPrefix": "Salut",
+  "notificationInvalidLanguage": "Veuillez choisir une langue valide"
+}

@@ -9,6 +9,7 @@ class LanguageService {
 
   late FirebaseFirestore _db;
   late final List<String> _languages = [];
+  final String collection = 'languages';
 
   void clearLanguagesPrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,7 +48,7 @@ class LanguageService {
 
   Future<List<String>> loadLanguages() async {
     return await _db
-        .collection('languages')
+        .collection(collection)
         .where('status', isEqualTo: 1)
         .get()
         .then((event) {
@@ -55,6 +56,22 @@ class LanguageService {
         _languages.add(doc.data()['value']);
       }
       return _languages;
+    });
+  }
+
+  Future<String?> getLanguageCode(String language) async {
+    return await _db
+        .collection(collection)
+        .where('status', isEqualTo: 1)
+        .where('value', isEqualTo: language)
+        .get()
+        .then((event) {
+      if (event.docs.isNotEmpty) {
+        var doc = event.docs[0];
+        return doc.data()['language_code'];
+      }
+
+      return null;
     });
   }
 }

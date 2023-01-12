@@ -1,0 +1,9 @@
+{
+  "btnContinue": "Continue",
+  "errorUnexpected": "An unexpected error occurred.",
+  "errorUnexpectedLanguageSettingsScreen": "Click on the button below to go to the home page.",
+  "languageName": "English",
+  "languageSettingsScreenTitleInception": "Select your default language to get started.",
+  "languageSettingsScreenTitleInceptionPrefix": "Hi there",
+  "notificationInvalidLanguage": "Please select a valid language"
+}
