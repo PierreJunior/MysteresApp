@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +13,9 @@ import '../test_helper.dart';
 void main() {
   setupFirebaseAuthMocks();
   final FakeFirebaseFirestore fakeFirestore = FakeFirebaseFirestore();
+  final List<Map<String, dynamic>> languageData =
+      TestHelper.generateLanguageData();
+  const List<String> languages = TestHelper.languages;
 
   setUpAll(() async {
     await Firebase.initializeApp();
@@ -96,39 +101,74 @@ void main() {
   });
 
   group('fetch data from firestore', () {
-    test('load and fetch languages', () async {
+    setUp(() async {
       CollectionReference<Map<String, dynamic>> db =
           fakeFirestore.collection('languages');
 
-      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
-      await db.add({'language_code': 'fr', 'value': 'French', 'status': 0});
-      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
-      await db.add({'language_code': 'sw', 'value': 'Swahili', 'status': 1});
-      await db.add({'language_code': 'pt', 'value': 'Portuguese', 'status': 0});
+      for (Map<String, dynamic> element in languageData) {
+        await db.add(element);
+      }
+    });
 
+    test('load and fetch languages where status == 1', () async {
       LanguageService service = LanguageService(fakeFirestore);
       Future<List<String>> future = service.loadLanguages();
+      List<String> matcher = [];
+      for (var i in languageData) {
+        if (i["status"] == 1) {
+          matcher.add(i["value"]);
+        }
+      }
+
       await future.then((value) {
-        var langs = service.getLanguages();
-        expect(langs, ["English", "Swahili"]);
+        var actual = service.getLanguages();
+        expect(actual, matcher);
       });
     });
 
     test('-- is the first item in the list', () async {
-      CollectionReference<Map<String, dynamic>> db =
-          fakeFirestore.collection('languages');
-
-      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
-      await db.add({'language_code': 'fr', 'value': 'French', 'status': 0});
-      await db.add({'language_code': 'en', 'value': 'English', 'status': 1});
-      await db.add({'language_code': 'sw', 'value': 'Swahili', 'status': 1});
-      await db.add({'language_code': 'pt', 'value': 'Portuguese', 'status': 0});
-
       LanguageService service = LanguageService(fakeFirestore);
       Future<List<String>> future = service.loadLanguages();
       await future.then((value) {
         List<String> langs = service.getLanguages(includeEmpty: true);
         expect(langs[0], "--");
+      });
+    });
+
+    test('valid language code is returned', () async {
+      int index = Random().nextInt(languageData.length);
+      String language = languages[index];
+
+      LanguageService service = LanguageService(fakeFirestore);
+      await service.loadLanguages().then((value) {
+        service.getLanguageCode(language).then((languageCode) {
+          expect(TestHelper.languageCodes[languageCode], languageCode);
+        });
+      });
+    });
+
+    test('null languade code is returned when an invalid language is provided',
+        () async {
+      LanguageService service = LanguageService(fakeFirestore);
+      await service.loadLanguages().then((value) {
+        service
+            .getLanguageCode(TestHelper.generateRandomWord())
+            .then((languageCode) {
+          expect(languageCode, null);
+        });
+      });
+    });
+
+    test('null languade code is returned when a disabled language is provided',
+        () async {
+      LanguageService service = LanguageService(fakeFirestore);
+      Map<String, dynamic> disbaledLanguage =
+          languageData.firstWhere((element) => element['status'] == 0);
+
+      await service.loadLanguages().then((value) {
+        service.getLanguageCode(disbaledLanguage["value"]).then((languageCode) {
+          expect(languageCode, null);
+        });
       });
     });
   });
