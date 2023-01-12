@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
@@ -6,6 +7,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/container_content.dart';
 import 'package:mysteres/widgets/error.dart';
 import 'package:mysteres/widgets/loader.dart';
@@ -57,7 +59,8 @@ class _PrayScreenState extends State<PrayScreen> {
       String transaction = "_PrayScreenState.initState";
       await _log.exception(e, s, context, transaction);
       setState(() {
-        showNotification("Error loading prayers", 5, ColorPalette.warning);
+        showNotification(
+            LocaleKeys.errorLoadingPrayers.tr(), 5, ColorPalette.warning);
         loadingError = true;
       });
     });
@@ -155,15 +158,14 @@ class _PrayScreenState extends State<PrayScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
-            showNotification(
-                "You ended your Rosary early", 5, ColorPalette.warning);
+            showNotification(LocaleKeys.btnRosaryStop, 5, ColorPalette.warning);
           }
         },
         child: stepIcon(StepAction.stop));
   }
 
   Widget errorButton([String? message]) {
-    message ??= "Error loading prayers";
+    message ??= LocaleKeys.errorLoadingPrayers.tr();
     return ElevatedButton(
         style: stepButtonStyle(StepAction.error),
         onPressed: () {
@@ -179,7 +181,8 @@ class _PrayScreenState extends State<PrayScreen> {
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
-          showNotification("Prayer finished!", 5, ColorPalette.success);
+          showNotification(
+              LocaleKeys.btnRosaryEnd.tr(), 5, ColorPalette.success);
         } else {
           // module = _rosaryPrayerService.getCurrentStep() % 2;
           nextStep();
@@ -194,7 +197,6 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          // module = _rosaryPrayerService.getCurrentStep() % 2;
           previousStep();
         }
       },
@@ -203,7 +205,6 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   ButtonStyle stepButtonStyle(StepAction action) {
-    // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
     if (action == StepAction.next) {
       backgrounColor = _rosaryPrayerService.isLastStep()
@@ -274,7 +275,7 @@ class _PrayScreenState extends State<PrayScreen> {
             ),
           );
         } else if (isLoadingPrayers && loadingError) {
-          return const Error(message: "Error loading prayers");
+          return Error(message: LocaleKeys.errorLoadingPrayers.tr());
         } else {
           return Device.orientation == Orientation.portrait
               ? portraitScaffold(scaffoldKey)

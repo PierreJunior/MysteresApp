@@ -1,9 +1,22 @@
 {
   "btnContinue": "Continue",
+  "btnPray": "Prier",
+  "btnReset": "Réinitialiser",
+  "btnRosaryEnd": "Rosaire terminé !",
+  "btnRosaryStop": "Vous avez arrêté votre chapelet tôt",
+  "dropdownLabelDay": "Sélectionner un jour",
+  "dropdownLabelLanguage": "Sélectionner une langue",
+  "errorChangeLanguage": "Une erreur s'est produite lors du changement de langue. Appuyez sur réinitialiser et réessayez.",
+  "errorLoadingPrayers": "Erreur lors du chargement du Rosaire",
   "errorUnexpected": "Une erreur imprévue s'est produite.",
   "errorUnexpectedLanguageSettingsScreen": "Clique sur le bouton ci-dessous pour accéder à la page d'accueil.",
+  "errorUnexpectedLanguageSettingsScreenSetDefault": "Une erreur s'est produite lors de la définition de votre langue par défaut",
+  "landingScreenTitle": "Configurez les paramètres de votre Rosaire",
   "languageName": "French",
+  "languageSettingsScreenTitleAfterInception": "Veuillez sélectionner votre langue par défaut.",
   "languageSettingsScreenTitleInception": "Sélectionne ta langue par défaut pour commencer.",
   "languageSettingsScreenTitleInceptionPrefix": "Salut",
-  "notificationInvalidLanguage": "Veuillez choisir une langue valide"
+  "notificationInvalidLanguage": "Veuillez choisir une langue valide",
+  "pageNameHome": "Accueil",
+  "pageNameSettings": "Paramètres"
 }

@@ -1,9 +1,22 @@
 {
   "btnContinue": "Continue",
+  "btnPray": "Pray",
+  "btnReset": "Reset",
+  "btnRosaryEnd": "Rosary finished!",
+  "btnRosaryStop": "Rosary ended early",
+  "dropdownLabelDay": "Select a day",
+  "dropdownLabelLanguage": "Select a language",
+  "errorChangeLanguage": "An error occurred while changing the language. Press reset to try again.",
+  "errorLoadingPrayers": "Error loading the Rosary",
   "errorUnexpected": "An unexpected error occurred.",
   "errorUnexpectedLanguageSettingsScreen": "Click on the button below to go to the home page.",
+  "errorUnexpectedLanguageSettingsScreenSetDefault": "An error occurred while setting your default language",
+  "landingScreenTitle": "Configure your Rosary settings",
   "languageName": "English",
+  "languageSettingsScreenTitleAfterInception": "Please select your default language.",
   "languageSettingsScreenTitleInception": "Select your default language to get started.",
   "languageSettingsScreenTitleInceptionPrefix": "Hi there",
-  "notificationInvalidLanguage": "Please select a valid language"
+  "notificationInvalidLanguage": "Please select a valid language",
+  "pageNameHome": "Home",
+  "pageNameSettings": "Settings"
 }

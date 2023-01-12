@@ -10,7 +10,7 @@ import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
-import 'package:mysteres/translations/locale_keys.g.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
@@ -54,7 +54,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         } else {
           setState(() {
             isFirstScreen = false;
-            title = "Please set your default language";
+            title = LocaleKeys.languageSettingsScreenTitleAfterInception.tr();
           });
         }
         fetchingDefaults = false;
@@ -87,7 +87,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       setState(() {
         fetchingDefaults = false;
         NotificationService.getFlushbar(
-                "Error occurred while setting your default language",
+                LocaleKeys.errorUnexpectedLanguageSettingsScreenSetDefault.tr(),
                 5,
                 ColorPalette.warning,
                 NotificationPosition.bottom)
