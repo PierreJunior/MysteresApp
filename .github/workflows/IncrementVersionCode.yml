@@ -49,7 +49,7 @@ jobs:
           SentryAttachScreenshot: ${{secrets.SENTRY_ATTACH_SCREENSHOT}}
           SentryDSN: ${{secrets.SENTRY_DSN}}
           SentryTraceSampleRate: ${{secrets.SENTRY_TRACE_SAMPLE_RATE}}
-          run: flutter build appbundle
+      - run: flutter build appbundle
           
           
           
