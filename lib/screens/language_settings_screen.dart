@@ -69,6 +69,16 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   Future<void> _onLanguageChanged(String lang) async {
+    if (lang == "--") {
+      NotificationService.getFlushbar(
+              LocaleKeys.notificationInvalidLanguage.tr(),
+              2,
+              ColorPalette.warning,
+              NotificationPosition.bottom)
+          .show(context);
+      return;
+    }
+
     setState(() {
       fetchingDefaults = true;
     });
