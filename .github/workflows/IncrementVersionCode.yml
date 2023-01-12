@@ -29,6 +29,10 @@ jobs:
           versionCode: ${{github.run_number}}
           versionName: 1.0.0
           
+      - name: Build App Bundle
+      - uses: subosito/flutter-action@v1
+      - run: flutter build appbundle
+          
           
           
           
