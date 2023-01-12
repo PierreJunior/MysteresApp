@@ -158,7 +158,8 @@ class _PrayScreenState extends State<PrayScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
-            showNotification(LocaleKeys.btnRosaryStop, 5, ColorPalette.warning);
+            showNotification(
+                LocaleKeys.btnRosaryStop.tr(), 5, ColorPalette.warning);
           }
         },
         child: stepIcon(StepAction.stop));
