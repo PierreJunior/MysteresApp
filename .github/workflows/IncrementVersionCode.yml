@@ -48,6 +48,7 @@ jobs:
           SentryAttachScreenshot: ${{secrets.SENTRY_ATTACH_SCREENSHOT}}
           SentryDSN: ${{secrets.SENTRY_DSN}}
           SentryTraceSampleRate: ${{secrets.SENTRY_TRACE_SAMPLE_RATE}}
+          uses: subosito/flutter-action@v1
           run: flutter build appbundle
           
           
