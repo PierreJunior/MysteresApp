@@ -13,6 +13,7 @@ import 'package:mysteres/services/rosary_config_service.dart';
 import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/error.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -240,7 +241,7 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget loadWeekDaysDropdown() {
     while (isLoadingWeekDays) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: Loader(),
       );
     }
     return weekDaysDropdown();
@@ -249,7 +250,7 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget loadLanguagesDropdown() {
     while (isLoadingLanguage) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: Loader(),
       );
     }
     return languagesDropdown();
