@@ -15,13 +15,11 @@ class RosaryPrayerService {
   late final List<Map<String, dynamic>> _rosarySteps = [];
 
   Future<List<Map<String, dynamic>>> loadPrayers() async {
-    var dayRef = _db.collection('week_days').doc(_selectedDay);
-    var languageRef = _db.collection('languages').doc(_selectedLanguage);
     return await _db
         .collection('prayers')
         .orderBy('step_number')
-        .where('language_code', isEqualTo: languageRef)
-        .where('week_days', arrayContains: dayRef)
+        .where('language', isEqualTo: _selectedLanguage)
+        .where('week_days', arrayContains: _selectedDay)
         .get()
         .then((value) {
       for (var doc in value.docs) {
