@@ -20,9 +20,9 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final initFuture = MobileAds.instance.initialize();
   await AppLovinMAX.initialize(Env.appLovinSDKKey);
-  AppLovinMAX.setIsAgeRestrictedUser(false);
-  AppLovinMAX.setDoNotSell(false);
-  AppLovinMAX.setHasUserConsent(true);
+  AppLovinMAX.setIsAgeRestrictedUser(false); // TODO: Retrieve from consent form
+  AppLovinMAX.setDoNotSell(false); // TODO: Retrieve from consent form
+  AppLovinMAX.setHasUserConsent(true); // TODO: Retrieve from consent form
   final adState = AdState(initFuture);
   await SentryFlutter.init((options) {
     options.dsn = Env.sentryDSN;
