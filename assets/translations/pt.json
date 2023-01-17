@@ -1,0 +1,23 @@
+{
+    "appName": "Rosário",
+    "btnContinue": "Prosseguir",
+    "btnPray": "Rezar",
+    "btnReset": "Redefinir",
+    "btnRosaryEnd": "Rosário finalizado!",
+    "btnRosaryStop": "Rosário acabou cedo",
+    "dropdownLabelDay": "Selecione um dia",
+    "dropdownLabelLanguage": "Selecione um idioma",
+    "errorChangeLanguage": "Ocorreu um erro ao alterar o idioma. Pressione reset para tentar novamente.",
+    "errorLoadingPrayers": "Erro ao carregar o Rosário",
+    "errorUnexpected": "Um erro inesperado ocorreu.",
+    "errorUnexpectedLanguageSettingsScreen": "Clique no botão abaixo para ir para a página inicial.",
+    "errorUnexpectedLanguageSettingsScreenSetDefault": "Ocorreu um erro ao definir seu idioma padrão",
+    "landingScreenTitle": "Defina as configurações do seu Rosário",
+    "languageName": "Portuguese",
+    "languageSettingsScreenTitleAfterInception": "Selecione seu idioma padrão.",
+    "languageSettingsScreenTitleInception": "Selecione seu idioma padrão para começar.",
+    "languageSettingsScreenTitleInceptionPrefix": "Olá",
+    "notificationInvalidLanguage": "Selecione um idioma válido",
+    "pageNameHome": "Casa",
+    "pageNameSettings": "Configurações"
+}
