@@ -92,8 +92,8 @@ abstract class Env {
 
   // START APPLOVIN MEDIATION
 
-  static const String appLovinSDK =
-      String.fromEnvironment('APPLOVIN_SDK', defaultValue: '');
+  static const String appLovinSDKKey =
+      String.fromEnvironment('APPLOVIN_SDK_KEY', defaultValue: '');
 
   // END APPLOVIN MEDIATION
 }
