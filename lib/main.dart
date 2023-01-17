@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -13,12 +12,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'firebase_options.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:applovin_max/applovin_max.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final initFuture = MobileAds.instance.initialize();
+  Map? sdkConfiguration = await AppLovinMAX.initialize(Env.appLovinSDK);
+  AppLovinMAX.setIsAgeRestrictedUser(false);
+  AppLovinMAX.setDoNotSell(false);
+  AppLovinMAX.setHasUserConsent(true);
   final adState = AdState(initFuture);
   await SentryFlutter.init((options) {
     options.dsn = Env.sentryDSN;
