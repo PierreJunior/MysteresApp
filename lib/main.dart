@@ -19,7 +19,7 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final initFuture = MobileAds.instance.initialize();
-  Map? sdkConfiguration = await AppLovinMAX.initialize(Env.appLovinSDK);
+  await AppLovinMAX.initialize(Env.appLovinSDK);
   AppLovinMAX.setIsAgeRestrictedUser(false);
   AppLovinMAX.setDoNotSell(false);
   AppLovinMAX.setHasUserConsent(true);
