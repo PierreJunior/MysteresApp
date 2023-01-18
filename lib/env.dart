@@ -89,11 +89,4 @@ abstract class Env {
     defaultValue: 'false',
   );
   // END SENTRY VARIABLES
-
-  // START APPLOVIN MEDIATION
-
-  static const String appLovinSDKKey =
-      String.fromEnvironment('APPLOVIN_SDK_KEY', defaultValue: '');
-
-  // END APPLOVIN MEDIATION
 }
