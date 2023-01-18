@@ -375,8 +375,8 @@ class _PrayScreenState extends State<PrayScreen> {
                         totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
                         size: 7,
                         currentStep: _rosaryPrayerService.getCurrentStep(),
-                        unselectedColor: ColorPalette.primaryDark,
-                        selectedColor: ColorPalette.secondaryDark,
+                        unselectedColor: ColorPalette.secondaryDark,
+                        selectedColor: ColorPalette.primaryDark,
                       ),
                       ReusableCard(
                         colour: Colors.transparent,
