@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:emojis/emojis.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
@@ -32,15 +34,60 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool fetchingDefaults = true;
   bool isFirstScreen = true;
   bool loadingError = false;
+  late bool consentGiven;
   late final LoggingService _log;
+  final params = ConsentRequestParameters();
+
 
   @override
   void initState() {
     super.initState();
+    _initConsent();
     _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();
   }
+
+  void _initConsent() async{
+    ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
+      if( await ConsentInformation.instance.isConsentFormAvailable()){
+        ConsentInformation.instance.getConsentStatus();
+        print('yoo ${ConsentStatus.obtained}');
+        loadForm(consentGiven);
+        print('loading form ${ConsentInformation.instance.getConsentStatus()}');
+      }
+    }, (error) {
+      // Handle the error
+    });
+  }
+
+  void loadForm(bool consentGiven){
+    ConsentForm.loadConsentForm((consentForm) async{
+      var status = await ConsentInformation.instance.getConsentStatus();
+      if(status == ConsentStatus.required){
+        consentForm.show(
+              (formError) {
+              print('loading form');
+            loadForm(consentGiven);
+          },
+        );
+      }
+      if(status == ConsentStatus.obtained){
+        print('I GOT IT');
+         consentGiven = true;
+      }
+      if(status == ConsentStatus.unknown){
+        print('WHO KNOWS');
+      }
+    }, (formError) {
+      //Handle the error
+      if (kDebugMode) {
+        print('form error');
+      }
+    });
+  }
+
+  void consentIS(bool consent) => consentGiven;
 
   void _initialLoad() {
     _languageService.loadLanguages().then((value) {

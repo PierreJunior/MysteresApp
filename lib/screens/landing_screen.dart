@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -40,10 +41,13 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
   bool loadingError = false;
+  final params = ConsentRequestParameters();
+  late bool consentGiven;
 
   @override
   void initState() {
     super.initState();
+    _initConsent();
     banner = null;
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
@@ -51,6 +55,47 @@ class _LandingScreenState extends State<LandingScreen> {
     _initialLoad();
     _checkingPage();
   }
+
+  void _initConsent() async{
+    ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
+      if( await ConsentInformation.instance.isConsentFormAvailable()){
+        ConsentInformation.instance.getConsentStatus();
+        print('yoo ${ConsentStatus.obtained}');
+        loadForm(consentGiven);
+        print('loading form ${ConsentInformation.instance.getConsentStatus()}');
+      }
+    }, (error) {
+      // Handle the error
+    });
+  }
+
+  void loadForm(bool consentGiven){
+    ConsentForm.loadConsentForm((consentForm) async{
+      var status = await ConsentInformation.instance.getConsentStatus();
+      if(status == ConsentStatus.required){
+        consentForm.show(
+              (formError) {
+            print('loading form');
+            loadForm(consentGiven);
+          },
+        );
+      }
+      if(status == ConsentStatus.obtained){
+        print('I GOT IT');
+        consentGiven = true;
+      }
+      if(status == ConsentStatus.unknown){
+        print('WHO KNOWS');
+      }
+    }, (formError) {
+      //Handle the error
+      if (kDebugMode) {
+        print('form error');
+      }
+    });
+  }
+
+  void consentIS(bool consent) => consentGiven;
 
   bool _checkingPage() {
     return LandingScreen.checkPage = false;
