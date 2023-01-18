@@ -11,7 +11,6 @@ import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/l10n/locale_keys.g.dart';
-import 'package:mysteres/widgets/custom_app_bar.dart';
 import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -161,7 +160,11 @@ class _LanguageSettingsState extends State<LanguageSettings> {
 
         return MaterialApp(
           home: Scaffold(
-            appBar: const CustomAppBar(),
+            appBar: AppBar(
+              backgroundColor: ColorPalette.primaryDark,
+              title: Text(LocaleKeys.appName.tr(), style: const TextStyle(color: ColorPalette.primary,),
+              ),
+            ),
             backgroundColor: ColorPalette.primary,
             body: loadMainWidget(context),
           ),
