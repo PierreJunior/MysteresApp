@@ -9,11 +9,11 @@ class ConsentService{
   ConsentService(bool consentGiven){
     params = ConsentRequestParameters();
     _consentGiven = consentGiven ;
-    _initConsent();
+    // _initConsent();
   }
 
 
-  void _initConsent() async{
+  void initConsent() async{
      ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
        if( await ConsentInformation.instance.isConsentFormAvailable()){
          ConsentInformation.instance.getConsentStatus();
@@ -21,6 +21,8 @@ class ConsentService{
        }
      }, (error) {
        // Handle the error
+       LoggingService.message("${error.message} ${error.errorCode}",
+           level: LoggingLevel.error);
      });
    }
 
@@ -38,10 +40,12 @@ class ConsentService{
          _consentGiven = true;
        }
        if(status == ConsentStatus.unknown){
+         _consentGiven = false;
        }
-     }, (formError) {
+     }, (error) {
        //Handle the error
-       LoggingService.formErrorDebug(formError.errorCode);
+       LoggingService.message("${error.message} ${error.errorCode}",
+           level: LoggingLevel.error);
      });
    }
 

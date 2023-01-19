@@ -49,6 +49,7 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
     banner = null;
     _consentService = ConsentService(consentGiven);
+    _consentService.initConsent();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     _log = LoggingService();

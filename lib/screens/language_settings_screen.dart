@@ -45,6 +45,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   void initState() {
     super.initState();
     _consentService = ConsentService(consentGiven);
+    _consentService.initConsent();
     _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();
