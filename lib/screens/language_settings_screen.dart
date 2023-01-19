@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:emojis/emojis.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
@@ -49,7 +50,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();
-    print('consent is ${_consentService.consentIS()}');
+    if (kDebugMode) {
+      print('consent is ${_consentService.consentIS()}');
+    }
   }
 
   void _initialLoad() {

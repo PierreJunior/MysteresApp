@@ -36,12 +36,9 @@ class ConsentService{
          );
        }
        if(status == ConsentStatus.obtained){
-         print('i got it');
          _consentGiven = true;
-         print('service consent is $_consentGiven');
        }
        if(status == ConsentStatus.unknown){
-         print('WHO KNOWS');
        }
      }, (formError) {
        //Handle the error
