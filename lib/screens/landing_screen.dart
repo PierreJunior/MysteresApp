@@ -1,5 +1,4 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -8,6 +7,7 @@ import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
+import 'package:mysteres/services/consent_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
@@ -41,61 +41,23 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
   bool loadingError = false;
-  final params = ConsentRequestParameters();
-  late bool consentGiven;
+  late final ConsentService _consentService;
+  bool consentGiven = false;
 
   @override
   void initState() {
     super.initState();
-    _initConsent();
     banner = null;
+    _consentService = ConsentService(consentGiven);
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     _log = LoggingService();
     _initialLoad();
     _checkingPage();
+    print('consent is ${_consentService.consentIS()}');
   }
 
-  void _initConsent() async{
-    ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
-      if( await ConsentInformation.instance.isConsentFormAvailable()){
-        ConsentInformation.instance.getConsentStatus();
-        print('yoo ${ConsentStatus.obtained}');
-        loadForm(consentGiven);
-        print('loading form ${ConsentInformation.instance.getConsentStatus()}');
-      }
-    }, (error) {
-      // Handle the error
-    });
-  }
 
-  void loadForm(bool consentGiven){
-    ConsentForm.loadConsentForm((consentForm) async{
-      var status = await ConsentInformation.instance.getConsentStatus();
-      if(status == ConsentStatus.required){
-        consentForm.show(
-              (formError) {
-            print('loading form');
-            loadForm(consentGiven);
-          },
-        );
-      }
-      if(status == ConsentStatus.obtained){
-        print('I GOT IT');
-        consentGiven = true;
-      }
-      if(status == ConsentStatus.unknown){
-        print('WHO KNOWS');
-      }
-    }, (formError) {
-      //Handle the error
-      if (kDebugMode) {
-        print('form error');
-      }
-    });
-  }
-
-  void consentIS(bool consent) => consentGiven;
 
   bool _checkingPage() {
     return LandingScreen.checkPage = false;
