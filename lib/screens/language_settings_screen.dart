@@ -15,12 +15,11 @@ import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mysteres/widgets/error.dart';
-
-import '../services/consent_service.dart';
+import 'package:mysteres/services/consent_service.dart';
 
 //ignore: must_be_immutable
 class LanguageSettings extends StatefulWidget {
-    const LanguageSettings({Key? key}) : super(key: key);
+  const LanguageSettings({Key? key}) : super(key: key);
 
   @override
   State<LanguageSettings> createState() => _LanguageSettingsState();
