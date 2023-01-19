@@ -18,8 +18,9 @@ import 'package:mysteres/widgets/error.dart';
 
 import '../services/consent_service.dart';
 
+//ignore: must_be_immutable
 class LanguageSettings extends StatefulWidget {
-  const LanguageSettings({Key? key}) : super(key: key);
+    const LanguageSettings({Key? key}) : super(key: key);
 
   @override
   State<LanguageSettings> createState() => _LanguageSettingsState();
@@ -39,10 +40,12 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool consentGiven = false;
 
 
+
   @override
   void initState() {
     super.initState();
     _consentService = ConsentService(consentGiven);
+    _consentService.consentIS();
     _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();

@@ -4,13 +4,14 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class ConsentService{
+  late bool _consentGiven;
+  late final ConsentRequestParameters params;
+
   ConsentService(bool consentGiven){
     params = ConsentRequestParameters();
     _consentGiven = consentGiven ;
     _initConsent();
   }
-  late bool _consentGiven;
-  late final ConsentRequestParameters params;
 
 
   void _initConsent() async{
@@ -35,7 +36,9 @@ class ConsentService{
          );
        }
        if(status == ConsentStatus.obtained){
+         print('i got it');
          _consentGiven = true;
+         print('service consent is $_consentGiven');
        }
        if(status == ConsentStatus.unknown){
          print('WHO KNOWS');
@@ -48,6 +51,6 @@ class ConsentService{
      });
    }
 
-   bool consentIS() => _consentGiven;
+   bool? consentIS() => _consentGiven;
 
  }
