@@ -1,7 +1,6 @@
-
-
- import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:mysteres/services/logging_service.dart';
+
 
 class ConsentService{
   late bool _consentGiven;
@@ -42,12 +41,10 @@ class ConsentService{
        }
      }, (formError) {
        //Handle the error
-       if (kDebugMode) {
-         print('form error');
-       }
+       LoggingService.formErrorDebug(formError.errorCode);
      });
    }
 
-   bool? consentIS() => _consentGiven;
+   bool consentGiven() => _consentGiven;
 
  }

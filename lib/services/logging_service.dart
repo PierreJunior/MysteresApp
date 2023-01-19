@@ -1,3 +1,6 @@
+
+import 'package:flutter/foundation.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class LoggingService {
@@ -55,6 +58,41 @@ class LoggingService {
       scope.level = logLevel;
     });
   }
+
+  static formErrorDebug(int x){
+    switch(x){
+      case 1 :
+        {
+          if(kDebugMode){
+            print(FormError(errorCode: 	1, message: 'Internal error'));
+          }
+        }
+        break;
+      case 2 :
+        {
+          if(kDebugMode){
+            print(FormError(errorCode: 	2, message: 'Internal error'));
+          }
+        }
+        break;
+      case 3 :
+        {
+          if(kDebugMode){
+            print(FormError(errorCode: 	3, message: 'Invalid operation. The SDK is being invoked incorrectly.'));
+          }
+        }
+        break;
+      case 4 :
+        {
+          if(kDebugMode){
+            print(FormError(errorCode: 	4, message: 'The operation has timed out'));
+          }
+        }
+        break;
+    }
+  }
 }
+
+
 
 enum LoggingLevel { debug, info, warn, error, fatal }

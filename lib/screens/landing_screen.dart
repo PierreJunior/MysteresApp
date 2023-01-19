@@ -1,5 +1,4 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
@@ -55,9 +54,6 @@ class _LandingScreenState extends State<LandingScreen> {
     _log = LoggingService();
     _initialLoad();
     _checkingPage();
-    if (kDebugMode) {
-      print('consent is ${_consentService.consentIS()}');
-    }
   }
 
 
