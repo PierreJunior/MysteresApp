@@ -1,6 +1,8 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/services/logging_service.dart';
 
+import '../method_channel.dart';
+
 
 class ConsentService{
   late bool _consentGiven;
@@ -37,11 +39,10 @@ class ConsentService{
          );
        }
        if(status == ConsentStatus.obtained){
+          MyMethodChannel platform = MyMethodChannel();
          _consentGiven = true;
-         // AppLovinMAX.setHasUserConsent(true);
-         // AppLovinMAX.setIsAgeRestrictedUser(false);
-         // AppLovinMAX.setDoNotSell(false);
-         // await AppLovinMAX.initialize(Env.appLovinSDKKey);
+          await platform.setAppLovinIsAgeRestrictedUser(true);
+          await platform.setHasUserConsent(_consentGiven);
        }
        if(status == ConsentStatus.unknown){
          _consentGiven = false;

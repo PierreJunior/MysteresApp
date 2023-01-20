@@ -57,7 +57,6 @@ dependencies:
   logging: ^1.1.0
   emojis: ^0.9.9
   easy_localization: ^3.0.1
-  applovin_max: ^2.3.3
 
 dev_dependencies:
   flutter_test:
