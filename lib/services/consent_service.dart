@@ -38,6 +38,10 @@ class ConsentService{
        }
        if(status == ConsentStatus.obtained){
          _consentGiven = true;
+         // AppLovinMAX.setHasUserConsent(true);
+         // AppLovinMAX.setIsAgeRestrictedUser(false);
+         // AppLovinMAX.setDoNotSell(false);
+         // await AppLovinMAX.initialize(Env.appLovinSDKKey);
        }
        if(status == ConsentStatus.unknown){
          _consentGiven = false;
