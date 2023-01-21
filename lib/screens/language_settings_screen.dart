@@ -15,7 +15,9 @@ import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:mysteres/widgets/error.dart';
+import 'package:mysteres/services/consent_service.dart';
 
+//ignore: must_be_immutable
 class LanguageSettings extends StatefulWidget {
   const LanguageSettings({Key? key}) : super(key: key);
 
@@ -33,10 +35,16 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool isFirstScreen = true;
   bool loadingError = false;
   late final LoggingService _log;
+  late final ConsentService _consentService;
+  bool consentGiven = false;
+
+
 
   @override
   void initState() {
     super.initState();
+    _consentService = ConsentService(consentGiven);
+    _consentService.initConsent();
     _languageService = LanguageService(FirebaseFirestore.instance);
     _log = LoggingService();
     _initialLoad();

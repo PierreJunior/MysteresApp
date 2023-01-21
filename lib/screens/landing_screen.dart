@@ -7,6 +7,7 @@ import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
+import 'package:mysteres/services/consent_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
@@ -40,11 +41,15 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
   bool loadingError = false;
+  late final ConsentService _consentService;
+  bool consentGiven = false;
 
   @override
   void initState() {
     super.initState();
     banner = null;
+    _consentService = ConsentService(consentGiven);
+    _consentService.initConsent();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
     _log = LoggingService();
@@ -64,6 +69,7 @@ class _LandingScreenState extends State<LandingScreen> {
       });
     }).catchError((e, s) {
       _log.exception(e, s);
+      // TODO: Handle the error correctly without showing the error build
       loadingError = true;
     });
   }
@@ -195,6 +201,12 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.primaryDark,
                                 pressed: () {
+                                  if (_rosaryConfigService.selectedWeekDay ==
+                                      null) {
+                                    // TODO: Display an appropriate message
+                                    return;
+                                  }
+
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();

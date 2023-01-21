@@ -1,3 +1,5 @@
+
+import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class LoggingService {
@@ -54,6 +56,12 @@ class LoggingService {
     await Sentry.captureMessage(message, withScope: (scope) {
       scope.level = logLevel;
     });
+  }
+
+  static debug(String message){
+    if(kDebugMode) {
+      print(message);
+    }
   }
 }
 
