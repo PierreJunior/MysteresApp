@@ -88,4 +88,5 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
     implementation 'com.google.android.gms:play-services-ads:21.4.0'
     implementation 'com.google.ads.mediation:applovin:11.6.1.0'
+    implementation 'com.applovin:applovin-sdk:11.6.1'
 }
