@@ -57,8 +57,6 @@ class _LandingScreenState extends State<LandingScreen> {
     _checkingPage();
   }
 
-
-
   bool _checkingPage() {
     return LandingScreen.checkPage = false;
   }
@@ -71,6 +69,7 @@ class _LandingScreenState extends State<LandingScreen> {
       });
     }).catchError((e, s) {
       _log.exception(e, s);
+      // TODO: Handle the error correctly without showing the error build
       loadingError = true;
     });
   }
@@ -202,6 +201,12 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.primaryDark,
                                 pressed: () {
+                                  if (_rosaryConfigService.selectedWeekDay ==
+                                      null) {
+                                    // TODO: Display an appropriate message
+                                    return;
+                                  }
+
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();
