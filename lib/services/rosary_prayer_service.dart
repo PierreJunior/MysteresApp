@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 
 class RosaryPrayerService {
-  RosaryPrayerService(String selectedDay, String selectedLanguage) {
+  RosaryPrayerService(RosaryConfig config) {
     _db = FirebaseFirestore.instance;
     _currentStep = 1;
-    _selectedDay = selectedDay;
-    _selectedLanguage = selectedLanguage;
+    _selectedDay = config.day;
+    _selectedLanguage = config.language;
   }
 
   late int _currentStep;

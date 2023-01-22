@@ -5,6 +5,7 @@ import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
 import 'package:mysteres/services/consent_service.dart';
@@ -222,24 +223,24 @@ class _LandingScreenState extends State<LandingScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PrayScreen(
-                                                  selectedDay:
-                                                      _rosaryConfigService
+                                                  rosaryConfig: RosaryConfig(
+                                                      day: _rosaryConfigService
                                                           .selectedWeekDay!,
-                                                  selectedLanguage:
-                                                      _rosaryConfigService
-                                                          .selectedLanguage,
+                                                      language:
+                                                          _rosaryConfigService
+                                                              .selectedLanguage),
                                                 )));
                                   } else {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => PrayScreen(
-                                                  selectedDay:
-                                                      _rosaryConfigService
+                                                  rosaryConfig: RosaryConfig(
+                                                      day: _rosaryConfigService
                                                           .selectedWeekDay!,
-                                                  selectedLanguage:
-                                                      _rosaryConfigService
-                                                          .selectedLanguage,
+                                                      language:
+                                                          _rosaryConfigService
+                                                              .selectedLanguage),
                                                 )));
                                   }
                                 },
