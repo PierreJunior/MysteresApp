@@ -34,11 +34,8 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool fetchingDefaults = true;
   bool isFirstScreen = true;
   bool loadingError = false;
-  late final LoggingService _log;
   late final ConsentService _consentService;
   bool consentGiven = false;
-
-
 
   @override
   void initState() {
@@ -46,7 +43,6 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     _consentService = ConsentService(consentGiven);
     _consentService.initConsent();
     _languageService = LanguageService(FirebaseFirestore.instance);
-    _log = LoggingService();
     _initialLoad();
   }
 
@@ -67,7 +63,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         fetchingDefaults = false;
       });
     }).catchError((e, s) {
-      _log.exception(e, s);
+      LoggingService.exception(e, s);
       setState(() {
         fetchingDefaults = false;
         loadingError = true;
@@ -78,10 +74,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   Future<void> _onLanguageChanged(String lang) async {
     if (lang == "--") {
       NotificationService.getFlushbar(
-              LocaleKeys.notificationInvalidLanguage.tr(),
-              2,
-              ColorPalette.warning,
-              NotificationPosition.bottom)
+              message: LocaleKeys.notificationInvalidLanguage.tr(),
+              duration: 2,
+              color: ColorPalette.warning)
           .show(context);
       return;
     }
@@ -100,14 +95,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         });
       }
     }).catchError((e, s) {
-      _log.exception(e, s);
+      LoggingService.exception(e, s);
       setState(() {
         fetchingDefaults = false;
         NotificationService.getFlushbar(
-                LocaleKeys.errorUnexpectedLanguageSettingsScreenSetDefault.tr(),
-                5,
-                ColorPalette.warning,
-                NotificationPosition.bottom)
+                message: LocaleKeys
+                    .errorUnexpectedLanguageSettingsScreenSetDefault
+                    .tr(),
+                color: ColorPalette.warning)
             .show(context);
       });
     });
@@ -116,20 +111,18 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   Future<bool> _setLanguagePref(value) async {
     if (!languageChanged) {
       NotificationService.getFlushbar(
-              LocaleKeys.notificationInvalidLanguage.tr(),
-              2,
-              ColorPalette.warning,
-              NotificationPosition.bottom)
+              message: LocaleKeys.notificationInvalidLanguage.tr(),
+              duration: 2,
+              color: ColorPalette.warning)
           .show(context);
       return false;
     }
 
     if (selectedLanguage == "--") {
       NotificationService.getFlushbar(
-              LocaleKeys.notificationInvalidLanguage.tr(),
-              2,
-              ColorPalette.warning,
-              NotificationPosition.bottom)
+              message: LocaleKeys.notificationInvalidLanguage.tr(),
+              duration: 2,
+              color: ColorPalette.warning)
           .show(context);
       return false;
     }
@@ -170,7 +163,11 @@ class _LanguageSettingsState extends State<LanguageSettings> {
           home: Scaffold(
             appBar: AppBar(
               backgroundColor: ColorPalette.primaryDark,
-              title: Text(LocaleKeys.appName.tr(), style: const TextStyle(color: ColorPalette.primary,),
+              title: Text(
+                LocaleKeys.appName.tr(),
+                style: const TextStyle(
+                  color: ColorPalette.primary,
+                ),
               ),
             ),
             backgroundColor: ColorPalette.primary,

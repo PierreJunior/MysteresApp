@@ -33,7 +33,7 @@ Future<void> main() async {
           level: LoggingLevel.error, transction: "FlutterError");
     };
     PlatformDispatcher.instance.onError = (error, stack) {
-      LoggingService().exception(error, stack);
+      LoggingService.exception(error, stack);
       return true;
     };
     runApp(

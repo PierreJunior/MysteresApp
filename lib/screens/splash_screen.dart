@@ -16,12 +16,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late final LoggingService _log;
-
   @override
   void initState() {
     super.initState();
-    _log = LoggingService();
     landing();
   }
 
@@ -37,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => LandingScreen()));
           }).catchError((e, s) {
-            _log.exception(e, s);
+            LoggingService.exception(e, s);
           });
   }
 

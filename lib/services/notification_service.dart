@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'package:another_flushbar/flushbar.dart';
 
 class NotificationService {
-  static Flushbar getFlushbar(String message, int duration, Color color,
-      NotificationPosition position) {
+  static Flushbar getFlushbar(
+      {required String message,
+      int duration = 5,
+      required Color color,
+      NotificationPosition position = NotificationPosition.bottom}) {
     Map<NotificationPosition, FlushbarPosition> positionMap = {
       NotificationPosition.top: FlushbarPosition.TOP,
       NotificationPosition.bottom: FlushbarPosition.BOTTOM

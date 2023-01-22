@@ -40,6 +40,7 @@ class RosaryConfigService {
   }
 
   Future<List<String>> loadWeekDays() async {
+    _weekDays.clear();
     return _weekDaysService.loadWeekDays(_selectedLanguage).then((value) {
       return value;
     });
