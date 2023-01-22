@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/week_days_service.dart';
 
@@ -30,7 +31,9 @@ class RosaryConfigService {
         .then((defaultLang) async {
       _selectedLanguage = defaultLang!;
       _defaultLanguage = _selectedLanguage;
-      return await _languageService.loadLanguages().then((languages) async {
+      return await _languageService
+          .loadLanguages(languageCode: GlobalValue.supportedLocale.toList())
+          .then((languages) async {
         return _weekDaysService.loadWeekDays(_selectedLanguage).then((val) {
           _selectedWeekDay = _weekDaysService.getCurrentWeekDay();
           return "Done";

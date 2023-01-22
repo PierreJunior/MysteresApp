@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/env.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:provider/provider.dart';
 import 'package:mysteres/screens/splash_screen.dart';
@@ -38,12 +39,8 @@ Future<void> main() async {
     };
     runApp(
       EasyLocalization(
-        supportedLocales: const [
-          Locale('en'),
-          Locale('fr'),
-          Locale('pt'),
-          Locale('sw')
-        ],
+        supportedLocales:
+            GlobalValue.supportedLocale.map((e) => Locale(e)).toList(),
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),
         child: Provider.value(

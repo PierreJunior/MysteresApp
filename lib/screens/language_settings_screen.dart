@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
@@ -47,7 +48,9 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   }
 
   void _initialLoad() {
-    _languageService.loadLanguages().then((value) {
+    _languageService
+        .loadLanguages(languageCode: GlobalValue.supportedLocale.toList())
+        .then((value) {
       _languageService.defaultLanguageIsInit().then((value) {
         if (value == 0) {
           setState(() {
