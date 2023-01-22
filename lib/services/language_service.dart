@@ -46,11 +46,11 @@ class LanguageService {
     return prefs.getString(GlobalValue.sharedPreferenceDefaultLanguageKey);
   }
 
-  Future<List<String>> loadLanguages({List<String>? languageCode}) async {
+  Future<List<String>> loadLanguages({List<String>? languageCodes}) async {
     _languages.clear();
     var query = _db.collection(collection).where('status', isEqualTo: 1);
-    if (languageCode != null) {
-      query = query.where('language_code', whereIn: languageCode);
+    if (languageCodes != null) {
+      query = query.where('language_code', whereIn: languageCodes);
     }
 
     return await query.get().then((event) {

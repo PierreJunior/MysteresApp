@@ -49,7 +49,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
 
   void _initialLoad() {
     _languageService
-        .loadLanguages(languageCode: GlobalValue.supportedLocale.toList())
+        .loadLanguages(languageCodes: GlobalValue.supportedLocale.toList())
         .then((value) {
       _languageService.defaultLanguageIsInit().then((value) {
         if (value == 0) {

@@ -177,7 +177,7 @@ void main() {
       List<String> langCodes =
           languageData.map((e) => e['language_code'] as String).toList();
 
-      await service.loadLanguages(languageCode: langCodes).then((value) {
+      await service.loadLanguages(languageCodes: langCodes).then((value) {
         List<String> matcher = languageData
             .where((element) => element['status'] == 1)
             .where((element) => langCodes.contains(element['language_code']))
