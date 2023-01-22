@@ -35,7 +35,6 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
-  late final LoggingService _log;
   int module = 2;
   bool isLoadingPrayers = true;
   bool loadingError = false;
@@ -43,7 +42,6 @@ class _PrayScreenState extends State<PrayScreen> {
   @override
   void initState() {
     super.initState();
-    _log = LoggingService();
     _rosaryPrayerService =
         RosaryPrayerService(widget.selectedDay, widget.selectedLanguage);
     _rosaryPrayerService.loadPrayers().then((value) {
@@ -51,13 +49,14 @@ class _PrayScreenState extends State<PrayScreen> {
         initPrayer();
         isLoadingPrayers = false;
       });
-    }).catchError((e, s) async {
+    }).catchError((e, s) {
       Map<String, dynamic> context = {
         "selectedDay": widget.selectedDay,
         "selectedLanguage": widget.selectedLanguage
       };
       String transaction = "_PrayScreenState.initState";
-      await _log.exception(e, s, context, transaction);
+      LoggingService.exception(e, s,
+          context: context, transaction: transaction);
       setState(() {
         showNotification(
             LocaleKeys.errorLoadingPrayers.tr(), 5, ColorPalette.warning);
@@ -94,7 +93,10 @@ class _PrayScreenState extends State<PrayScreen> {
 
   void showNotification(String message, int duration, Color color) {
     NotificationService.getFlushbar(
-            message, duration, color, NotificationPosition.bottom)
+            message: message,
+            duration: duration,
+            color: color,
+            position: NotificationPosition.bottom)
         .show(context);
   }
 

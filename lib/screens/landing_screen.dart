@@ -37,22 +37,18 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-  late final LoggingService _log;
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
   bool loadingError = false;
-  late final ConsentService _consentService;
   bool consentGiven = false;
 
   @override
   void initState() {
     super.initState();
     banner = null;
-    _consentService = ConsentService(consentGiven);
-    _consentService.initConsent();
+    ConsentService(consentGiven).initConsent();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
-    _log = LoggingService();
     _initialLoad();
     _checkingPage();
   }
@@ -68,9 +64,19 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingWeekDays = false;
       });
     }).catchError((e, s) {
-      _log.exception(e, s);
-      // TODO: Handle the error correctly without showing the error build
-      loadingError = true;
+      Map<String, dynamic> logContext = {
+        "selectedLanguage": _rosaryConfigService.selectedLanguage
+      };
+      LoggingService.exception(e, s,
+          context: logContext, transaction: 'LandingScreen._initialLoad');
+      setState(() {
+        isLoadingLanguage = false;
+        isLoadingWeekDays = false;
+      });
+      NotificationService.getFlushbar(
+              message: LocaleKeys.errorUnexpected.tr(),
+              color: ColorPalette.warning)
+          .show(context);
     });
   }
 
@@ -97,9 +103,11 @@ class _LandingScreenState extends State<LandingScreen> {
     }).catchError((e, s) {
       Map<String, dynamic> logContext = {"selectedLanguage": lang};
       String transaction = "_LandingScreenState.onLanguageChanged";
-      _log.exception(e, s, logContext, transaction);
-      NotificationService.getFlushbar(LocaleKeys.errorChangeLanguage.tr(), 5,
-              ColorPalette.warning, NotificationPosition.bottom)
+      LoggingService.exception(e, s,
+          context: logContext, transaction: transaction);
+      NotificationService.getFlushbar(
+              message: LocaleKeys.errorChangeLanguage.tr(),
+              color: ColorPalette.warning)
           .show(context);
     });
   }

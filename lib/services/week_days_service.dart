@@ -12,10 +12,11 @@ class WeekDaysService {
 
   String getCurrentWeekDay() {
     int weekdayNum = DateTime.now().weekday;
-    return _weekDays.isEmpty ? "" : _weekDays[weekdayNum];
+    return _weekDays.isEmpty ? "" : _weekDays[weekdayNum - 1];
   }
 
   Future<List<String>> loadWeekDays(String language) async {
+    _weekDays.clear();
     return await _db
         .collection('week_days')
         .where('language', isEqualTo: language)

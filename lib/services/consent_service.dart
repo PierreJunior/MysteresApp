@@ -18,13 +18,14 @@ class ConsentService {
       }
     }, (error) {
       LoggingService.message("${error.message} ${error.errorCode}",
-          level: LoggingLevel.error);
+          level: LoggingLevel.error, transction: 'ConsentService.initConsent');
     });
   }
 
   void loadForm() {
     ConsentForm.loadConsentForm((consentForm) async {
-      var status = await ConsentInformation.instance.getConsentStatus();
+      ConsentStatus status =
+          await ConsentInformation.instance.getConsentStatus();
       if (status == ConsentStatus.required) {
         consentForm.show(
           (formError) {
@@ -44,7 +45,7 @@ class ConsentService {
     }, (error) {
       //Handle the error
       LoggingService.message("${error.message} ${error.errorCode}",
-          level: LoggingLevel.error);
+          level: LoggingLevel.error, transction: 'ConsentService.loadForm');
     });
   }
 
