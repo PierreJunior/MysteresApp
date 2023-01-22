@@ -11,7 +11,7 @@ class RosaryConfigService {
 
   late String _selectedLanguage;
   late String _defaultLanguage;
-  late String? _selectedWeekDay;
+  String? _selectedWeekDay;
   late final List<String> _weekDays = [];
   late LanguageService _languageService;
   late WeekDaysService _weekDaysService;

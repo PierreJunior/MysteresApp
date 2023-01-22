@@ -71,12 +71,10 @@ class _LandingScreenState extends State<LandingScreen> {
           context: logContext, transaction: 'LandingScreen._initialLoad');
       setState(() {
         isLoadingLanguage = false;
-        // isLoadingWeekDays = false; // TODO: Handle this properly
+        isLoadingWeekDays = false;
       });
-      // TODO: Convert to appropriate language
       NotificationService.getFlushbar(
-              message:
-                  'Error during the initial load. Administrators notified.',
+              message: LocaleKeys.errorUnexpected.tr(),
               color: ColorPalette.warning)
           .show(context);
     });
