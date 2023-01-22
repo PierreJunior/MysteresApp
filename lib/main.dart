@@ -40,9 +40,9 @@ Future<void> main() async {
     runApp(
       EasyLocalization(
         supportedLocales:
-            GlobalValue.supportedLocale.map((e) => Locale(e)).toList(),
+            GlobalValue.supportedLocales.map((e) => Locale(e)).toList(),
         path: 'assets/translations',
-        fallbackLocale: const Locale('en'),
+        fallbackLocale: Locale(GlobalValue.defaultLocale),
         child: Provider.value(
           value: adState,
           builder: (context, child) => const MyApp(),

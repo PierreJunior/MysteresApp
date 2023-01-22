@@ -32,7 +32,7 @@ class RosaryConfigService {
       _selectedLanguage = defaultLang!;
       _defaultLanguage = _selectedLanguage;
       return await _languageService
-          .loadLanguages(languageCodes: GlobalValue.supportedLocale.toList())
+          .loadLanguages(languageCodes: GlobalValue.supportedLocales.toList())
           .then((languages) async {
         return _weekDaysService.loadWeekDays(_selectedLanguage).then((val) {
           _selectedWeekDay = _weekDaysService.getCurrentWeekDay();
