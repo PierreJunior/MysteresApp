@@ -15,22 +15,22 @@ void main() {
   const List<String> languages = ["English", "French"];
   const Map<String, List<String>> daysByLanguage = {
     "English": [
-      "Sunday",
       "Monday",
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
-      "Saturday"
+      "Saturday",
+      "Sunday",
     ],
     "French": [
-      "Dimanche",
       "Lundi",
       "Mardi",
       "Mercredi",
       "Jeudi",
       "Vendredi",
-      "Samedi"
+      "Samedi",
+      "Dimanche",
     ],
   };
 
@@ -58,46 +58,46 @@ void main() {
       var weekDaysCollection = fakeFirestore.collection('week_days');
       await weekDaysCollection
           .doc('Sunday')
-          .set({'language': 'English', 'order': 1, 'value': "Sunday"});
+          .set({'language': 'English', 'order': 7, 'value': "Sunday"});
       await weekDaysCollection
           .doc('Monday')
-          .set({'language': 'English', 'order': 2, 'value': "Monday"});
+          .set({'language': 'English', 'order': 1, 'value': "Monday"});
       await weekDaysCollection
           .doc('Tuesday')
-          .set({'language': 'English', 'order': 3, 'value': "Tuesday"});
+          .set({'language': 'English', 'order': 2, 'value': "Tuesday"});
       await weekDaysCollection
           .doc('Wednesday')
-          .set({'language': 'English', 'order': 4, 'value': "Wednesday"});
+          .set({'language': 'English', 'order': 3, 'value': "Wednesday"});
       await weekDaysCollection
           .doc('Thursday')
-          .set({'language': 'English', 'order': 5, 'value': "Thursday"});
+          .set({'language': 'English', 'order': 4, 'value': "Thursday"});
       await weekDaysCollection
           .doc('Friday')
-          .set({'language': 'English', 'order': 6, 'value': "Friday"});
+          .set({'language': 'English', 'order': 5, 'value': "Friday"});
       await weekDaysCollection
           .doc('Saturday')
-          .set({'language': 'English', 'order': 7, 'value': "Saturday"});
+          .set({'language': 'English', 'order': 6, 'value': "Saturday"});
       await weekDaysCollection
           .doc('Dimanche')
-          .set({'language': 'French', 'order': 1, 'value': "Dimanche"});
+          .set({'language': 'French', 'order': 7, 'value': "Dimanche"});
       await weekDaysCollection
           .doc('Lundi')
-          .set({'language': 'French', 'order': 2, 'value': "Lundi"});
+          .set({'language': 'French', 'order': 1, 'value': "Lundi"});
       await weekDaysCollection
           .doc('Mardi')
-          .set({'language': 'French', 'order': 3, 'value': "Mardi"});
+          .set({'language': 'French', 'order': 2, 'value': "Mardi"});
       await weekDaysCollection
           .doc('Mercredi')
-          .set({'language': 'French', 'order': 4, 'value': "Mercredi"});
+          .set({'language': 'French', 'order': 3, 'value': "Mercredi"});
       await weekDaysCollection
           .doc('Jeudi')
-          .set({'language': 'French', 'order': 5, 'value': "Jeudi"});
+          .set({'language': 'French', 'order': 4, 'value': "Jeudi"});
       await weekDaysCollection
           .doc('Vendredi')
-          .set({'language': 'French', 'order': 6, 'value': "Vendredi"});
+          .set({'language': 'French', 'order': 5, 'value': "Vendredi"});
       await weekDaysCollection
           .doc('Samedi')
-          .set({'language': 'French', 'order': 7, 'value': "Samedi"});
+          .set({'language': 'French', 'order': 6, 'value': "Samedi"});
     });
 
     test('week days loaded', () async {
@@ -121,7 +121,7 @@ void main() {
       await service.loadWeekDays(language).then((value) {
         String weekDay = service.getCurrentWeekDay();
         int weekdayNum = DateTime.now().weekday;
-        expect(weekDay, weekDays[weekdayNum]);
+        expect(weekDay, weekDays[weekdayNum - 1]);
       });
     });
   });

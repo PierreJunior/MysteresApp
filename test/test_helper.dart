@@ -30,7 +30,7 @@ class TestHelper {
       positiveSet = random == 1;
       zeroSet = random == 0;
       data.add({
-        "languade_code": languageCodes[element],
+        "language_code": languageCodes[element],
         "value": element,
         "status": random
       });

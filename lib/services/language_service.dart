@@ -57,7 +57,7 @@ class LanguageService {
       for (var doc in event.docs) {
         _languages.add(doc.data()['value']);
       }
-      return _languages;
+      return _languages.toSet().toList();
     });
   }
 
