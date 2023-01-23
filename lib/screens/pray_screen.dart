@@ -49,7 +49,8 @@ class _PrayScreenState extends State<PrayScreen> {
     }).catchError((e, s) {
       Map<String, dynamic> context = {
         "selectedDay": widget.rosaryConfig.day,
-        "selectedLanguage": widget.rosaryConfig.language
+        "selectedLanguage": widget.rosaryConfig.language,
+        "prayerType": widget.rosaryConfig.prayerTypes,
       };
       String transaction = "_PrayScreenState.initState";
       LoggingService.exception(e, s,

@@ -42,7 +42,7 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingWeekDays = true;
   bool loadingError = false;
   bool consentGiven = false;
-  bool isSwitched = false;
+  bool allPrayerType = true;
 
   @override
   void initState() {
@@ -197,7 +197,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                 SizedBox(height: Adaptive.h(1.5)),
                                 Row(
                                   children: [
-                                    const Icon(Icons.build),
+                                    Icon(Icons.build_circle_outlined,
+                                        size: 22.sp),
                                     SizedBox(width: Adaptive.w(1)),
                                     Text(
                                       'Include Mysteres', // TODO: Get appropriate label
@@ -233,30 +234,8 @@ class _LandingScreenState extends State<LandingScreen> {
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PrayScreen(
-                                                  rosaryConfig: RosaryConfig(
-                                                      day: _rosaryConfigService
-                                                          .selectedWeekDay!,
-                                                      language:
-                                                          _rosaryConfigService
-                                                              .selectedLanguage),
-                                                )));
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PrayScreen(
-                                                  rosaryConfig: RosaryConfig(
-                                                      day: _rosaryConfigService
-                                                          .selectedWeekDay!,
-                                                      language:
-                                                          _rosaryConfigService
-                                                              .selectedLanguage),
-                                                )));
                                   }
+                                  loadPrayScreen(context);
                                 },
                                 title: LocaleKeys.btnPray.tr()),
                           ],
@@ -394,10 +373,10 @@ class _LandingScreenState extends State<LandingScreen> {
       child: FittedBox(
         fit: BoxFit.fill,
         child: Switch(
-          value: isSwitched,
+          value: allPrayerType,
           onChanged: (value) {
             setState(() {
-              isSwitched = value;
+              allPrayerType = value;
             });
           },
           activeTrackColor: ColorPalette.primaryDark,
@@ -407,5 +386,20 @@ class _LandingScreenState extends State<LandingScreen> {
         ),
       ),
     );
+  }
+
+  void loadPrayScreen(BuildContext context) {
+    List<PrayerType> prayerTypes = allPrayerType == true
+        ? [PrayerType.normal, PrayerType.mystere]
+        : [PrayerType.normal];
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PrayScreen(
+                  rosaryConfig: RosaryConfig(
+                      day: _rosaryConfigService.selectedWeekDay!,
+                      language: _rosaryConfigService.selectedLanguage,
+                      prayerTypes: prayerTypes),
+                )));
   }
 }

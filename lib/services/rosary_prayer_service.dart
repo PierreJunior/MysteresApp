@@ -7,6 +7,7 @@ class RosaryPrayerService {
     _currentStep = 1;
     _selectedDay = config.day;
     _selectedLanguage = config.language;
+    _prayerTypes = config.prayerTypes;
   }
 
   late int _currentStep;
@@ -14,17 +15,20 @@ class RosaryPrayerService {
   late final String _selectedLanguage;
   late FirebaseFirestore _db;
   late final List<Map<String, dynamic>> _rosarySteps = [];
+  List<PrayerType> _prayerTypes = [];
 
   Future<List<Map<String, dynamic>>> loadPrayers() async {
+    List<String> prayerType =
+        _prayerTypes.map((e) => e.toString().split('.').last).toList();
     return await _db
         .collection('prayers')
         .orderBy('step_number')
         .where('language', isEqualTo: _selectedLanguage)
         .where('week_days', arrayContains: _selectedDay)
+        .where('type', whereIn: prayerType)
         .get()
         .then((value) {
       for (var doc in value.docs) {
-        // _rosarySteps.add(doc.data());
         var data = doc.data();
         _rosarySteps.add({
           "value": data['value'],
