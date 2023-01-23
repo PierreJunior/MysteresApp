@@ -42,6 +42,7 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingWeekDays = true;
   bool loadingError = false;
   bool consentGiven = false;
+  bool isSwitched = false;
 
   @override
   void initState() {
@@ -171,28 +172,41 @@ class _LandingScreenState extends State<LandingScreen> {
                                 Row(
                                   children: [
                                     const Icon(Icons.language),
-                                    const SizedBox(width: 5),
+                                    SizedBox(width: Adaptive.w(1)),
                                     Text(
                                       LocaleKeys.dropdownLabelLanguage.tr(),
                                       style: Font.containerText,
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 5),
+                                SizedBox(height: Adaptive.h(1.5)),
                                 loadLanguagesDropdown(),
                                 const SizedBox(height: 20),
                                 Row(
                                   children: [
                                     const Icon(Icons.calendar_month_outlined),
-                                    const SizedBox(width: 5),
+                                    SizedBox(width: Adaptive.w(1.5)),
                                     Text(
                                       LocaleKeys.dropdownLabelDay.tr(),
                                       style: Font.containerText,
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 5),
+                                SizedBox(height: Adaptive.h(1.5)),
                                 loadWeekDaysDropdown(),
+                                SizedBox(height: Adaptive.h(1.5)),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.build),
+                                    SizedBox(width: Adaptive.w(1)),
+                                    Text(
+                                      'Include Mysteres', // TODO: Get appropriate label
+                                      style: Font.containerText,
+                                    ),
+                                    SizedBox(width: Adaptive.w(7.2)),
+                                    loadRosaryTypeSwitch()
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -369,6 +383,28 @@ class _LandingScreenState extends State<LandingScreen> {
         onChanged: (value) {
           onLanguageChanged(value!);
         },
+      ),
+    );
+  }
+
+  Widget loadRosaryTypeSwitch() {
+    return SizedBox(
+      width: Adaptive.w(23),
+      height: Adaptive.h(9.5),
+      child: FittedBox(
+        fit: BoxFit.fill,
+        child: Switch(
+          value: isSwitched,
+          onChanged: (value) {
+            setState(() {
+              isSwitched = value;
+            });
+          },
+          activeTrackColor: ColorPalette.primaryDark,
+          activeColor: ColorPalette.primaryDark,
+          inactiveTrackColor: ColorPalette.primary,
+          inactiveThumbColor: ColorPalette.secondaryDark,
+        ),
       ),
     );
   }
