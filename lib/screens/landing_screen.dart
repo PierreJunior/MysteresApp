@@ -213,7 +213,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                   SizedBox(
                                       height: Device.orientation ==
                                               Orientation.portrait
-                                          ? 2.h
+                                          ? 1.h
                                           : 4.h),
                                   Row(
                                     children: [
