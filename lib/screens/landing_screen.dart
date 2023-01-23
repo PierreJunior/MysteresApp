@@ -181,7 +181,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                 ),
                                 SizedBox(height: Adaptive.h(1.5)),
                                 loadLanguagesDropdown(),
-                                const SizedBox(height: 20),
+                                SizedBox(height: Adaptive.h(3)),
                                 Row(
                                   children: [
                                     const Icon(Icons.calendar_month_outlined),
