@@ -19,5 +19,6 @@
   "languageSettingsScreenTitleInceptionPrefix": "Hi there",
   "notificationInvalidLanguage": "Please select a valid language",
   "pageNameHome": "Home",
-  "pageNameSettings": "Settings"
+  "pageNameSettings": "Settings",
+  "switchLabelPrayerType": "Include Mysteries"
 }

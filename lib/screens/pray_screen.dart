@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
@@ -21,12 +22,9 @@ import '../widgets/ads.dart';
 import '../widgets/custom_app_bar.dart';
 
 class PrayScreen extends StatefulWidget {
-  const PrayScreen(
-      {Key? key, required this.selectedDay, required this.selectedLanguage})
-      : super(key: key);
+  const PrayScreen({Key? key, required this.rosaryConfig}) : super(key: key);
   static const String id = "PrayingScreen";
-  final String selectedDay;
-  final String selectedLanguage;
+  final RosaryConfig rosaryConfig;
 
   @override
   State<PrayScreen> createState() => _PrayScreenState();
@@ -42,8 +40,7 @@ class _PrayScreenState extends State<PrayScreen> {
   @override
   void initState() {
     super.initState();
-    _rosaryPrayerService =
-        RosaryPrayerService(widget.selectedDay, widget.selectedLanguage);
+    _rosaryPrayerService = RosaryPrayerService(widget.rosaryConfig);
     _rosaryPrayerService.loadPrayers().then((value) {
       setState(() {
         initPrayer();
@@ -51,8 +48,9 @@ class _PrayScreenState extends State<PrayScreen> {
       });
     }).catchError((e, s) {
       Map<String, dynamic> context = {
-        "selectedDay": widget.selectedDay,
-        "selectedLanguage": widget.selectedLanguage
+        "selectedDay": widget.rosaryConfig.day,
+        "selectedLanguage": widget.rosaryConfig.language,
+        "prayerType": widget.rosaryConfig.prayerTypes,
       };
       String transaction = "_PrayScreenState.initState";
       LoggingService.exception(e, s,
