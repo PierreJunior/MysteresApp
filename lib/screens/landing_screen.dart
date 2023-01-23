@@ -161,54 +161,77 @@ class _LandingScreenState extends State<LandingScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
                           width: MediaQuery.of(context).size.width * 1,
-                          height: Adaptive.h(45),
+                          height: 45.h,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 left: bodyChildPadding,
-                                right: bodyChildPadding),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.language),
-                                    SizedBox(width: Adaptive.w(1)),
-                                    Text(
-                                      LocaleKeys.dropdownLabelLanguage.tr(),
-                                      style: Font.containerText,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: Adaptive.h(1.5)),
-                                loadLanguagesDropdown(),
-                                SizedBox(height: Adaptive.h(3)),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.calendar_month_outlined),
-                                    SizedBox(width: Adaptive.w(1.5)),
-                                    Text(
-                                      LocaleKeys.dropdownLabelDay.tr(),
-                                      style: Font.containerText,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: Adaptive.h(1.5)),
-                                loadWeekDaysDropdown(),
-                                SizedBox(height: Adaptive.h(1.5)),
-                                Row(
-                                  children: [
-                                    Icon(Icons.build_circle_outlined,
-                                        size: 22.sp),
-                                    SizedBox(width: Adaptive.w(1)),
-                                    Text(
-                                      'Include Mysteres', // TODO: Get appropriate label
-                                      style: Font.containerText,
-                                    ),
-                                    SizedBox(width: Adaptive.w(7.2)),
-                                    loadRosaryTypeSwitch()
-                                  ],
-                                ),
-                              ],
+                                right: bodyChildPadding,
+                                top: 4.h),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.language),
+                                      SizedBox(width: Adaptive.w(1)),
+                                      Text(
+                                        LocaleKeys.dropdownLabelLanguage.tr(),
+                                        style: Font.containerText,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 1.h
+                                          : 2.h),
+                                  loadLanguagesDropdown(),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 4.h
+                                          : 8.h),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_month_outlined),
+                                      SizedBox(width: Adaptive.w(1.5)),
+                                      Text(
+                                        LocaleKeys.dropdownLabelDay.tr(),
+                                        style: Font.containerText,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 1.h
+                                          : 2.h),
+                                  loadWeekDaysDropdown(),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 2.h
+                                          : 4.h),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.build_circle_outlined,
+                                          size: 22.sp),
+                                      SizedBox(width: Adaptive.w(1)),
+                                      Text(
+                                        'Include Mysteres', // TODO: Get appropriate label
+                                        style: Font.containerText,
+                                      ),
+                                      SizedBox(
+                                          width: Device.orientation ==
+                                                  Orientation.portrait
+                                              ? 4.5.w
+                                              : 40.w),
+                                      loadRosaryTypeSwitch()
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -368,8 +391,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
   Widget loadRosaryTypeSwitch() {
     return SizedBox(
-      width: Adaptive.w(23),
-      height: Adaptive.h(9.5),
+      width: Device.orientation == Orientation.portrait ? 25.w : 15.w,
+      height: Device.orientation == Orientation.portrait ? 11.h : 23.5.h,
       child: FittedBox(
         fit: BoxFit.fill,
         child: Switch(
