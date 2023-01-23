@@ -136,13 +136,13 @@ void main() {
     });
 
     test('valid language code is returned', () async {
-      int index = Random().nextInt(languageData.length);
+      int index = Random().nextInt(languages.length);
       String language = languages[index];
 
       LanguageService service = LanguageService(fakeFirestore);
       await service.loadLanguages().then((value) {
         service.getLanguageCode(language).then((languageCode) {
-          expect(TestHelper.languageCodes[languageCode], languageCode);
+          expect(TestHelper.languageCodes[language], languageCode);
         });
       });
     });
