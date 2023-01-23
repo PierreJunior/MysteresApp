@@ -22,5 +22,6 @@ abstract class  LocaleKeys {
   static const notificationInvalidLanguage = 'notificationInvalidLanguage';
   static const pageNameHome = 'pageNameHome';
   static const pageNameSettings = 'pageNameSettings';
+  static const switchLabelPrayerType = 'switchLabelPrayerType';
 
 }

@@ -19,5 +19,6 @@
     "languageSettingsScreenTitleInceptionPrefix": "habari",
     "notificationInvalidLanguage": "Tafadhali chagua lugha sahihi",
     "pageNameHome": "Nyumbani",
-    "pageNameSettings": "Mipangilio"
+    "pageNameSettings": "Mipangilio",
+    "switchLabelPrayerType": "Mafumbo"
 }

@@ -219,7 +219,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                           size: 22.sp),
                                       SizedBox(width: Adaptive.w(1)),
                                       Text(
-                                        'Include Mysteres', // TODO: Get appropriate label
+                                        LocaleKeys.switchLabelPrayerType.tr(),
                                         style: Font.containerText,
                                       ),
                                       SizedBox(
