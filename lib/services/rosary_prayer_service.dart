@@ -65,9 +65,15 @@ class RosaryPrayerService {
   int getTotalPrayerSteps() => _rosarySteps.length;
 
   Map<String, dynamic> getPrayer() {
-    // Check step type.
-    Map<String, dynamic> step =
-        _rosarySteps.firstWhere((e) => e["step_number"] == _currentStep);
+    Map<String, dynamic> step = {};
+    if (_prayerTypes.length != PrayerType.values.length) {
+      int index = _currentStep - 1;
+      if (index < 0) throw Exception('Index cannot be negative.');
+
+      step = _rosarySteps[index];
+    } else {
+      step = _rosarySteps.firstWhere((e) => e["step_number"] == _currentStep);
+    }
 
     return step;
   }
