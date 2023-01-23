@@ -42,8 +42,8 @@ class _LandingScreenState extends State<LandingScreen> {
   bool isLoadingWeekDays = true;
   bool loadingError = false;
   bool consentGiven = false;
-  bool allPrayerType = true;
-  final bool allPrayerTypeDefault = true;
+  bool useAllPrayerTypes = true;
+  final allPrayerTypeDefault = true;
 
   @override
   void initState() {
@@ -96,7 +96,7 @@ class _LandingScreenState extends State<LandingScreen> {
     _rosaryConfigService.changeLanguage(lang);
     setState(() {
       isLoadingWeekDays = true;
-      allPrayerType = allPrayerTypeDefault;
+      useAllPrayerTypes = allPrayerTypeDefault;
     });
 
     _rosaryConfigService.loadWeekDays().then((value) {
@@ -398,10 +398,10 @@ class _LandingScreenState extends State<LandingScreen> {
       child: FittedBox(
         fit: BoxFit.fill,
         child: Switch(
-          value: allPrayerType,
+          value: useAllPrayerTypes,
           onChanged: (value) {
             setState(() {
-              allPrayerType = value;
+              useAllPrayerTypes = value;
             });
           },
           activeTrackColor: ColorPalette.primaryDark,
@@ -414,7 +414,7 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   void loadPrayScreen(BuildContext context) {
-    List<PrayerType> prayerTypes = allPrayerType == true
+    List<PrayerType> prayerTypes = useAllPrayerTypes == true
         ? [PrayerType.normal, PrayerType.mystere]
         : [PrayerType.normal];
     Navigator.push(
