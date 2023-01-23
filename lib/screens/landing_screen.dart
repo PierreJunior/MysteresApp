@@ -43,6 +43,7 @@ class _LandingScreenState extends State<LandingScreen> {
   bool loadingError = false;
   bool consentGiven = false;
   bool allPrayerType = true;
+  final bool allPrayerTypeDefault = true;
 
   @override
   void initState() {
@@ -95,6 +96,7 @@ class _LandingScreenState extends State<LandingScreen> {
     _rosaryConfigService.changeLanguage(lang);
     setState(() {
       isLoadingWeekDays = true;
+      allPrayerType = allPrayerTypeDefault;
     });
 
     _rosaryConfigService.loadWeekDays().then((value) {
