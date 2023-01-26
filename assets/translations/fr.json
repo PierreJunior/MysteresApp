@@ -1,7 +1,7 @@
 {
   "appName": "Rosaire",
   "btnContinue": "Continue",
-  "Consent": "obtenir l'autorisation",
+  "btnGetConsent": "obtenir l'autorisation",
   "btnPray": "Prier",
   "btnReset": "Réinitialiser",
   "btnRosaryEnd": "Rosaire terminé !",

@@ -1,7 +1,7 @@
 {
   "appName": "Rosary",
   "btnContinue": "Continue",
-  "Consent": "Get Consent",
+  "btnGetConsent": "Get Consent",
   "btnPray": "Pray",
   "btnReset": "Reset",
   "btnRosaryEnd": "Rosary finished!",
