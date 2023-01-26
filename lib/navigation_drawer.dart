@@ -6,8 +6,8 @@ import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/screens/language_settings_screen.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NaviDrawer extends StatelessWidget {
+  const NaviDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

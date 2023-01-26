@@ -23,6 +23,7 @@ import 'package:easy_localization/easy_localization.dart';
 //ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
   late String valueLanguage;
+  static bool settings = false;
   static const String id = "LandingPage";
   static bool checkPage = false;
 
@@ -133,7 +134,7 @@ class _LandingScreenState extends State<LandingScreen> {
         return MaterialApp(
           theme: ThemeData(useMaterial3: true),
           home: Scaffold(
-            drawer: const NavigationDrawer(),
+            drawer: const NaviDrawer(),
             appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
             body: SingleChildScrollView(

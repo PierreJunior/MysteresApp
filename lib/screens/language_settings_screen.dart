@@ -20,6 +20,8 @@ import 'package:mysteres/services/consent_service.dart';
 
 //ignore: must_be_immutable
 class LanguageSettings extends StatefulWidget {
+  static bool settings= false;
+
   const LanguageSettings({Key? key}) : super(key: key);
 
   @override
@@ -229,6 +231,13 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                           onConfirmPressed(context);
                         },
                         title: LocaleKeys.btnContinue.tr()),
+                    const SizedBox(width: 15),
+                    RoundedButton(
+                        colour: ColorPalette.primaryDark,
+                        pressed: () {
+                          getConsent(context);
+                        },
+                        title: LocaleKeys.btnGetConsent.tr()),
                   ],
                 )
               ],
@@ -237,6 +246,11 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         ),
       ),
     );
+  }
+
+  void getConsent(BuildContext context){
+    LanguageSettings.settings = true;
+    _consentService.loadForm();
   }
 
   void onConfirmPressed(BuildContext context) {
