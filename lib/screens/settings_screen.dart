@@ -1,33 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
 import 'package:mysteres/global_variable.dart';
-import 'package:mysteres/screens/landing_screen.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
+import 'package:mysteres/navigation_drawer.dart';
+import 'package:mysteres/services/consent_service.dart';
 import 'package:mysteres/services/language_service.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:mysteres/services/notification_service.dart';
-import 'package:mysteres/l10n/locale_keys.g.dart';
-import 'package:mysteres/widgets/loader.dart';
-import 'package:mysteres/widgets/rounded_button.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:mysteres/widgets/error.dart';
-import 'package:mysteres/services/consent_service.dart';
+import 'package:mysteres/widgets/custom_app_bar.dart';
 
-//ignore: must_be_immutable
-class LanguageSettings extends StatefulWidget {
-
-  const LanguageSettings({Key? key}) : super(key: key);
+class Settings extends StatefulWidget {
+  static bool consentDone = false;
+  const Settings({Key? key}) : super(key: key);
 
   @override
-  State<LanguageSettings> createState() => _LanguageSettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _LanguageSettingsState extends State<LanguageSettings> {
+class _SettingsState extends State<Settings> {
   late LanguageService _languageService;
   final String startingLanguage = "English";
   late String selectedLanguage = "--";
@@ -36,16 +32,17 @@ class _LanguageSettingsState extends State<LanguageSettings> {
   bool fetchingDefaults = true;
   bool isFirstScreen = true;
   bool loadingError = false;
-  late final ConsentService _consentService;
+  late final bool consentCheck;
   bool consentGiven = false;
+  int x = 0;
+
 
   @override
   void initState() {
     super.initState();
-    _consentService = ConsentService(consentGiven);
-    _consentService.initConsent();
     _languageService = LanguageService(FirebaseFirestore.instance);
     _initialLoad();
+    consentCheck = ConsentService(consentGiven).updateConsent;
   }
 
   void _initialLoad() {
@@ -112,141 +109,78 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     });
   }
 
-  Future<bool> _setLanguagePref(value) async {
-    if (!languageChanged) {
-      NotificationService.getFlushbar(
-              message: LocaleKeys.notificationInvalidLanguage.tr(),
-              duration: 2,
-              color: ColorPalette.warning)
-          .show(context);
-      return false;
-    }
-
-    if (selectedLanguage == "--") {
-      NotificationService.getFlushbar(
-              message: LocaleKeys.notificationInvalidLanguage.tr(),
-              duration: 2,
-              color: ColorPalette.warning)
-          .show(context);
-      return false;
-    }
-
-    return _languageService.setDefaultLanguage(value);
-  }
-
-  Widget loadMainWidget(BuildContext context) {
-    while (fetchingDefaults) {
-      return const Center(
-        child: Loader(),
-      );
-    }
-    return mainWidget(context);
-  }
-
-  Widget displayEmoji() {
-    if (isFirstScreen) {
-      return Text(Emojis.wavingHand, style: TextStyle(fontSize: 30.sp));
-    } else {
-      return const SizedBox.shrink();
-    }
+  void updateConsent(BuildContext context) {
+    ConsentForm.loadConsentForm((consentForm) async {
+      if (Settings.consentDone = true){
+        consentForm.show(
+              (formError) {
+                consentCheck = false;
+                updateConsent(context);
+          },
+        );
+      }
+    }, (error) {
+      //Handle the error
+      LoggingService.message("${error.message} ${error.errorCode}",
+          level: LoggingLevel.error, transction: 'ConsentService.loadForm');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType) {
-        if (loadingError) {
-          return Error(
-            message:
-                "${LocaleKeys.errorUnexpected.tr()} \n\n${LocaleKeys.languageSettingsScreenTitleInception.tr()}",
-            emoji: Emojis.warning,
-          );
-        }
-
-        return MaterialApp(
-          home: Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorPalette.primaryDark,
-              title: Text(
-                LocaleKeys.appName.tr(),
-                style: const TextStyle(
-                  color: ColorPalette.primary,
-                ),
-              ),
-            ),
-            backgroundColor: ColorPalette.primary,
-            body: loadMainWidget(context),
-          ),
-        );
-      },
-    );
-  }
-
-  Center mainWidget(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(bodyChildPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                displayEmoji(),
-                Text(
-                  title,
-                  style: Font.heading1,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 1,
-                  height: Adaptive.h(20),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: bodyChildPadding, right: bodyChildPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: const [
-                            SizedBox(width: 5),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        languagesDropdown(),
-                        const SizedBox(height: 20),
-                      ],
+    return MaterialApp(
+      home: Scaffold(
+        drawer: const NaviDrawer(),
+        appBar: const CustomAppBar(),
+        backgroundColor: ColorPalette.primary,
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(bodyChildPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    LocaleKeys.pageNameSettings.tr(),
+                    style: Font.heading1,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    child: const Divider(
+                      color: ColorPalette.primaryDark,
+                      thickness: 2,
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RoundedButton(
-                        colour: ColorPalette.primaryDark,
-                        pressed: () {
-                          onConfirmPressed(context);
-                        },
-                        title: LocaleKeys.btnContinue.tr()),
-                  ],
-                )
-              ],
+                  ExpansionTile(
+                    iconColor: ColorPalette.primaryDark,
+                    textColor: ColorPalette.primaryDark,
+                    leading: const Icon(Icons.language),
+                    title: Text(
+                      LocaleKeys.dropdownLabelLanguage.tr(),
+                      style: Font.containerText,
+                    ),
+                    children: [
+                      languagesDropdown(),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  ListTile(
+                    leading: const Icon(Icons.privacy_tip),
+                    title: Text(
+                      LocaleKeys.btnGetConsent.tr(),
+                      style: Font.containerText,
+                    ),
+                    onTap: () {
+                      updateConsent(context);
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  void onConfirmPressed(BuildContext context) {
-    _setLanguagePref(selectedLanguage).then((value) {
-      if (value == true) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => LandingScreen()));
-      }
-    });
   }
 
   Widget languagesDropdown() {

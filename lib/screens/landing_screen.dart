@@ -23,7 +23,6 @@ import 'package:easy_localization/easy_localization.dart';
 //ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
   late String valueLanguage;
-  static bool settings = false;
   static const String id = "LandingPage";
   static bool checkPage = false;
 

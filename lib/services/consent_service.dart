@@ -1,9 +1,9 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/services/logging_service.dart';
-import 'package:mysteres/screens/language_settings_screen.dart';
 
 class ConsentService {
   late bool _consentGiven;
+  late bool updateConsent = false;
   late final ConsentRequestParameters params;
 
   ConsentService(bool consentGiven) {
@@ -30,14 +30,6 @@ class ConsentService {
       if (status == ConsentStatus.required) {
         consentForm.show(
           (formError) {
-            loadForm();
-          },
-        );
-      }
-      if( LanguageSettings.settings == true){
-        LanguageSettings.settings = false;
-        consentForm.show(
-              (formError) {
             loadForm();
           },
         );
