@@ -1,6 +1,7 @@
 {
     "appName": "Rosário",
     "btnContinue": "Prosseguir",
+    "btnGetConsent": "Actualizar o consentimento",
     "btnPray": "Rezar",
     "btnReset": "Redefinir",
     "btnRosaryEnd": "Rosário finalizado!",

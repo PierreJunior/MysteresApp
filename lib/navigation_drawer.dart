@@ -4,10 +4,10 @@ import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/drawer_item.dart';
 import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/screens/landing_screen.dart';
-import 'package:mysteres/screens/language_settings_screen.dart';
+import 'package:mysteres/screens/settings_screen.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NaviDrawer extends StatelessWidget {
+  const NaviDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,13 @@ class NavigationDrawer extends StatelessWidget {
         );
         break;
       case 1:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LanguageSettings()));
+        Settings.consentDone = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Settings(),
+          ),
+        );
         break;
     }
   }

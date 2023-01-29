@@ -133,7 +133,7 @@ class _LandingScreenState extends State<LandingScreen> {
         return MaterialApp(
           theme: ThemeData(useMaterial3: true),
           home: Scaffold(
-            drawer: const NavigationDrawer(),
+            drawer: const NaviDrawer(),
             appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
             body: SingleChildScrollView(

@@ -3,6 +3,7 @@
 abstract class  LocaleKeys {
   static const appName = 'appName';
   static const btnContinue = 'btnContinue';
+  static const btnGetConsent = 'btnGetConsent';
   static const btnPray = 'btnPray';
   static const btnReset = 'btnReset';
   static const btnRosaryEnd = 'btnRosaryEnd';

@@ -291,7 +291,7 @@ class _PrayScreenState extends State<PrayScreen> {
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
         key: scaffoldKey,
-        drawer: const NavigationDrawer(),
+        drawer: const NaviDrawer(),
         appBar: const CustomAppBar(),
         backgroundColor: ColorPalette.primary,
         body: SafeArea(
@@ -359,7 +359,7 @@ class _PrayScreenState extends State<PrayScreen> {
   Scaffold landscapeScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const NavigationDrawer(),
+      drawer: const NaviDrawer(),
       appBar: const CustomAppBar(),
       backgroundColor: ColorPalette.primary,
       body: SafeArea(

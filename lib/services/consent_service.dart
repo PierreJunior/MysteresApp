@@ -3,6 +3,7 @@ import 'package:mysteres/services/logging_service.dart';
 
 class ConsentService {
   late bool _consentGiven;
+  late bool updateConsent = false;
   late final ConsentRequestParameters params;
 
   ConsentService(bool consentGiven) {
