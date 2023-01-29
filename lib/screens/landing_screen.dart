@@ -401,10 +401,18 @@ class _LandingScreenState extends State<LandingScreen> {
             useAllPrayerTypes = value;
           });
         },
+        thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return const Icon(Icons.check);
+            }
+            return const Icon(Icons.close);
+          },
+        ),
+        inactiveThumbColor: Colors.grey.shade600,
+        inactiveTrackColor: Colors.grey.shade300,
+        activeColor: Colors.white,
         activeTrackColor: ColorPalette.primaryDark,
-        activeColor: ColorPalette.primaryDark,
-        inactiveTrackColor: ColorPalette.primary,
-        inactiveThumbColor: ColorPalette.secondaryDark,
       ),
     );
   }
