@@ -109,6 +109,28 @@ class _SettingsState extends State<Settings> {
     });
   }
 
+  Future<bool> _setLanguagePref(value) async {
+    if (!languageChanged) {
+      NotificationService.getFlushbar(
+          message: LocaleKeys.notificationInvalidLanguage.tr(),
+          duration: 2,
+          color: ColorPalette.warning)
+          .show(context);
+      return false;
+    }
+
+    if (selectedLanguage == "--") {
+      NotificationService.getFlushbar(
+          message: LocaleKeys.notificationInvalidLanguage.tr(),
+          duration: 2,
+          color: ColorPalette.warning)
+          .show(context);
+      return false;
+    }
+
+    return _languageService.setDefaultLanguage(value);
+  }
+
   void updateConsent(BuildContext context) {
     ConsentForm.loadConsentForm((consentForm) async {
       if (Settings.consentDone = true){
@@ -226,6 +248,7 @@ class _SettingsState extends State<Settings> {
         }).toList(),
         onChanged: (value) async {
           await _onLanguageChanged(value!);
+          _setLanguagePref(value);
         },
       ),
     );
