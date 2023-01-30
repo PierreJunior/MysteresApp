@@ -392,23 +392,27 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   Widget loadRosaryTypeSwitch() {
-    return SizedBox(
-      width: Device.orientation == Orientation.portrait ? 25.w : 15.w,
-      height: Device.orientation == Orientation.portrait ? 11.h : 23.5.h,
-      child: FittedBox(
-        fit: BoxFit.fill,
-        child: Switch(
-          value: useAllPrayerTypes,
-          onChanged: (value) {
-            setState(() {
-              useAllPrayerTypes = value;
-            });
+    return FittedBox(
+      fit: BoxFit.fill,
+      child: Switch(
+        value: useAllPrayerTypes,
+        onChanged: (value) {
+          setState(() {
+            useAllPrayerTypes = value;
+          });
+        },
+        thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return const Icon(Icons.check);
+            }
+            return const Icon(Icons.close);
           },
-          activeTrackColor: ColorPalette.primaryDark,
-          activeColor: ColorPalette.primaryDark,
-          inactiveTrackColor: ColorPalette.primary,
-          inactiveThumbColor: ColorPalette.secondaryDark,
         ),
+        inactiveThumbColor: Colors.grey.shade600,
+        inactiveTrackColor: Colors.grey.shade300,
+        activeColor: Colors.white,
+        activeTrackColor: ColorPalette.primaryDark,
       ),
     );
   }
