@@ -1,3 +1,4 @@
 # Rosary
 
-Mobile Application showing how to Pray the Rosary
+Mobile Application to pray the Rosary.
+

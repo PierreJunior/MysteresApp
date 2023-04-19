@@ -5,13 +5,20 @@ import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
 import 'package:mysteres/constants.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/pray_screen.dart';
+import 'package:mysteres/services/consent_service.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_config_service.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/custom_app_bar.dart';
+import 'package:mysteres/widgets/error.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //ignore: must_be_immutable
 class LandingScreen extends StatefulWidget {
@@ -31,17 +38,20 @@ class _LandingScreenState extends State<LandingScreen> {
   late ShowInterstitial interstitial;
   late BannerAd? banner;
   late RosaryConfigService _rosaryConfigService;
-  late final LoggingService _log;
   bool isLoadingLanguage = true;
   bool isLoadingWeekDays = true;
+  bool loadingError = false;
+  bool consentGiven = false;
+  bool useAllPrayerTypes = true;
+  final allPrayerTypeDefault = true;
 
   @override
   void initState() {
     super.initState();
     banner = null;
+    ConsentService(consentGiven).initConsent();
     interstitial = ShowInterstitial();
     _rosaryConfigService = RosaryConfigService();
-    _log = LoggingService();
     _initialLoad();
     _checkingPage();
   }
@@ -57,7 +67,19 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingWeekDays = false;
       });
     }).catchError((e, s) {
-      _log.exception(e, s);
+      Map<String, dynamic> logContext = {
+        "selectedLanguage": _rosaryConfigService.selectedLanguage
+      };
+      LoggingService.exception(e, s,
+          context: logContext, transaction: 'LandingScreen._initialLoad');
+      setState(() {
+        isLoadingLanguage = false;
+        isLoadingWeekDays = false;
+      });
+      NotificationService.getFlushbar(
+              message: LocaleKeys.errorUnexpected.tr(),
+              color: ColorPalette.warning)
+          .show(context);
     });
   }
 
@@ -74,6 +96,7 @@ class _LandingScreenState extends State<LandingScreen> {
     _rosaryConfigService.changeLanguage(lang);
     setState(() {
       isLoadingWeekDays = true;
+      useAllPrayerTypes = allPrayerTypeDefault;
     });
 
     _rosaryConfigService.loadWeekDays().then((value) {
@@ -82,9 +105,14 @@ class _LandingScreenState extends State<LandingScreen> {
         isLoadingWeekDays = false;
       });
     }).catchError((e, s) {
-      Map<String, dynamic> context = {"selectedLanguage": lang};
+      Map<String, dynamic> logContext = {"selectedLanguage": lang};
       String transaction = "_LandingScreenState.onLanguageChanged";
-      _log.exception(e, s, context, transaction);
+      LoggingService.exception(e, s,
+          context: logContext, transaction: transaction);
+      NotificationService.getFlushbar(
+              message: LocaleKeys.errorChangeLanguage.tr(),
+              color: ColorPalette.warning)
+          .show(context);
     });
   }
 
@@ -98,10 +126,14 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
+        if (loadingError) {
+          return Error(message: LocaleKeys.errorUnexpected.tr());
+        }
+
         return MaterialApp(
           theme: ThemeData(useMaterial3: true),
           home: Scaffold(
-            drawer: const NavigationDrawer(),
+            drawer: const NaviDrawer(),
             appBar: const CustomAppBar(),
             backgroundColor: ColorPalette.primary,
             body: SingleChildScrollView(
@@ -113,7 +145,7 @@ class _LandingScreenState extends State<LandingScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Configure your Prayer settings',
+                          LocaleKeys.landingScreenTitle.tr(),
                           style: Font.heading1,
                           textAlign: TextAlign.start,
                         ),
@@ -131,40 +163,77 @@ class _LandingScreenState extends State<LandingScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15)),
                           width: MediaQuery.of(context).size.width * 1,
-                          height: Adaptive.h(45),
+                          height: 45.h,
                           child: Padding(
-                            padding: const EdgeInsets.only(
+                            padding: EdgeInsets.only(
                                 left: bodyChildPadding,
-                                right: bodyChildPadding),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.language),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Select a Language',
-                                      style: Font.containerText,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                loadLanguagesDropdown(),
-                                const SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.calendar_month_outlined),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Select a Day',
-                                      style: Font.containerText,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                loadWeekDaysDropdown(),
-                              ],
+                                right: bodyChildPadding,
+                                top: 4.h),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.language),
+                                      SizedBox(width: Adaptive.w(1)),
+                                      Text(
+                                        LocaleKeys.dropdownLabelLanguage.tr(),
+                                        style: Font.containerText,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 1.h
+                                          : 2.h),
+                                  loadLanguagesDropdown(),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 4.h
+                                          : 8.h),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_month_outlined),
+                                      SizedBox(width: Adaptive.w(1.5)),
+                                      Text(
+                                        LocaleKeys.dropdownLabelDay.tr(),
+                                        style: Font.containerText,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 1.h
+                                          : 2.h),
+                                  loadWeekDaysDropdown(),
+                                  SizedBox(
+                                      height: Device.orientation ==
+                                              Orientation.portrait
+                                          ? 1.h
+                                          : 4.h),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.build_circle_outlined,
+                                          size: 22.sp),
+                                      SizedBox(width: Adaptive.w(1)),
+                                      Text(
+                                        LocaleKeys.switchLabelPrayerType.tr(),
+                                        style: Font.containerText,
+                                      ),
+                                      SizedBox(
+                                          width: Device.orientation ==
+                                                  Orientation.portrait
+                                              ? 4.5.w
+                                              : 40.w),
+                                      loadRosaryTypeSwitch()
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -174,42 +243,26 @@ class _LandingScreenState extends State<LandingScreen> {
                             RoundedButton(
                                 colour: ColorPalette.secondaryDark,
                                 pressed: () => onResetPressed(),
-                                title: 'RESET'),
+                                title: LocaleKeys.btnReset.tr()),
                             const SizedBox(
                               width: 20,
                             ),
                             RoundedButton(
                                 colour: ColorPalette.primaryDark,
                                 pressed: () {
+                                  if (_rosaryConfigService.selectedWeekDay ==
+                                      null) {
+                                    // TODO: Display an appropriate message
+                                    return;
+                                  }
+
                                   LandingScreen.checkPage = true;
                                   if (interstitial.isAdLoaded == true) {
                                     interstitial.showInterstitialAd();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PrayScreen(
-                                                  selectedDay:
-                                                      _rosaryConfigService
-                                                          .selectedWeekDay!,
-                                                  selectedLanguage:
-                                                      _rosaryConfigService
-                                                          .selectedLanguage,
-                                                )));
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PrayScreen(
-                                                  selectedDay:
-                                                      _rosaryConfigService
-                                                          .selectedWeekDay!,
-                                                  selectedLanguage:
-                                                      _rosaryConfigService
-                                                          .selectedLanguage,
-                                                )));
                                   }
+                                  loadPrayScreen(context);
                                 },
-                                title: 'Pray'),
+                                title: LocaleKeys.btnPray.tr()),
                           ],
                         )
                       ],
@@ -227,7 +280,7 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget loadWeekDaysDropdown() {
     while (isLoadingWeekDays) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: Loader(),
       );
     }
     return weekDaysDropdown();
@@ -236,7 +289,7 @@ class _LandingScreenState extends State<LandingScreen> {
   Widget loadLanguagesDropdown() {
     while (isLoadingLanguage) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: Loader(),
       );
     }
     return languagesDropdown();
@@ -336,5 +389,46 @@ class _LandingScreenState extends State<LandingScreen> {
         },
       ),
     );
+  }
+
+  Widget loadRosaryTypeSwitch() {
+    return FittedBox(
+      fit: BoxFit.fill,
+      child: Switch(
+        value: useAllPrayerTypes,
+        onChanged: (value) {
+          setState(() {
+            useAllPrayerTypes = value;
+          });
+        },
+        thumbIcon: MaterialStateProperty.resolveWith<Icon?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.selected)) {
+              return const Icon(Icons.check);
+            }
+            return const Icon(Icons.close);
+          },
+        ),
+        inactiveThumbColor: Colors.grey.shade600,
+        inactiveTrackColor: Colors.grey.shade300,
+        activeColor: Colors.white,
+        activeTrackColor: ColorPalette.primaryDark,
+      ),
+    );
+  }
+
+  void loadPrayScreen(BuildContext context) {
+    List<PrayerType> prayerTypes = useAllPrayerTypes == true
+        ? [PrayerType.normal, PrayerType.mystere]
+        : [PrayerType.normal];
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PrayScreen(
+                  rosaryConfig: RosaryConfig(
+                      day: _rosaryConfigService.selectedWeekDay!,
+                      language: _rosaryConfigService.selectedLanguage,
+                      prayerTypes: prayerTypes),
+                )));
   }
 }

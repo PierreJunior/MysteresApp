@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 
 import '../components/color_palette.dart';
 
@@ -30,9 +32,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
           );
         },
       ),
-      title: const Text(
-        'ROSARY',
-        style: TextStyle(color: ColorPalette.primary),
+      title: Text(
+        LocaleKeys.appName.tr(),
+        style: const TextStyle(color: ColorPalette.primary),
       ),
       backgroundColor: ColorPalette.primaryDark,
     );

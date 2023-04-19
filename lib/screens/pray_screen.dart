@@ -1,14 +1,18 @@
-import 'package:another_flushbar/flushbar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/components/font.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 import 'package:mysteres/navigation_drawer.dart';
 import 'package:mysteres/screens/landing_screen.dart';
 import 'package:mysteres/services/logging_service.dart';
+import 'package:mysteres/services/notification_service.dart';
 import 'package:mysteres/services/rosary_prayer_service.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/widgets/container_content.dart';
+import 'package:mysteres/widgets/error.dart';
+import 'package:mysteres/widgets/loader.dart';
 import 'package:mysteres/widgets/reusable_container.dart';
-import 'package:mysteres/widgets/rounded_button.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -18,12 +22,9 @@ import '../widgets/ads.dart';
 import '../widgets/custom_app_bar.dart';
 
 class PrayScreen extends StatefulWidget {
-  const PrayScreen(
-      {Key? key, required this.selectedDay, required this.selectedLanguage})
-      : super(key: key);
+  const PrayScreen({Key? key, required this.rosaryConfig}) : super(key: key);
   static const String id = "PrayingScreen";
-  final String selectedDay;
-  final String selectedLanguage;
+  final RosaryConfig rosaryConfig;
 
   @override
   State<PrayScreen> createState() => _PrayScreenState();
@@ -32,7 +33,6 @@ class PrayScreen extends StatefulWidget {
 class _PrayScreenState extends State<PrayScreen> {
   late final RosaryPrayerService _rosaryPrayerService;
   late Map<String, dynamic> _selectedPrayer;
-  late final LoggingService _log;
   int module = 2;
   bool isLoadingPrayers = true;
   bool loadingError = false;
@@ -40,23 +40,24 @@ class _PrayScreenState extends State<PrayScreen> {
   @override
   void initState() {
     super.initState();
-    _log = LoggingService();
-    _rosaryPrayerService =
-        RosaryPrayerService(widget.selectedDay, widget.selectedLanguage);
+    _rosaryPrayerService = RosaryPrayerService(widget.rosaryConfig);
     _rosaryPrayerService.loadPrayers().then((value) {
       setState(() {
         initPrayer();
         isLoadingPrayers = false;
       });
-    }).catchError((e, s) async {
+    }).catchError((e, s) {
       Map<String, dynamic> context = {
-        "selectedDay": widget.selectedDay,
-        "selectedLanguage": widget.selectedLanguage
+        "selectedDay": widget.rosaryConfig.day,
+        "selectedLanguage": widget.rosaryConfig.language,
+        "prayerType": widget.rosaryConfig.prayerTypes,
       };
       String transaction = "_PrayScreenState.initState";
-      await _log.exception(e, s, context, transaction);
+      LoggingService.exception(e, s,
+          context: context, transaction: transaction);
       setState(() {
-        showNotification("Error loading prayers", 5, ColorPalette.warning);
+        showNotification(
+            LocaleKeys.errorLoadingPrayers.tr(), 5, ColorPalette.warning);
         loadingError = true;
       });
     });
@@ -89,13 +90,12 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   void showNotification(String message, int duration, Color color) {
-    Flushbar(
-      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-      backgroundColor: color,
-      message: message,
-      duration: Duration(seconds: duration),
-      flushbarPosition: FlushbarPosition.BOTTOM,
-    ).show(context);
+    NotificationService.getFlushbar(
+            message: message,
+            duration: duration,
+            color: color,
+            position: NotificationPosition.bottom)
+        .show(context);
   }
 
   List<Widget> titleSectionChildren() {
@@ -159,14 +159,14 @@ class _PrayScreenState extends State<PrayScreen> {
               MaterialPageRoute(builder: (context) => LandingScreen()));
           if (!_rosaryPrayerService.isLastStep()) {
             showNotification(
-                "You ended your Rosary early", 5, ColorPalette.warning);
+                LocaleKeys.btnRosaryStop.tr(), 5, ColorPalette.warning);
           }
         },
         child: stepIcon(StepAction.stop));
   }
 
   Widget errorButton([String? message]) {
-    message ??= "Error loading prayers";
+    message ??= LocaleKeys.errorLoadingPrayers.tr();
     return ElevatedButton(
         style: stepButtonStyle(StepAction.error),
         onPressed: () {
@@ -182,7 +182,8 @@ class _PrayScreenState extends State<PrayScreen> {
       onPressed: () {
         if (_rosaryPrayerService.isLastStep()) {
           Navigator.popAndPushNamed(context, LandingScreen.id);
-          showNotification("Prayer finished!", 5, ColorPalette.success);
+          showNotification(
+              LocaleKeys.btnRosaryEnd.tr(), 5, ColorPalette.success);
         } else {
           // module = _rosaryPrayerService.getCurrentStep() % 2;
           nextStep();
@@ -197,7 +198,6 @@ class _PrayScreenState extends State<PrayScreen> {
       style: stepButtonStyle(StepAction.previous),
       onPressed: () {
         if (!_rosaryPrayerService.isFirstStep()) {
-          // module = _rosaryPrayerService.getCurrentStep() % 2;
           previousStep();
         }
       },
@@ -206,7 +206,6 @@ class _PrayScreenState extends State<PrayScreen> {
   }
 
   ButtonStyle stepButtonStyle(StepAction action) {
-    // ElevatedButton.styleFrom(fixedSize: const Size(300, 50));
     Color backgrounColor;
     if (action == StepAction.next) {
       backgrounColor = _rosaryPrayerService.isLastStep()
@@ -271,18 +270,13 @@ class _PrayScreenState extends State<PrayScreen> {
                 child: SizedBox(
                   height: Adaptive.h(25),
                   width: Adaptive.w(50),
-                  child: const CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation(ColorPalette.secondaryDark),
-                    backgroundColor: ColorPalette.primaryDark,
-                    strokeWidth: 10,
-                  ),
+                  child: const Loader(),
                 ),
               ),
             ),
           );
         } else if (isLoadingPrayers && loadingError) {
-          return errorBuild();
+          return Error(message: LocaleKeys.errorLoadingPrayers.tr());
         } else {
           return Device.orientation == Orientation.portrait
               ? portraitScaffold(scaffoldKey)
@@ -292,40 +286,12 @@ class _PrayScreenState extends State<PrayScreen> {
     );
   }
 
-  MaterialApp errorBuild() {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      home: Scaffold(
-        appBar: const CustomAppBar(),
-        backgroundColor: ColorPalette.primary,
-        body: SafeArea(
-            child: Center(
-                child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Error loading prayers",
-              style: Font.heading1,
-            ),
-            const SizedBox(height: 10),
-            RoundedButton(
-                colour: ColorPalette.primaryDark,
-                pressed: () {
-                  Navigator.pop(context);
-                },
-                title: 'Home')
-          ],
-        ))),
-      ),
-    );
-  }
-
   MaterialApp portraitScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
         key: scaffoldKey,
-        drawer: const NavigationDrawer(),
+        drawer: const NaviDrawer(),
         appBar: const CustomAppBar(),
         backgroundColor: ColorPalette.primary,
         body: SafeArea(
@@ -393,7 +359,7 @@ class _PrayScreenState extends State<PrayScreen> {
   Scaffold landscapeScaffold(GlobalKey<ScaffoldState> scaffoldKey) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const NavigationDrawer(),
+      drawer: const NaviDrawer(),
       appBar: const CustomAppBar(),
       backgroundColor: ColorPalette.primary,
       body: SafeArea(
@@ -409,8 +375,8 @@ class _PrayScreenState extends State<PrayScreen> {
                         totalSteps: _rosaryPrayerService.getTotalPrayerSteps(),
                         size: 7,
                         currentStep: _rosaryPrayerService.getCurrentStep(),
-                        unselectedColor: ColorPalette.primaryDark,
-                        selectedColor: ColorPalette.secondaryDark,
+                        unselectedColor: ColorPalette.secondaryDark,
+                        selectedColor: ColorPalette.primaryDark,
                       ),
                       ReusableCard(
                         colour: Colors.transparent,

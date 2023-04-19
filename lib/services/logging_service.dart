@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class LoggingService {
-  Future<void> exception(exception, strackTrace,
-      [Map<String, dynamic>? context, String? transaction]) async {
+  static Future<void> exception(exception, strackTrace,
+      {Map<String, dynamic>? context, String? transaction}) async {
     if (context != null) {
       await Sentry.captureException(exception, stackTrace: strackTrace,
           withScope: (scope) {
@@ -54,6 +55,12 @@ class LoggingService {
     await Sentry.captureMessage(message, withScope: (scope) {
       scope.level = logLevel;
     });
+  }
+
+  static debug(String message) {
+    if (kDebugMode) {
+      print(message);
+    }
   }
 }
 

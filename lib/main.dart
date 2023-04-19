@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:mysteres/ads_state.dart';
 import 'package:mysteres/env.dart';
+import 'package:mysteres/global_variable.dart';
 import 'package:mysteres/services/logging_service.dart';
 import 'package:provider/provider.dart';
 import 'package:mysteres/screens/splash_screen.dart';
@@ -15,6 +17,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final initFuture = MobileAds.instance.initialize();
   final adState = AdState(initFuture);
@@ -31,13 +34,19 @@ Future<void> main() async {
           level: LoggingLevel.error, transction: "FlutterError");
     };
     PlatformDispatcher.instance.onError = (error, stack) {
-      LoggingService().exception(error, stack);
+      LoggingService.exception(error, stack);
       return true;
     };
     runApp(
-      Provider.value(
-        value: adState,
-        builder: (context, child) => const MyApp(),
+      EasyLocalization(
+        supportedLocales:
+            GlobalValue.supportedLocales.map((e) => Locale(e)).toList(),
+        path: 'assets/translations',
+        fallbackLocale: Locale(GlobalValue.defaultLocale),
+        child: Provider.value(
+          value: adState,
+          builder: (context, child) => const MyApp(),
+        ),
       ),
     );
   });
@@ -48,6 +57,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       initialRoute: SplashScreen.id,

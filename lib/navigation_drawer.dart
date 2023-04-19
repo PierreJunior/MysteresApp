@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mysteres/components/color_palette.dart';
 import 'package:mysteres/drawer_item.dart';
+import 'package:mysteres/l10n/locale_keys.g.dart';
 import 'package:mysteres/screens/landing_screen.dart';
-import 'package:mysteres/screens/language_settings_screen.dart';
+import 'package:mysteres/screens/settings_screen.dart';
 
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NaviDrawer extends StatelessWidget {
+  const NaviDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class NavigationDrawer extends StatelessWidget {
           child: Column(
             children: [
               DrawerItem(
-                name: 'Home',
+                name: LocaleKeys.pageNameHome.tr(),
                 icon: Icons.home,
                 onPressed: () => onItemPressed(context, index: 0),
               ),
               const SizedBox(height: 10),
               DrawerItem(
-                name: 'Settings',
+                name: LocaleKeys.pageNameSettings.tr(),
                 icon: Icons.settings,
                 onPressed: () => onItemPressed(context, index: 1),
               ),
@@ -47,8 +49,13 @@ class NavigationDrawer extends StatelessWidget {
         );
         break;
       case 1:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LanguageSettings()));
+        Settings.consentDone = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Settings(),
+          ),
+        );
         break;
     }
   }

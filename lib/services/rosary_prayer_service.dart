@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mysteres/models/rosary_config_model.dart';
 
 class RosaryPrayerService {
-  RosaryPrayerService(String selectedDay, String selectedLanguage) {
+  RosaryPrayerService(RosaryConfig config) {
     _db = FirebaseFirestore.instance;
     _currentStep = 1;
-    _selectedDay = selectedDay;
-    _selectedLanguage = selectedLanguage;
+    _selectedDay = config.day;
+    _selectedLanguage = config.language;
+    _prayerTypes = config.prayerTypes;
   }
 
   late int _currentStep;
@@ -13,19 +15,20 @@ class RosaryPrayerService {
   late final String _selectedLanguage;
   late FirebaseFirestore _db;
   late final List<Map<String, dynamic>> _rosarySteps = [];
+  List<PrayerType> _prayerTypes = [];
 
   Future<List<Map<String, dynamic>>> loadPrayers() async {
-    var dayRef = _db.collection('week_days').doc(_selectedDay);
-    var languageRef = _db.collection('languages').doc(_selectedLanguage);
+    List<String> prayerType =
+        _prayerTypes.map((e) => e.toString().split('.').last).toList();
     return await _db
         .collection('prayers')
         .orderBy('step_number')
-        .where('language_code', isEqualTo: languageRef)
-        .where('week_days', arrayContains: dayRef)
+        .where('language', isEqualTo: _selectedLanguage)
+        .where('week_days', arrayContains: _selectedDay)
+        .where('type', whereIn: prayerType)
         .get()
         .then((value) {
       for (var doc in value.docs) {
-        // _rosarySteps.add(doc.data());
         var data = doc.data();
         _rosarySteps.add({
           "value": data['value'],
@@ -62,9 +65,15 @@ class RosaryPrayerService {
   int getTotalPrayerSteps() => _rosarySteps.length;
 
   Map<String, dynamic> getPrayer() {
-    // Check step type.
-    Map<String, dynamic> step =
-        _rosarySteps.firstWhere((e) => e["step_number"] == _currentStep);
+    Map<String, dynamic> step = {};
+    if (_prayerTypes.length != PrayerType.values.length) {
+      int index = _currentStep - 1;
+      if (index < 0) throw Exception('Index cannot be negative.');
+
+      step = _rosarySteps[index];
+    } else {
+      step = _rosarySteps.firstWhere((e) => e["step_number"] == _currentStep);
+    }
 
     return step;
   }
