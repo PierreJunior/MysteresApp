@@ -1,35 +1,35 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Increment Version code
+name: Increase version code
 
 on:
+  push:
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      
-      - name: Analyze
-        run: flutter pub get && flutter analyze .
+      - name: Checkout repository
+        uses: actions/checkout@v2
         
-      - name: Increment Version
-        uses: chkfung/android-version-actions@v1.2.1
-        with:
-          gradlePath: android/app/build.gradle
-          versionCode: ${{github.run_number}}
-          versionName: 1.0.0
-          
-          
-          
-          
-          
+      - name: Get current version code
+        id: get_version_code
+        run: |
+          version=$(yq eval '.version' pubspec.yaml)
+          version_code=$(echo $version | awk -F '+' '{print $2}')
+          echo "::set-output name=version_code::$version_code"
+
+      - name: Increase version code
+        id: increase_version_code
+        run: |
+          version_code=$((${{ steps.get_version_code.outputs.version_code }} + 1))
+          sed -i "s/^version:.*\+/version: ${{ env.VERSION_NUMBER }}+$version_code/" pubspec.yaml
+          echo "::set-output name=new_version_code::$version_code"
+
+      - name: Commit version code changes
+        run: |
+         git config --global user.name PierreJunior
+         git config --global user.email pierresangwa@gmail.com
+         git add pubspec.yaml
+         git commit -m "Bump version code to ${{ steps.increase_version_code.outputs.new_version_code }}"
